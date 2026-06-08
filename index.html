@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy Prediction League — WC 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+ 
+<div class="login-wrap">
+  <div class="login-logo">
+    <h1>FANTASY<br>PREDICTION<br>LEAGUE</h1>
+    <p>Become a Predorakul &nbsp;·&nbsp; WC 2026</p>
+  </div>
+ 
+  <div class="login-card">
+    <h2>Welcome back</h2>
+    <p>Enter your access code to predict, compete and become a Predorakul.</p>
+ 
+    <div class="login-error" id="login-error">Invalid access code. Check your link and try again.</div>
+ 
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label" for="code-input">Your Access Code</label>
+        <input
+          class="form-input"
+          type="text"
+          id="code-input"
+          placeholder="PREDORA_XXXX_XXX"
+          autocomplete="off"
+          autocapitalize="characters"
+          spellcheck="false"
+        >
+      </div>
+      <button type="submit" class="btn btn--primary btn--full btn--lg" id="login-btn">
+        Enter the League
+      </button>
+    </form>
+ 
+    <div class="login-wc-badge mt-24">
+      ⚽ FIFA World Cup 2026™ &nbsp;·&nbsp; USA · Canada · Mexico
+    </div>
+  </div>
+ 
+  <div style="margin-top:32px; text-align:center;">
+    <p style="color:var(--text3); font-size:0.8rem;">
+      Don't have a code? Ask your league admin.
+    </p>
+  </div>
+</div>
+ 
+<script src="js/app.js"></script>
+<script>
+  // If already logged in, redirect to predict page
+  window.addEventListener('DOMContentLoaded', async () => {
+    const code = Session.getCode();
+    if (code) {
+      // Verify the code is still valid
+      try {
+        const res = await API.get({ action: 'getPlayerInfo' });
+        if (res.success) {
+          Session.setPlayer(res.player);
+          window.location.href = `predict.html?code=${code}`;
+          return;
+        }
+      } catch (e) {}
+      // Code invalid, clear it
+      Session.clear();
+    }
+ 
+    // Pre-fill from URL param if present
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlCode = urlParams.get('code');
+    if (urlCode) {
+      document.getElementById('code-input').value = urlCode;
+    }
+  });
+ 
+  async function handleLogin(e) {
+    e.preventDefault();
+    const code = document.getElementById('code-input').value.trim().toUpperCase();
+    const btn = document.getElementById('login-btn');
+    const errorEl = document.getElementById('login-error');
+ 
+    if (!code) return;
+ 
+    btn.disabled = true;
+    btn.textContent = 'Verifying...';
+    errorEl.style.display = 'none';
+ 
+    try {
+      localStorage.setItem('predorakul_code', code);
+      const res = await API.get({ action: 'getPlayerInfo' });
+ 
+      if (res.success) {
+        Session.setPlayer(res.player);
+        window.location.href = `predict.html?code=${code}`;
+      } else {
+        Session.clear();
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Enter the League';
+      }
+    } catch (err) {
+      errorEl.textContent = 'Connection error. Please try again.';
+      errorEl.style.display = 'block';
+      Session.clear();
+      btn.disabled = false;
+      btn.textContent = 'Enter the League';
+    }
+  }
+</script>
+</body>
+</html>

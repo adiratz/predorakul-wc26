@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predict — FPL WC26</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+ 
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav__inner">
+    <div class="nav__brand">
+      <span class="nav__title">FPL WC26</span>
+      <span class="nav__tagline">Become a Predorakul</span>
+    </div>
+    <div class="nav__links" id="nav-links"></div>
+    <div class="nav__player" id="nav-player"></div>
+  </div>
+</nav>
+ 
+<!-- Main content -->
+<main class="container" style="padding-top:32px; padding-bottom:40px;">
+ 
+  <!-- Tournament Winner Banner -->
+  <div class="winner-banner" id="winner-banner">
+    <h3>🏆 Tournament Winner Prediction</h3>
+    <p>Who will lift the trophy on July 19? Predict correctly for +12 points. Locked at kickoff of Match 1.</p>
+    <div class="form-group" style="margin-bottom:8px;">
+      <select class="form-select" id="tournament-winner-select" style="max-width:280px;">
+        <option value="">— Select a team —</option>
+      </select>
+    </div>
+    <button class="btn btn--primary" id="tournament-winner-btn" onclick="saveTournamentWinner()">
+      Save Pick
+    </button>
+    <div class="winner-deadline" id="winner-deadline"></div>
+  </div>
+ 
+  <!-- Filter tabs -->
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterMatches('all', this)">All Matches</button>
+    <button class="filter-tab" onclick="filterMatches('open', this)">Open</button>
+    <button class="filter-tab" onclick="filterMatches('locked', this)">Locked</button>
+  </div>
+ 
+  <!-- Loading state -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    Loading fixtures & predictions...
+  </div>
+ 
+  <!-- Fixtures container -->
+  <div id="fixtures-container"></div>
+ 
+</main>
+ 
+<!-- Mobile nav -->
+<nav class="mobile-nav">
+  <div class="mobile-nav__links" id="mobile-nav-links"></div>
+</nav>
+ 
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+ 
+<script src="js/app.js"></script>
+<script>
+let allFixtures = [];
+let allPredictions = {};
+let squadData = {};
+let currentFilter = 'all';
+const TOURNAMENT_DEADLINE_UTC = '2026-06-11 19:00:00';
+ 
+window.addEventListener('DOMContentLoaded', async () => {
+  const player = await requireAuth();
+  if (!player) return;
+ 
+  setupNav('predict');
+  await loadPage();
+});
+ 
+async function loadPage() {
+  try {
+    // Load fixtures and predictions in parallel
+    const [fixturesRes, predsRes] = await Promise.all([
+      API.get({ action: 'getFixtures' }),
+      API.get({ action: 'getPredictions' })
+    ]);
+ 
+    if (!fixturesRes.success || !predsRes.success) {
+      throw new Error('Failed to load data');
+    }
+ 
+    allFixtures = fixturesRes.fixtures;
+    allPredictions = predsRes.predictions;
+ 
+    setupTournamentWinner(allPredictions['overall_winner'] || '');
+    renderFixtures(allFixtures);
+ 
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('fixtures-container').style.display = 'block';
+  } catch (err) {
+    document.getElementById('loading').innerHTML =
+      '<div style="color:var(--red)">Failed to load. Please refresh.</div>';
+    console.error(err);
+  }
+}
+ 
+// ── Tournament winner setup ──────────────────────────────────
+async function setupTournamentWinner(currentPick) {
+  const locked = isLocked(TOURNAMENT_DEADLINE_UTC);
+  const select = document.getElementById('tournament-winner-select');
+  const btn = document.getElementById('tournament-winner-btn');
+  const deadlineEl = document.getElementById('winner-deadline');
+ 
+  // Load teams
+  try {
+    const res = await API.get({ action: 'getFixtures' });
+    // Extract unique teams from fixtures (group stage only)
+    const teams = new Set();
+    allFixtures.forEach(f => {
+      if (f.matchId <= 72) {
+        if (!String(f.home).match(/^[0-9WL]/)) teams.add(f.home);
+        if (!String(f.away).match(/^[0-9WL]/)) teams.add(f.away);
+      }
+    });
+    const sortedTeams = [...teams].sort();
+    select.innerHTML = '<option value="">— Select a team —</option>' +
+      sortedTeams.map(t => `<option value="${escHtml(t)}"${currentPick === t ? ' selected' : ''}>${escHtml(t)}</option>`).join('');
+  } catch (e) {}
+ 
+  if (locked) {
+    select.disabled = true;
+    btn.disabled = true;
+    btn.textContent = 'Deadline passed';
+    deadlineEl.innerHTML = `<span style="color:var(--red)">🔒 Locked — deadline was ${formatKickoff(TOURNAMENT_DEADLINE_UTC)}</span>`;
+    if (currentPick) {
+      deadlineEl.innerHTML += `<br>Your pick: <strong style="color:var(--gold)">${escHtml(currentPick)}</strong>`;
+    }
+  } else {
+    deadlineEl.innerHTML = `Deadline: <span id="winner-countdown"></span>`;
+    startCountdown(TOURNAMENT_DEADLINE_UTC, 'winner-countdown');
+    if (currentPick) {
+      btn.textContent = 'Update Pick';
+    }
+  }
+}
+ 
+async function saveTournamentWinner() {
+  const pick = document.getElementById('tournament-winner-select').value;
+  if (!pick) { showToast('Please select a team', 'error'); return; }
+ 
+  const btn = document.getElementById('tournament-winner-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+ 
+  try {
+    const res = await API.post({ action: 'saveTournamentWinner', pick });
+    if (res.success) {
+      showToast('Tournament winner pick saved! 🏆', 'success');
+      btn.textContent = 'Update Pick';
+    } else {
+      showToast(res.error || 'Failed to save', 'error');
+    }
+  } catch (e) {
+    showToast('Connection error', 'error');
+  } finally {
+    btn.disabled = false;
+  }
+}
+ 
+// ── Render fixtures ──────────────────────────────────────────
+function renderFixtures(fixtures) {
+  const container = document.getElementById('fixtures-container');
+  const filtered = filterFixtures(fixtures, currentFilter);
+ 
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <h3>No matches found</h3>
+        <p>Try a different filter.</p>
+      </div>`;
+    return;
+  }
+ 
+  // Group by local date
+  const grouped = groupByDate(filtered);
+  let html = '';
+ 
+  Object.entries(grouped).forEach(([dateKey, dayFixtures]) => {
+    const dateLabel = formatDate(dayFixtures[0].kickoffUTC);
+    html += `<div class="day-group">
+      <div class="day-label">${dateLabel}</div>`;
+ 
+    dayFixtures.forEach(f => {
+      html += buildMatchCard(f);
+    });
+ 
+    html += '</div>';
+  });
+ 
+  container.innerHTML = html;
+}
+ 
+function filterFixtures(fixtures, filter) {
+  if (filter === 'open') return fixtures.filter(f => !isLocked(f.kickoffUTC));
+  if (filter === 'locked') return fixtures.filter(f => isLocked(f.kickoffUTC));
+  return fixtures;
+}
+ 
+function filterMatches(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderFixtures(allFixtures);
+}
+ 
+// ── Build match card HTML ────────────────────────────────────
+function buildMatchCard(fixture) {
+  const { matchId, home, away, kickoffUTC } = fixture;
+  const locked = isLocked(kickoffUTC);
+  const pred = allPredictions[matchId] || {};
+  const hasPred = !!pred.winner;
+  const isKnockout = matchId > 72;
+ 
+  const statusClass = locked ? 'locked' : (hasPred ? 'saved' : 'open');
+  const statusText = locked ? '🔒 Locked' : (hasPred ? '✓ Saved' : 'Open');
+ 
+  return `
+  <div class="match-card${locked ? ' match-card--locked' : ''}${hasPred && !locked ? ' match-card--saved' : ''}"
+       id="match-${matchId}">
+    <div class="match-header" onclick="toggleMatch(${matchId}, '${escHtml(home)}', '${escHtml(away)}')">
+      <div class="match-teams">
+        <span class="match-team">${escHtml(home)}</span>
+        <span class="match-vs">vs</span>
+        <span class="match-team">${escHtml(away)}</span>
+      </div>
+      <div class="match-meta">
+        <span class="match-time">${formatKickoffShort(kickoffUTC)}</span>
+        <span class="match-status match-status--${statusClass}">${statusText}</span>
+        <svg class="match-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="match-body" id="body-${matchId}">
+      <div class="loading" id="loading-${matchId}">
+        <div class="spinner"></div> Loading squads...
+      </div>
+      <div id="form-${matchId}" style="display:none;">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>`;
+}
+ 
+// ── Toggle match expand ──────────────────────────────────────
+async function toggleMatch(matchId, home, away) {
+  const card = document.getElementById(`match-${matchId}`);
+  const isExpanded = card.classList.contains('expanded');
+ 
+  // Collapse all others
+  document.querySelectorAll('.match-card.expanded').forEach(c => {
+    if (c.id !== `match-${matchId}`) c.classList.remove('expanded');
+  });
+ 
+  if (isExpanded) {
+    card.classList.remove('expanded');
+    return;
+  }
+ 
+  card.classList.add('expanded');
+ 
+  // Load squad if not already loaded
+  const formEl = document.getElementById(`form-${matchId}`);
+  if (formEl.dataset.loaded !== 'true') {
+    const loadEl = document.getElementById(`loading-${matchId}`);
+    loadEl.style.display = 'flex';
+    formEl.style.display = 'none';
+ 
+    try {
+      let squad = squadData[`${home}__${away}`];
+      if (!squad) {
+        const res = await getSquad(home, away);
+        if (res.success) {
+          squadData[`${home}__${away}`] = res;
+          squad = res;
+        }
+      }
+ 
+      const fixture = allFixtures.find(f => f.matchId == matchId);
+      const locked = fixture ? isLocked(fixture.kickoffUTC) : true;
+      const pred = allPredictions[matchId] || {};
+      const isKnockout = matchId > 72;
+ 
+      formEl.innerHTML = buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout);
+      formEl.dataset.loaded = 'true';
+ 
+      // Wire up score inputs for dynamic goalscorer slots
+      setupScoreListeners(matchId, home, away, squad, pred);
+      setupAETListeners(matchId);
+ 
+    } catch (e) {
+      console.error(e);
+      document.getElementById(`loading-${matchId}`).innerHTML =
+        '<span style="color:var(--red)">Failed to load squad.</span>';
+      return;
+    }
+ 
+    document.getElementById(`loading-${matchId}`).style.display = 'none';
+    formEl.style.display = 'block';
+  }
+}
+ 
+// ── Build prediction form ─────────────────────────────────────
+function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout) {
+  const homePlayers = squad?.home?.players || [];
+  const awayPlayers = squad?.away?.players || [];
+ 
+  const homeScore = pred.homeScore !== undefined && pred.homeScore !== '' ? pred.homeScore : '';
+  const awayScore = pred.awayScore !== undefined && pred.awayScore !== '' ? pred.awayScore : '';
+  const winner = pred.winner || '';
+ 
+  const dis = locked ? 'disabled' : '';
+ 
+  // Winner options — for knockout, no draw option
+  let winnerHtml = `
+    <div class="pred-section">
+      <div class="pred-section-title">Match Winner (at 90 mins)</div>
+      <div class="winner-selector">
+        <input type="radio" class="winner-option" name="winner-${matchId}" id="w-home-${matchId}" value="${escHtml(home)}" ${winner === home ? 'checked' : ''} ${dis}>
+        <label for="w-home-${matchId}">${escHtml(home)}</label>
+        ${!isKnockout ? `
+          <input type="radio" class="winner-option" name="winner-${matchId}" id="w-draw-${matchId}" value="Draw" ${winner === 'Draw' ? 'checked' : ''} ${dis}>
+          <label for="w-draw-${matchId}">Draw</label>
+        ` : ''}
+        <input type="radio" class="winner-option" name="winner-${matchId}" id="w-away-${matchId}" value="${escHtml(away)}" ${winner === away ? 'checked' : ''} ${dis}>
+        <label for="w-away-${matchId}">${escHtml(away)}</label>
+      </div>
+    </div>`;
+ 
+  if (isKnockout) {
+    // Adjust grid to 2 cols only (no draw)
+    winnerHtml = winnerHtml.replace('grid-template-columns: 1fr 1fr', 'grid-template-columns: 1fr 1fr');
+  }
+ 
+  // Score inputs
+  const scoreHtml = `
+    <div class="pred-section">
+      <div class="pred-section-title">Scoreline at 90 mins</div>
+      <div class="score-inputs">
+        <input type="number" class="form-input score-input" id="hs-${matchId}"
+          min="0" max="20" value="${homeScore}" placeholder="0" ${dis}
+          oninput="onScoreChange(${matchId})">
+        <span class="score-separator">–</span>
+        <input type="number" class="form-input score-input" id="as-${matchId}"
+          min="0" max="20" value="${awayScore}" placeholder="0" ${dis}
+          oninput="onScoreChange(${matchId})">
+      </div>
+      <div style="font-size:0.78rem;color:var(--text3);margin-top:6px;">
+        ${escHtml(home)} — ${escHtml(away)}
+      </div>
+    </div>`;
+ 
+  // Goalscorer slots (built dynamically based on score)
+  const goalscorerHtml = `
+    <div class="pred-section">
+      <div class="pred-section-title">Goalscorers at 90 mins</div>
+      <div class="goalscorer-grid">
+        <div>
+          <div class="goalscorer-team-label">${escHtml(home)}</div>
+          <div class="goalscorer-slots" id="home-slots-${matchId}">
+            ${buildGoalscorerSlots(matchId, 'home', homeScore, homePlayers, pred.homeGoalscorers || [], locked)}
+          </div>
+        </div>
+        <div>
+          <div class="goalscorer-team-label">${escHtml(away)}</div>
+          <div class="goalscorer-slots" id="away-slots-${matchId}">
+            ${buildGoalscorerSlots(matchId, 'away', awayScore, awayPlayers, pred.awayGoalscorers || [], locked)}
+          </div>
+        </div>
+      </div>
+    </div>`;
+ 
+  // AET section (knockout only)
+  let aetHtml = '';
+  if (isKnockout) {
+    const aet = pred.aet || '';
+    const homeScoreAET = pred.homeScoreAET !== undefined ? pred.homeScoreAET : '';
+    const awayScoreAET = pred.awayScoreAET !== undefined ? pred.awayScoreAET : '';
+    const pens = pred.pens || '';
+    const homePensScore = pred.homePensScore !== undefined ? pred.homePensScore : '';
+    const awayPensScore = pred.awayPensScore !== undefined ? pred.awayPensScore : '';
+ 
+    const aetVisible = aet === 'Y';
+    const pensVisible = pens === 'Y';
+ 
+    aetHtml = `
+      <div class="pred-section">
+        <div class="pred-section-title pred-section-title--aet">Extra Time (AET)</div>
+        <div style="margin-bottom:12px;">
+          <div class="form-label" style="margin-bottom:8px;">Does the match go to extra time?</div>
+          <div class="yn-selector">
+            <input type="radio" class="yn-option" name="aet-${matchId}" id="aet-y-${matchId}" value="Y" ${aet === 'Y' ? 'checked' : ''} ${dis}>
+            <label for="aet-y-${matchId}">Y</label>
+            <input type="radio" class="yn-option" name="aet-${matchId}" id="aet-n-${matchId}" value="N" ${aet === 'N' ? 'checked' : ''} ${dis}>
+            <label for="aet-n-${matchId}">N</label>
+          </div>
+        </div>
+ 
+        <div class="yn-section${aetVisible ? ' visible' : ''}" id="aet-section-${matchId}">
+          <div class="pred-section-title" style="margin-top:16px;">Score at 120 mins (cumulative)</div>
+          <div class="score-inputs" style="margin-bottom:12px;">
+            <input type="number" class="form-input score-input" id="haet-${matchId}"
+              min="0" max="20" value="${homeScoreAET}" placeholder="0" ${dis}
+              oninput="onAETScoreChange(${matchId})">
+            <span class="score-separator">–</span>
+            <input type="number" class="form-input score-input" id="aaet-${matchId}"
+              min="0" max="20" value="${awayScoreAET}" placeholder="0" ${dis}
+              oninput="onAETScoreChange(${matchId})">
+          </div>
+          <div class="goalscorer-grid">
+            <div>
+              <div class="goalscorer-team-label">${escHtml(home)} AET scorers</div>
+              <div class="goalscorer-slots" id="home-aet-slots-${matchId}">
+                ${buildAETGoalscorerSlots(matchId, 'home', homeScoreAET, awayScoreAET, homeScore, awayScore, homePlayers, pred.homeGoalscorersAET || [], locked)}
+              </div>
+            </div>
+            <div>
+              <div class="goalscorer-team-label">${escHtml(away)} AET scorers</div>
+              <div class="goalscorer-slots" id="away-aet-slots-${matchId}">
+                ${buildAETGoalscorerSlots(matchId, 'away', homeScoreAET, awayScoreAET, homeScore, awayScore, awayPlayers, pred.awayGoalscorersAET || [], locked)}
+              </div>
+            </div>
+          </div>
+ 
+          <div style="margin-top:20px;">
+            <div class="form-label" style="margin-bottom:8px;">Does it go to penalties?</div>
+            <div class="yn-selector">
+              <input type="radio" class="yn-option" name="pens-${matchId}" id="pens-y-${matchId}" value="Y" ${pens === 'Y' ? 'checked' : ''} ${dis}>
+              <label for="pens-y-${matchId}">Y</label>
+              <input type="radio" class="yn-option" name="pens-${matchId}" id="pens-n-${matchId}" value="N" ${pens === 'N' ? 'checked' : ''} ${dis}>
+              <label for="pens-n-${matchId}">N</label>
+            </div>
+          </div>
+ 
+          <div class="yn-section${pensVisible ? ' visible' : ''}" id="pens-section-${matchId}">
+            <div class="pred-section-title pred-section-title--pens" style="margin-top:16px;">Penalty Shootout Score</div>
+            <div class="score-inputs">
+              <input type="number" class="form-input score-input" id="hpens-${matchId}"
+                min="0" max="20" value="${homePensScore}" placeholder="3" ${dis}>
+              <span class="score-separator">–</span>
+              <input type="number" class="form-input score-input" id="apens-${matchId}"
+                min="0" max="20" value="${awayPensScore}" placeholder="2" ${dis}>
+            </div>
+            <div style="font-size:0.75rem;color:var(--text3);margin-top:6px;">Shootout score only (e.g. 5-4)</div>
+          </div>
+        </div>
+      </div>`;
+  }
+ 
+  // Save bar
+  const saveBar = locked ? `
+    <div class="match-save-bar">
+      <span class="save-status" style="color:var(--red)">🔒 Match locked — no changes allowed</span>
+    </div>` : `
+    <div class="match-save-bar">
+      <span class="save-status" id="status-${matchId}"></span>
+      <button class="btn btn--primary" onclick="savePrediction(${matchId})">
+        Save Prediction
+      </button>
+    </div>`;
+ 
+  return winnerHtml + scoreHtml + goalscorerHtml + aetHtml + saveBar;
+}
+ 
+// ── Goalscorer slots ──────────────────────────────────────────
+function buildGoalscorerSlots(matchId, side, score, players, existing, locked) {
+  const count = parseInt(score) || 0;
+  if (count === 0) {
+    return '<div style="color:var(--text3);font-size:0.82rem;">Enter a score above to add scorers</div>';
+  }
+ 
+  const dis = locked ? 'disabled' : '';
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    const val = existing[i] || '';
+    html += `
+      <div class="goalscorer-slot">
+        <span class="slot-number">${i + 1}</span>
+        <select class="form-select" id="${side}-scorer-${matchId}-${i}" ${dis}>
+          ${buildScorerOptions(players)}
+        </select>
+      </div>`;
+  }
+ 
+  // Set values after render (via setTimeout trick)
+  setTimeout(() => {
+    for (let i = 0; i < count; i++) {
+      const el = document.getElementById(`${side}-scorer-${matchId}-${i}`);
+      if (el && existing[i]) el.value = existing[i];
+    }
+  }, 0);
+ 
+  return html;
+}
+ 
+function buildAETGoalscorerSlots(matchId, side, homeScoreAET, awayScoreAET, homeScore90, awayScore90, players, existing, locked) {
+  const aetHome = parseInt(homeScoreAET) || 0;
+  const aetAway = parseInt(awayScoreAET) || 0;
+  const reg90Home = parseInt(homeScore90) || 0;
+  const reg90Away = parseInt(awayScore90) || 0;
+ 
+  // Number of AET goals = AET cumulative score minus 90 min score
+  const count = side === 'home'
+    ? Math.max(0, aetHome - reg90Home)
+    : Math.max(0, aetAway - reg90Away);
+ 
+  if (count === 0) {
+    return '<div style="color:var(--text3);font-size:0.82rem;">Enter AET score above</div>';
+  }
+ 
+  const dis = locked ? 'disabled' : '';
+  let html = '';
+  for (let i = 0; i < count && i < 4; i++) {
+    html += `
+      <div class="goalscorer-slot">
+        <span class="slot-number">${i + 1}</span>
+        <select class="form-select" id="${side}-aet-scorer-${matchId}-${i}" ${dis}>
+          ${buildScorerOptions(players)}
+        </select>
+      </div>`;
+  }
+ 
+  setTimeout(() => {
+    for (let i = 0; i < count && i < 4; i++) {
+      const el = document.getElementById(`${side}-aet-scorer-${matchId}-${i}`);
+      if (el && existing[i]) el.value = existing[i];
+    }
+  }, 0);
+ 
+  return html;
+}
+ 
+// ── Score change listeners ────────────────────────────────────
+function setupScoreListeners(matchId, home, away, squad, pred) {
+  const homeInput = document.getElementById(`hs-${matchId}`);
+  const awayInput = document.getElementById(`as-${matchId}`);
+ 
+  if (homeInput) homeInput.addEventListener('change', () => onScoreChange(matchId));
+  if (awayInput) awayInput.addEventListener('change', () => onScoreChange(matchId));
+}
+ 
+function onScoreChange(matchId) {
+  const homeScore = document.getElementById(`hs-${matchId}`)?.value || '';
+  const awayScore = document.getElementById(`as-${matchId}`)?.value || '';
+  const fixture = allFixtures.find(f => f.matchId == matchId);
+  const locked = fixture ? isLocked(fixture.kickoffUTC) : true;
+  const pred = allPredictions[matchId] || {};
+  const squad = Object.values(squadData).find((_, i) => {
+    const keys = Object.keys(squadData);
+    return keys[i].startsWith(fixture?.home || '');
+  });
+ 
+  // Rebuild goalscorer slots
+  const homeSlots = document.getElementById(`home-slots-${matchId}`);
+  const awaySlots = document.getElementById(`away-slots-${matchId}`);
+  const homePlayers = getPlayersForMatch(matchId, 'home');
+  const awayPlayers = getPlayersForMatch(matchId, 'away');
+ 
+  if (homeSlots) homeSlots.innerHTML = buildGoalscorerSlots(matchId, 'home', homeScore, homePlayers, [], locked);
+  if (awaySlots) awaySlots.innerHTML = buildGoalscorerSlots(matchId, 'away', awayScore, awayPlayers, [], locked);
+}
+ 
+function setupAETListeners(matchId) {
+  const aetYes = document.getElementById(`aet-y-${matchId}`);
+  const aetNo = document.getElementById(`aet-n-${matchId}`);
+  const pensYes = document.getElementById(`pens-y-${matchId}`);
+  const pensNo = document.getElementById(`pens-n-${matchId}`);
+ 
+  if (aetYes) aetYes.addEventListener('change', () => toggleAETSection(matchId, true));
+  if (aetNo) aetNo.addEventListener('change', () => toggleAETSection(matchId, false));
+  if (pensYes) pensYes.addEventListener('change', () => togglePensSection(matchId, true));
+  if (pensNo) pensNo.addEventListener('change', () => togglePensSection(matchId, false));
+ 
+  const haetInput = document.getElementById(`haet-${matchId}`);
+  const aaetInput = document.getElementById(`aaet-${matchId}`);
+  if (haetInput) haetInput.addEventListener('change', () => onAETScoreChange(matchId));
+  if (aaetInput) aaetInput.addEventListener('change', () => onAETScoreChange(matchId));
+}
+ 
+function toggleAETSection(matchId, show) {
+  const section = document.getElementById(`aet-section-${matchId}`);
+  if (section) section.classList.toggle('visible', show);
+}
+ 
+function togglePensSection(matchId, show) {
+  const section = document.getElementById(`pens-section-${matchId}`);
+  if (section) section.classList.toggle('visible', show);
+}
+ 
+function onAETScoreChange(matchId) {
+  const homeScore90 = document.getElementById(`hs-${matchId}`)?.value || '0';
+  const awayScore90 = document.getElementById(`as-${matchId}`)?.value || '0';
+  const homeScoreAET = document.getElementById(`haet-${matchId}`)?.value || '0';
+  const awayScoreAET = document.getElementById(`aaet-${matchId}`)?.value || '0';
+  const fixture = allFixtures.find(f => f.matchId == matchId);
+  const locked = fixture ? isLocked(fixture.kickoffUTC) : true;
+ 
+  const homePlayers = getPlayersForMatch(matchId, 'home');
+  const awayPlayers = getPlayersForMatch(matchId, 'away');
+ 
+  const homeAETSlots = document.getElementById(`home-aet-slots-${matchId}`);
+  const awayAETSlots = document.getElementById(`away-aet-slots-${matchId}`);
+ 
+  if (homeAETSlots) homeAETSlots.innerHTML = buildAETGoalscorerSlots(matchId, 'home', homeScoreAET, awayScoreAET, homeScore90, awayScore90, homePlayers, [], locked);
+  if (awayAETSlots) awayAETSlots.innerHTML = buildAETGoalscorerSlots(matchId, 'away', homeScoreAET, awayScoreAET, homeScore90, awayScore90, awayPlayers, [], locked);
+}
+ 
+function getPlayersForMatch(matchId, side) {
+  const fixture = allFixtures.find(f => f.matchId == matchId);
+  if (!fixture) return [];
+  const key = `${fixture.home}__${fixture.away}`;
+  const squad = squadData[key];
+  if (!squad) return [];
+  return side === 'home' ? (squad.home?.players || []) : (squad.away?.players || []);
+}
+ 
+// ── Save prediction ───────────────────────────────────────────
+async function savePrediction(matchId) {
+  const fixture = allFixtures.find(f => f.matchId == matchId);
+  if (!fixture) return;
+ 
+  if (isLocked(fixture.kickoffUTC)) {
+    showToast('Match has kicked off — no changes allowed', 'error');
+    return;
+  }
+ 
+  // Gather winner
+  const winnerRadios = document.querySelectorAll(`input[name="winner-${matchId}"]`);
+  let winner = '';
+  winnerRadios.forEach(r => { if (r.checked) winner = r.value; });
+ 
+  // Gather scores
+  const homeScore = document.getElementById(`hs-${matchId}`)?.value || '';
+  const awayScore = document.getElementById(`as-${matchId}`)?.value || '';
+ 
+  // Gather 90 min goalscorers
+  const homeScoreNum = parseInt(homeScore) || 0;
+  const awayScoreNum = parseInt(awayScore) || 0;
+  const homeGoalscorers = [];
+  const awayGoalscorers = [];
+ 
+  for (let i = 0; i < homeScoreNum; i++) {
+    const el = document.getElementById(`home-scorer-${matchId}-${i}`);
+    homeGoalscorers.push(el ? el.value : '');
+  }
+  for (let i = 0; i < awayScoreNum; i++) {
+    const el = document.getElementById(`away-scorer-${matchId}-${i}`);
+    awayGoalscorers.push(el ? el.value : '');
+  }
+ 
+  // AET fields (knockout only)
+  const isKnockout = matchId > 72;
+  let aet = '', homeScoreAET = '', awayScoreAET = '';
+  let homeGoalscorersAET = [], awayGoalscorersAET = [];
+  let pens = '', homePensScore = '', awayPensScore = '';
+ 
+  if (isKnockout) {
+    const aetRadios = document.querySelectorAll(`input[name="aet-${matchId}"]`);
+    aetRadios.forEach(r => { if (r.checked) aet = r.value; });
+ 
+    if (aet === 'Y') {
+      homeScoreAET = document.getElementById(`haet-${matchId}`)?.value || '';
+      awayScoreAET = document.getElementById(`aaet-${matchId}`)?.value || '';
+ 
+      const homeAETCount = Math.max(0, (parseInt(homeScoreAET) || 0) - homeScoreNum);
+      const awayAETCount = Math.max(0, (parseInt(awayScoreAET) || 0) - awayScoreNum);
+ 
+      for (let i = 0; i < homeAETCount && i < 4; i++) {
+        const el = document.getElementById(`home-aet-scorer-${matchId}-${i}`);
+        homeGoalscorersAET.push(el ? el.value : '');
+      }
+      for (let i = 0; i < awayAETCount && i < 4; i++) {
+        const el = document.getElementById(`away-aet-scorer-${matchId}-${i}`);
+        awayGoalscorersAET.push(el ? el.value : '');
+      }
+ 
+      const pensRadios = document.querySelectorAll(`input[name="pens-${matchId}"]`);
+      pensRadios.forEach(r => { if (r.checked) pens = r.value; });
+ 
+      if (pens === 'Y') {
+        homePensScore = document.getElementById(`hpens-${matchId}`)?.value || '';
+        awayPensScore = document.getElementById(`apens-${matchId}`)?.value || '';
+      }
+    }
+  }
+ 
+  // Validation
+  if (!winner) {
+    showToast('Please select a winner', 'error');
+    return;
+  }
+ 
+  const statusEl = document.getElementById(`status-${matchId}`);
+  if (statusEl) { statusEl.textContent = 'Saving...'; statusEl.className = 'save-status'; }
+ 
+  try {
+    const res = await API.post({
+      action: 'savePrediction',
+      matchId,
+      prediction: {
+        winner, homeScore, awayScore,
+        homeGoalscorers, awayGoalscorers,
+        aet, homeScoreAET, awayScoreAET,
+        homeGoalscorersAET, awayGoalscorersAET,
+        pens, homePensScore, awayPensScore
+      }
+    });
+ 
+    if (res.success) {
+      showToast('Prediction saved! ⚽', 'success');
+      if (statusEl) { statusEl.textContent = '✓ Saved'; statusEl.className = 'save-status save-status--success'; }
+ 
+      // Update local predictions cache
+      allPredictions[matchId] = { winner, homeScore, awayScore, homeGoalscorers, awayGoalscorers,
+        aet, homeScoreAET, awayScoreAET, homeGoalscorersAET, awayGoalscorersAET,
+        pens, homePensScore, awayPensScore };
+ 
+      // Update card visual
+      const card = document.getElementById(`match-${matchId}`);
+      if (card) card.classList.add('match-card--saved');
+      const statusBadge = card?.querySelector('.match-status');
+      if (statusBadge) {
+        statusBadge.textContent = '✓ Saved';
+        statusBadge.className = 'match-status match-status--saved';
+      }
+    } else {
+      if (res.locked) {
+        showToast('Match has kicked off — no changes allowed', 'error');
+      } else {
+        showToast(res.error || 'Failed to save', 'error');
+      }
+      if (statusEl) { statusEl.textContent = '✗ Error'; statusEl.className = 'save-status save-status--error'; }
+    }
+  } catch (e) {
+    showToast('Connection error. Please try again.', 'error');
+    if (statusEl) { statusEl.textContent = '✗ Connection error'; statusEl.className = 'save-status save-status--error'; }
+  }
+}
+</script>
+</body>
+</html>
+ 
