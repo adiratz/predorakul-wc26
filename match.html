@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Match Centre — FPL WC26</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Match Centre specific styles ── */
+    .mc-match {
+      margin-bottom: 32px;
+    }
+
+    .mc-match-header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2) var(--radius2) 0 0;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mc-match-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .mc-match-title span {
+      color: var(--gold);
+    }
+
+    .mc-match-meta {
+      font-size: 0.78rem;
+      color: var(--text3);
+    }
+
+    .mc-match-id {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text3);
+      background: var(--bg2);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    /* ── Scroll wrapper ── */
+    .mc-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius2) var(--radius2);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── Main table ── */
+    .mc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 700px;
+    }
+
+    .mc-table th {
+      padding: 8px 12px;
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .mc-table th:last-child { border-right: none; }
+
+    .mc-table td {
+      padding: 10px 12px;
+      text-align: center;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .mc-table td:last-child { border-right: none; }
+    .mc-table tr:last-child td { border-bottom: none; }
+
+    /* ── Row types ── */
+    .mc-row-label td {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      background: var(--bg2);
+      padding: 5px 12px;
+    }
+
+    .mc-row-result td {
+      background: var(--bg3);
+      font-weight: 600;
+    }
+
+    .mc-row-player:hover td {
+      background: var(--surface2);
+    }
+
+    /* ── Column group headers ── */
+    .th-result {
+      background: var(--bg2);
+      color: var(--gold);
+      border-bottom: 2px solid var(--gold) !important;
+    }
+
+    .th-player {
+      background: var(--surface);
+      color: var(--text2);
+      border-bottom: 2px solid var(--border2) !important;
+    }
+
+    .th-player.th-me {
+      color: var(--gold);
+      border-bottom-color: var(--gold) !important;
+    }
+
+    .th-sub {
+      background: var(--bg2);
+      color: var(--text3);
+    }
+
+    .th-sub.th-sub-result {
+      background: var(--bg3);
+      color: var(--text3);
+    }
+
+    /* ── Cell value types ── */
+    .cv-winner {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .cv-score {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .cv-scorers {
+      color: var(--text2);
+      font-size: 0.78rem;
+      white-space: normal;
+      max-width: 140px;
+      text-align: left;
+    }
+
+    .cv-pts {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.9rem;
+    }
+
+    .cv-pts-zero {
+      color: var(--text3);
+    }
+
+    .cv-empty {
+      color: var(--text3);
+      font-size: 0.75rem;
+    }
+
+    /* ── Greyed out AET for group stage ── */
+    .cv-greyed {
+      color: var(--text3);
+      opacity: 0.35;
+      font-style: italic;
+      font-size: 0.75rem;
+    }
+
+    /* ── Correct/incorrect indicators ── */
+    .cv-correct { color: var(--green); }
+    .cv-incorrect { color: var(--red); }
+
+    /* ── Points badge ── */
+    .pts-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .pts-badge-pos { background: rgba(0,230,118,0.1); color: var(--green); }
+    .pts-badge-zero { background: var(--surface2); color: var(--text3); }
+
+    /* ── No matches state ── */
+    .mc-upcoming {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      opacity: 0.6;
+    }
+
+    .mc-upcoming-teams {
+      font-weight: 600;
+      color: var(--text2);
+      font-size: 0.9rem;
+    }
+
+    .mc-upcoming-time {
+      font-size: 0.78rem;
+      color: var(--text3);
+    }
+
+    /* ── Sticky first column (match label) ── */
+    .mc-table th:first-child,
+    .mc-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: var(--bg2);
+      min-width: 90px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .mc-row-result td:first-child { background: var(--bg3); }
+    .mc-row-player:hover td:first-child { background: var(--surface2); }
+
+    /* ── Section divider ── */
+    .mc-day-label {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      color: var(--text2);
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mc-day-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Filter tabs ── */
+    .mc-filter {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      background: var(--surface);
+      padding: 4px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+
+    .mc-filter-btn {
+      padding: 7px 18px;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      transition: all var(--transition);
+    }
+
+    .mc-filter-btn.active {
+      background: var(--gold);
+      color: #0a0e1a;
+    }
+
+    .mc-filter-btn:hover:not(.active) {
+      color: var(--text);
+      background: var(--surface2);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <div class="nav__brand">
+      <span class="nav__title">FPL WC26</span>
+      <span class="nav__tagline">Become a Predorakul</span>
+    </div>
+    <div class="nav__links" id="nav-links"></div>
+    <div class="nav__player" id="nav-player"></div>
+  </div>
+</nav>
+
+<main class="container--wide" style="padding-top:32px; padding-bottom:40px;">
+
+  <div class="page-header" style="text-align:left; padding-top:0; margin-bottom:24px;">
+    <h1>MATCH <em>CENTRE</em></h1>
+    <p>Predictions and results for all locked matches. Updates after each matchday.</p>
+  </div>
+
+  <!-- Filter -->
+  <div class="mc-filter">
+    <button class="mc-filter-btn active" onclick="setFilter('all', this)">All Matches</button>
+    <button class="mc-filter-btn" onclick="setFilter('scored', this)">Scored</button>
+    <button class="mc-filter-btn" onclick="setFilter('pending', this)">Awaiting Result</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    Loading match data...
+  </div>
+
+  <!-- Content -->
+  <div id="mc-content" style="display:none;"></div>
+
+</main>
+
+<nav class="mobile-nav">
+  <div class="mobile-nav__links" id="mobile-nav-links"></div>
+</nav>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+// ── State ─────────────────────────────────────────────────────
+let matchData = {};     // { matchId: { result, players } } — from cache or API
+let playerList = [];    // ordered list of active player names
+let myName = '';
+let currentFilter = 'all';
+let allLockedFixtures = [];
+
+// ── Init ──────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  const player = await requireAuth();
+  if (!player) return;
+  myName = player.name;
+
+  setupNav('matches');
+  await loadPage();
+});
+
+// ── Update nav to include matches tab ────────────────────────
+// Override setupNav to add the matches page
+const _origSetupNav = setupNav;
+function setupNav(activePage) {
+  const player = Session.getPlayer();
+  const code = Session.getCode();
+  const codeParam = code ? `?code=${code}` : '';
+
+  const pages = [
+    { id: 'predict',     label: 'Predict',      icon: '⚽', href: `predict.html${codeParam}` },
+    { id: 'leaderboard', label: 'Leaderboard',  icon: '🏆', href: `leaderboard.html${codeParam}` },
+    { id: 'matches',     label: 'Match Centre', icon: '📊', href: `match.html${codeParam}` },
+    { id: 'picks',       label: 'Picks',        icon: '🔮', href: `picks.html${codeParam}` }
+  ];
+
+  const navLinks = document.getElementById('nav-links');
+  if (navLinks) {
+    navLinks.innerHTML = pages.map(p =>
+      `<a href="${p.href}" class="nav__link${activePage === p.id ? ' active' : ''}">${p.label}</a>`
+    ).join('');
+  }
+
+  const navPlayer = document.getElementById('nav-player');
+  if (navPlayer && player) {
+    navPlayer.innerHTML = `Playing as <span>${player.name}</span>`;
+  }
+
+  const mobileNavLinks = document.getElementById('mobile-nav-links');
+  if (mobileNavLinks) {
+    mobileNavLinks.innerHTML = pages.map(p =>
+      `<a href="${p.href}" class="mobile-nav__link${activePage === p.id ? ' active' : ''}">
+        <span class="mobile-nav__icon">${p.icon}</span>${p.label}
+      </a>`
+    ).join('');
+  }
+}
+
+// ── Load page ─────────────────────────────────────────────────
+async function loadPage() {
+  try {
+    // Get all locked fixtures from hardcoded data
+    const now = new Date();
+    allLockedFixtures = HARDCODED_FIXTURES.filter(f =>
+      now >= new Date(f.kickoffUTC.replace(' ', 'T') + 'Z')
+    );
+
+    // Also check dynamic fixtures (semis/final) if any
+    try {
+      const dynRes = await API.get({ action: 'getFixtures', dynamicOnly: 'true' });
+      if (dynRes.success && dynRes.fixtures) {
+        const dynLocked = dynRes.fixtures
+          .filter(f => f.matchId >= DYNAMIC_FROM_MATCH_ID &&
+                       now >= new Date(f.kickoffUTC.replace(' ', 'T') + 'Z'));
+        allLockedFixtures = [...allLockedFixtures, ...dynLocked];
+      }
+    } catch(e) { /* semis/final not started yet, ignore */ }
+
+    if (allLockedFixtures.length === 0) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('mc-content').style.display = 'block';
+      document.getElementById('mc-content').innerHTML = `
+        <div class="empty-state">
+          <h3>No matches locked yet</h3>
+          <p>Match Centre shows predictions and results after each match kicks off.</p>
+        </div>`;
+      return;
+    }
+
+    // Load match data for all locked fixtures
+    // Check cache first, fetch from API for uncached matches
+    await loadMatchData(allLockedFixtures);
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('mc-content').style.display = 'block';
+    renderAll();
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('loading').innerHTML =
+      '<div style="color:var(--red)">Failed to load. Please refresh.</div>';
+  }
+}
+
+// ── Load match data: cache first, API fallback ────────────────
+async function loadMatchData(fixtures) {
+  const uncachedIds = [];
+
+  // Check what's already in results-cache.js
+  if (typeof RESULTS_CACHE !== 'undefined') {
+    fixtures.forEach(f => {
+      if (RESULTS_CACHE[f.matchId]) {
+        matchData[f.matchId] = RESULTS_CACHE[f.matchId];
+      } else {
+        uncachedIds.push(f.matchId);
+      }
+    });
+  } else {
+    fixtures.forEach(f => uncachedIds.push(f.matchId));
+  }
+
+  // Fetch uncached matches from API in one call
+  if (uncachedIds.length > 0) {
+    try {
+      const res = await API.get({
+        action: 'getMatchPredictions',
+        matchIds: uncachedIds.join(',')
+      });
+      if (res.success) {
+        // Merge into matchData
+        Object.assign(matchData, res.data);
+        // Extract player list from first result (consistent order)
+        if (res.players) playerList = res.players;
+      }
+    } catch (e) {
+      console.warn('Could not load match predictions from API:', e.message);
+    }
+  }
+
+  // Build player list from cache if not set by API
+  if (playerList.length === 0 && Object.keys(matchData).length > 0) {
+    const firstMatch = Object.values(matchData)[0];
+    if (firstMatch && firstMatch.players) {
+      playerList = Object.keys(firstMatch.players);
+    }
+  }
+}
+
+// ── Filter ────────────────────────────────────────────────────
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function filterFixtures(fixtures) {
+  if (currentFilter === 'scored') {
+    return fixtures.filter(f => {
+      const d = matchData[f.matchId];
+      return d && d.result && d.result.winner;
+    });
+  }
+  if (currentFilter === 'pending') {
+    return fixtures.filter(f => {
+      const d = matchData[f.matchId];
+      return !d || !d.result || !d.result.winner;
+    });
+  }
+  return fixtures;
+}
+
+// ── Render all matches ────────────────────────────────────────
+function renderAll() {
+  const content = document.getElementById('mc-content');
+  const filtered = filterFixtures(allLockedFixtures);
+
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="empty-state"><h3>No matches in this filter</h3></div>`;
+    return;
+  }
+
+  // Group by date
+  const groups = {};
+  filtered.forEach(f => {
+    const key = formatDate(f.kickoffUTC);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(f);
+  });
+
+  let html = '';
+  Object.entries(groups).forEach(([dateLabel, fixtures]) => {
+    html += `<div class="mc-day-label">${dateLabel}</div>`;
+    fixtures.forEach(f => {
+      html += renderMatchBlock(f);
+    });
+  });
+
+  content.innerHTML = html;
+}
+
+// ── Render one match block ────────────────────────────────────
+function renderMatchBlock(fixture) {
+  const { matchId, home, away, kickoffUTC } = fixture;
+  const isKnockout = matchId > 72;
+  const data = matchData[matchId] || { result: null, players: {} };
+  const result = data.result || {};
+  const hasResult = !!result.winner;
+
+  // Build column headers
+  const subCols = ['Winner', 'Score', 'Scorers', 'AET Score', 'ET Scorers', 'Pens Score'];
+
+  // Player columns — use playerList if available, fallback to keys in data
+  const players = playerList.length > 0
+    ? playerList
+    : Object.keys(data.players || {});
+
+  let html = `
+    <div class="mc-match">
+      <div class="mc-match-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="mc-match-id">Match ${matchId}</span>
+          <span class="mc-match-title">${escHtml(home)} <span>vs</span> ${escHtml(away)}</span>
+        </div>
+        <div class="mc-match-meta">${formatKickoff(kickoffUTC)}</div>
+      </div>
+      <div class="mc-table-wrap">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th class="th-sub" rowspan="2"></th>
+              <th class="th-result" colspan="${subCols.length}">Actual Result</th>
+              ${players.map(p => `
+                <th class="th-player${p === myName ? ' th-me' : ''}" colspan="${subCols.length + 1}">
+                  ${escHtml(p)}${p === myName ? ' <span style="font-size:0.65rem;opacity:0.7;">(you)</span>' : ''}
+                </th>`).join('')}
+            </tr>
+            <tr>
+              ${subCols.map(col => {
+                const greyed = !isKnockout && ['AET Score','ET Scorers','Pens Score'].includes(col);
+                return `<th class="th-sub th-sub-result${greyed ? ' cv-greyed' : ''}">${col}</th>`;
+              }).join('')}
+              ${players.map(() =>
+                [...subCols, 'Pts'].map((col, i) => {
+                  const greyed = !isKnockout && ['AET Score','ET Scorers','Pens Score'].includes(col);
+                  return `<th class="th-sub${greyed ? ' cv-greyed' : ''}">${col}</th>`;
+                }).join('')
+              ).join('')}
+            </tr>
+          </thead>
+          <tbody>`;
+
+  // Result row
+  html += `<tr class="mc-row-result">
+    <td style="color:var(--gold);font-weight:700;font-size:0.72rem;letter-spacing:0.08em;">RESULT</td>
+    ${renderResultCells(result, isKnockout)}
+    ${players.map(() => `<td colspan="${subCols.length + 1}" style="background:var(--bg2);"></td>`).join('')}
+  </tr>`;
+
+  // Player rows
+  players.forEach(playerName => {
+    const pred = (data.players && data.players[playerName]) || {};
+    html += `<tr class="mc-row-player">
+      <td style="color:${playerName === myName ? 'var(--gold)' : 'var(--text2)'};">
+        ${escHtml(playerName)}
+      </td>
+      <!-- Empty result cells for player rows -->
+      ${subCols.map(() => `<td></td>`).join('')}
+      ${renderPlayerCells(pred, isKnockout, hasResult)}
+    </tr>`;
+  });
+
+  html += `</tbody></table></div></div>`;
+  return html;
+}
+
+// ── Render result cells ───────────────────────────────────────
+function renderResultCells(result, isKnockout) {
+  const hasResult = !!result.winner;
+  const grey = (v) => isKnockout ? v : `<span class="cv-greyed">n/a</span>`;
+
+  return `
+    <td class="cv-winner">${hasResult ? escHtml(result.winner) : '<span class="cv-empty">—</span>'}</td>
+    <td class="cv-score">${hasResult ? escHtml(result.score || '—') : '<span class="cv-empty">—</span>'}</td>
+    <td class="cv-scorers" style="text-align:left;">${hasResult ? escHtml(result.scorers || '—') : '<span class="cv-empty">—</span>'}</td>
+    <td>${hasResult ? (result.aetScore ? escHtml(result.aetScore) : grey('—')) : '<span class="cv-empty">—</span>'}</td>
+    <td class="cv-scorers">${hasResult ? (result.etScorers ? escHtml(result.etScorers) : grey('—')) : '<span class="cv-empty">—</span>'}</td>
+    <td>${hasResult ? (result.pensScore ? escHtml(result.pensScore) : grey('—')) : '<span class="cv-empty">—</span>'}</td>`;
+}
+
+// ── Render player prediction cells ────────────────────────────
+function renderPlayerCells(pred, isKnockout, hasResult) {
+  const hasPred = !!pred.winner;
+  const grey = (v) => isKnockout ? v : `<span class="cv-greyed">n/a</span>`;
+  const pts = pred.points !== undefined ? pred.points : null;
+
+  const winnerCell = hasPred ? `<span class="cv-winner">${escHtml(pred.winner)}</span>` : `<span class="cv-empty">—</span>`;
+  const scoreCell = hasPred ? `<span class="cv-score">${escHtml(pred.score || '—')}</span>` : `<span class="cv-empty">—</span>`;
+  const scorersCell = hasPred ? `<span class="cv-scorers">${escHtml(pred.scorers || '—')}</span>` : `<span class="cv-empty">—</span>`;
+  const aetCell = hasPred ? grey(pred.aetScore ? escHtml(pred.aetScore) : '—') : `<span class="cv-empty">—</span>`;
+  const etScorersCell = hasPred ? grey(pred.etScorers ? escHtml(pred.etScorers) : '—') : `<span class="cv-empty">—</span>`;
+  const pensCell = hasPred ? grey(pred.pensScore ? escHtml(pred.pensScore) : '—') : `<span class="cv-empty">—</span>`;
+
+  let ptsCell = `<span class="cv-empty">—</span>`;
+  if (hasPred && hasResult && pts !== null) {
+    ptsCell = pts > 0
+      ? `<span class="pts-badge pts-badge-pos">+${pts}</span>`
+      : `<span class="pts-badge pts-badge-zero">0</span>`;
+  }
+
+  return `
+    <td>${winnerCell}</td>
+    <td>${scoreCell}</td>
+    <td style="text-align:left;">${scorersCell}</td>
+    <td>${aetCell}</td>
+    <td style="text-align:left;">${etScorersCell}</td>
+    <td>${pensCell}</td>
+    <td>${ptsCell}</td>`;
+}
+</script>
+</body>
+</html>
