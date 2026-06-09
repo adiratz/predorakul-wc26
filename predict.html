@@ -109,48 +109,59 @@ async function loadPage() {
   }
 }
  
+// ── Set up tournament winner ──────────────────────────────────────────
+
 async function setupTournamentWinner(currentPick) {
-  const locked = isLocked(TOURNAMENT_DEADLINE_UTC);
-  const select = document.getElementById('tournament-winner-select');
-  const btn = document.getElementById('tournament-winner-btn');
-  const deadlineEl = document.getElementById('winner-deadline');
+  try {
+    const locked = isLocked(TOURNAMENT_DEADLINE_UTC);
+    const select = document.getElementById('tournament-winner-select');
+    const btn = document.getElementById('tournament-winner-btn');
+    const deadlineEl = document.getElementById('winner-deadline');
 
-  // Extract unique teams from already-loaded allFixtures — no API call needed
-  const teams = new Set();
-  allFixtures.forEach(f => {
-    if (f.matchId <= 72) {
-      if (!String(f.home).match(/^[0-9WL]/)) teams.add(f.home);
-      if (!String(f.away).match(/^[0-9WL]/)) teams.add(f.away);
+    if (!select || !btn || !deadlineEl) {
+      console.error('Tournament winner elements not found');
+      return;
     }
-  });
 
-  const sortedTeams = [...teams].sort();
-  select.innerHTML = '<option value="">— Select a team —</option>' +
-    sortedTeams.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+    // Build team list from already-loaded allFixtures
+    const teams = new Set();
+    allFixtures.forEach(f => {
+      if (f.matchId <= 72) {
+        if (!String(f.home).match(/^[0-9WL]/)) teams.add(f.home);
+        if (!String(f.away).match(/^[0-9WL]/)) teams.add(f.away);
+      }
+    });
 
-  // Set selected value after options are rendered
-  if (currentPick) {
-    select.value = currentPick;
-    // Verify it actually matched — log if not
-    if (select.value !== currentPick) {
-      console.warn('Tournament pick not matched in dropdown:', currentPick);
+    // Fallback to getAllTeams() from data.js if allFixtures empty
+    if (teams.size === 0) {
+      getAllTeams().forEach(t => teams.add(t));
     }
-  }
 
-  if (locked) {
-    select.disabled = true;
-    btn.disabled = true;
-    btn.textContent = 'Deadline passed';
-    deadlineEl.innerHTML = `<span style="color:var(--red)">🔒 Locked — deadline was ${formatKickoff(TOURNAMENT_DEADLINE_UTC)}</span>`;
+    const sortedTeams = [...teams].sort();
+    select.innerHTML = '<option value="">— Select a team —</option>' +
+      sortedTeams.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+
+    // Set selected value after options rendered
     if (currentPick) {
-      deadlineEl.innerHTML += `<br>Your pick: <strong style="color:var(--gold)">${escHtml(currentPick)}</strong>`;
+      select.value = currentPick;
     }
-  } else {
-    deadlineEl.innerHTML = `Deadline: <span id="winner-countdown"></span>`;
-    startCountdown(TOURNAMENT_DEADLINE_UTC, 'winner-countdown');
-    if (currentPick) {
-      btn.textContent = 'Update Pick';
+
+    if (locked) {
+      select.disabled = true;
+      btn.disabled = true;
+      btn.textContent = 'Deadline passed';
+      deadlineEl.innerHTML = `<span style="color:var(--red)">🔒 Locked — deadline was ${formatKickoff(TOURNAMENT_DEADLINE_UTC)}</span>`;
+      if (currentPick) {
+        deadlineEl.innerHTML += `<br>Your pick: <strong style="color:var(--gold)">${escHtml(currentPick)}</strong>`;
+      }
+    } else {
+      deadlineEl.innerHTML = `Deadline: <span id="winner-countdown"></span>`;
+      startCountdown(TOURNAMENT_DEADLINE_UTC, 'winner-countdown');
+      btn.textContent = currentPick ? 'Update Pick' : 'Save Pick';
     }
+
+  } catch (e) {
+    console.error('setupTournamentWinner error:', e);
   }
 }
  
