@@ -37,26 +37,83 @@ const Session = {
     return !!this.getCode() && !!this.getPlayer();
   }
 };
-
 // ── API calls ────────────────────────────────────────────────
 const API = {
   async get(params) {
     const code = Session.getCode();
     if (code) params.code = code;
-    const url = API_URL + '?' + new URLSearchParams(params).toString();
-    const res = await fetch(url);
-    return res.json();
+    
+    return new Promise((resolve, reject) => {
+      const callbackName = 'jsonp_' + Math.random().toString(36).slice(2);
+      params.callback = callbackName;
+      
+      const script = document.createElement('script');
+      const url = API_URL + '?' + new URLSearchParams(params).toString();
+      script.src = url;
+      
+      const timeout = setTimeout(() => {
+        delete window[callbackName];
+        document.body.removeChild(script);
+        reject(new Error('Request timed out'));
+      }, 15000);
+      
+      window[callbackName] = (data) => {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        document.body.removeChild(script);
+        resolve(data);
+      };
+      
+      script.onerror = () => {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        document.body.removeChild(script);
+        reject(new Error('Script load error'));
+      };
+      
+      document.body.appendChild(script);
+    });
   },
 
   async post(body) {
     const code = Session.getCode();
     if (code) body.code = code;
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+    
+    // POST via fetch with no-cors mode won't return data,
+    // so we use a hidden form submission approach via JSONP
+    // Convert POST to GET with action param for Apps Script
+    return new Promise((resolve, reject) => {
+      const callbackName = 'jsonp_' + Math.random().toString(36).slice(2);
+      
+      const script = document.createElement('script');
+      const params = new URLSearchParams({
+        callback: callbackName,
+        payload: JSON.stringify(body)
+      });
+      script.src = API_URL + '?' + params.toString();
+      
+      const timeout = setTimeout(() => {
+        delete window[callbackName];
+        if (document.body.contains(script)) document.body.removeChild(script);
+        reject(new Error('Request timed out'));
+      }, 15000);
+      
+      window[callbackName] = (data) => {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        if (document.body.contains(script)) document.body.removeChild(script);
+        resolve(data);
+      };
+      
+      script.onerror = () => {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        if (document.body.contains(script)) document.body.removeChild(script);
+        reject(new Error('Script load error'));
+      };
+      
+      document.body.appendChild(script);
     });
-    return res.json();
   }
 };
 
