@@ -109,33 +109,34 @@ async function loadPage() {
   }
 }
  
-// ── Tournament winner setup ──────────────────────────────────
 async function setupTournamentWinner(currentPick) {
   const locked = isLocked(TOURNAMENT_DEADLINE_UTC);
   const select = document.getElementById('tournament-winner-select');
   const btn = document.getElementById('tournament-winner-btn');
   const deadlineEl = document.getElementById('winner-deadline');
- 
-  // Load teams
-  try {
-    const res = await API.get({ action: 'getFixtures' });
-    // Extract unique teams from fixtures (group stage only)
-    const teams = new Set();
-    allFixtures.forEach(f => {
-      if (f.matchId <= 72) {
-        if (!String(f.home).match(/^[0-9WL]/)) teams.add(f.home);
-        if (!String(f.away).match(/^[0-9WL]/)) teams.add(f.away);
-      }
-    });
-    const sortedTeams = [...teams].sort();
-    // select.innerHTML = '<option value="">— Select a team —</option>' +
-    //   sortedTeams.map(t => `<option value="${escHtml(t)}"${currentPick === t ? ' selected' : ''}>${escHtml(t)}</option>`).join('');
-    select.innerHTML = '<option value="">— Select a team —</option>' +
-  sortedTeams.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
-// Set selected value after innerHTML is set
-if (currentPick) select.value = currentPick;
-  } catch (e) {}
- 
+
+  // Extract unique teams from already-loaded allFixtures — no API call needed
+  const teams = new Set();
+  allFixtures.forEach(f => {
+    if (f.matchId <= 72) {
+      if (!String(f.home).match(/^[0-9WL]/)) teams.add(f.home);
+      if (!String(f.away).match(/^[0-9WL]/)) teams.add(f.away);
+    }
+  });
+
+  const sortedTeams = [...teams].sort();
+  select.innerHTML = '<option value="">— Select a team —</option>' +
+    sortedTeams.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+
+  // Set selected value after options are rendered
+  if (currentPick) {
+    select.value = currentPick;
+    // Verify it actually matched — log if not
+    if (select.value !== currentPick) {
+      console.warn('Tournament pick not matched in dropdown:', currentPick);
+    }
+  }
+
   if (locked) {
     select.disabled = true;
     btn.disabled = true;
@@ -150,29 +151,6 @@ if (currentPick) select.value = currentPick;
     if (currentPick) {
       btn.textContent = 'Update Pick';
     }
-  }
-}
- 
-async function saveTournamentWinner() {
-  const pick = document.getElementById('tournament-winner-select').value;
-  if (!pick) { showToast('Please select a team', 'error'); return; }
- 
-  const btn = document.getElementById('tournament-winner-btn');
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
- 
-  try {
-    const res = await API.post({ action: 'saveTournamentWinner', pick });
-    if (res.success) {
-      showToast('Tournament winner pick saved! 🏆', 'success');
-      btn.textContent = 'Update Pick';
-    } else {
-      showToast(res.error || 'Failed to save', 'error');
-    }
-  } catch (e) {
-    showToast('Connection error', 'error');
-  } finally {
-    btn.disabled = false;
   }
 }
  
