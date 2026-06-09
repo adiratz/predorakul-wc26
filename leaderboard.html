@@ -52,7 +52,6 @@
             <th>AET</th>
             <th>PP</th>
             <th>PP Record</th>
-            <th>Tournament Pick</th>
           </tr>
         </thead>
         <tbody id="leaderboard-body"></tbody>
@@ -176,10 +175,6 @@ function renderTable(rows) {
         <td>${aet}</td>
         <td>${pp}</td>
         <td style="font-size:0.8rem; color:var(--text3);">${escHtml(ppRecord)}</td>
-        <td>
-          <span style="color:var(--text2); font-size:0.85rem;">${escHtml(tournamentPick)}</span>
-          ${tournamentPts > 0 ? `<span style="color:var(--gold); font-size:0.75rem; margin-left:4px;">+${tournamentPts}</span>` : ''}
-        </td>
       </tr>`;
   }).join('');
 }
