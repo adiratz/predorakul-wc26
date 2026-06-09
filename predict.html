@@ -128,8 +128,12 @@ async function setupTournamentWinner(currentPick) {
       }
     });
     const sortedTeams = [...teams].sort();
+    // select.innerHTML = '<option value="">— Select a team —</option>' +
+    //   sortedTeams.map(t => `<option value="${escHtml(t)}"${currentPick === t ? ' selected' : ''}>${escHtml(t)}</option>`).join('');
     select.innerHTML = '<option value="">— Select a team —</option>' +
-      sortedTeams.map(t => `<option value="${escHtml(t)}"${currentPick === t ? ' selected' : ''}>${escHtml(t)}</option>`).join('');
+  sortedTeams.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+// Set selected value after innerHTML is set
+if (currentPick) select.value = currentPick;
   } catch (e) {}
  
   if (locked) {
