@@ -158,6 +158,22 @@ const Fixtures = {
   }
 };
 
+// ── Standalone getSquad — used by predict.html ───────────────
+async function getSquad(home, away) {
+  // Use hardcoded squad data — no API call needed
+  const squad = Fixtures.getSquad(home, away);
+  if (squad) {
+    return { success: true, home: squad.home, away: squad.away };
+  }
+  // Fallback to API for TBD knockout teams
+  try {
+    const res = await API.get({ action: 'getSquad', home, away });
+    return res;
+  } catch (e) {
+    return { success: false, error: 'Could not load squad' };
+  }
+}
+
 // ── Auth guard ────────────────────────────────────────────────
 async function requireAuth() {
   const code = Session.getCode();
