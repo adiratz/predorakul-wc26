@@ -84,16 +84,16 @@ window.addEventListener('DOMContentLoaded', async () => {
 async function loadPage() {
   try {
     // Load fixtures and predictions in parallel
-    const [fixturesRes, predsRes] = await Promise.all([
-      API.get({ action: 'getFixtures' }),
-      API.get({ action: 'getPredictions' })
-    ]);
+const [fixturesAll, predsRes] = await Promise.all([
+  Fixtures.getAll(),
+  API.get({ action: 'getPredictions' })
+]);
 
-    if (!fixturesRes.success || !predsRes.success) {
-      throw new Error('Failed to load data');
-    }
+if (!predsRes.success) {
+  throw new Error('Failed to load data');
+}
 
-    allFixtures = fixturesRes.fixtures;
+allFixtures = fixturesAll;
     allPredictions = predsRes.predictions;
 
     setupTournamentWinner(allPredictions['overall_winner'] || '');
