@@ -417,8 +417,8 @@ function savePrediction(matchId) {
     return;
   }
 
-  // Penalty score validation
-  if (pens === 'Y' && homePensScore !== '' && awayPensScore !== '') {
+  // Penalty score validation — check directly if fields are filled
+  if (homePensScore !== '' && awayPensScore !== '') {
     const hp = parseInt(homePensScore);
     const ap = parseInt(awayPensScore);
 
@@ -429,14 +429,16 @@ function savePrediction(matchId) {
     }
 
     // Winning team in shootout must match overall winner
-    const homeWins = hp > ap;
-    if (winner === fixture.home && !homeWins) {
-      showToast(`Penalty score must favour ${escHtml(fixture.home)} to match your predicted winner`, 'error');
-      return;
-    }
-    if (winner === fixture.away && homeWins) {
-      showToast(`Penalty score must favour ${escHtml(fixture.away)} to match your predicted winner`, 'error');
-      return;
+    if (fixture) {
+      const homeWins = hp > ap;
+      if (winner === fixture.home && !homeWins) {
+        showToast(`Penalty score must favour ${escHtml(fixture.home)} to match your predicted winner`, 'error');
+        return;
+      }
+      if (winner === fixture.away && homeWins) {
+        showToast(`Penalty score must favour ${escHtml(fixture.away)} to match your predicted winner`, 'error');
+        return;
+      }
     }
   }
 
