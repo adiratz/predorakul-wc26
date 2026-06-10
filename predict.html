@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
- 
+
 <!-- Navigation -->
 <nav class="nav">
   <div class="nav__inner">
@@ -19,10 +19,10 @@
     <div class="nav__player" id="nav-player"></div>
   </div>
 </nav>
- 
+
 <!-- Main content -->
 <main class="container" style="padding-top:32px; padding-bottom:40px;">
- 
+
   <!-- Tournament Winner Banner -->
   <div class="winner-banner" id="winner-banner">
     <h3>🏆 Tournament Winner Prediction</h3>
@@ -37,51 +37,49 @@
     </button>
     <div class="winner-deadline" id="winner-deadline"></div>
   </div>
- 
+
   <!-- Filter tabs -->
   <div class="filter-tabs">
     <button class="filter-tab active" onclick="filterMatches('all', this)">All Matches</button>
-    <button class="filter-tab" onclick="filterMatches('open', this)">Open</button>
+    <button class="filter-tab" onclick="filterMatches('open', this)">Upcoming</button>
     <button class="filter-tab" onclick="filterMatches('locked', this)">Locked</button>
   </div>
- 
+
   <!-- Loading state -->
   <div class="loading" id="loading">
     <div class="spinner"></div>
     Loading fixtures & predictions...
   </div>
- 
+
   <!-- Fixtures container -->
   <div id="fixtures-container"></div>
- 
+
 </main>
- 
+
 <!-- Mobile nav -->
 <nav class="mobile-nav">
   <div class="mobile-nav__links" id="mobile-nav-links"></div>
 </nav>
- 
+
 <!-- Toast container -->
 <div class="toast-container" id="toast-container"></div>
- 
-<script src="js/data.js"></script>
+
 <script src="js/app.js"></script>
-<script src="js/predict-knockout.js"></script>
 <script>
 let allFixtures = [];
 let allPredictions = {};
 let squadData = {};
 let currentFilter = 'all';
 const TOURNAMENT_DEADLINE_UTC = '2026-06-11 19:00:00';
- 
+
 window.addEventListener('DOMContentLoaded', async () => {
   const player = await requireAuth();
   if (!player) return;
- 
+
   setupNav('predict');
   await loadPage();
 });
- 
+
 async function loadPage() {
   try {
     // Load fixtures and predictions in parallel
@@ -89,17 +87,17 @@ async function loadPage() {
       API.get({ action: 'getFixtures' }),
       API.get({ action: 'getPredictions' })
     ]);
- 
+
     if (!fixturesRes.success || !predsRes.success) {
       throw new Error('Failed to load data');
     }
- 
+
     allFixtures = fixturesRes.fixtures;
     allPredictions = predsRes.predictions;
- 
+
     setupTournamentWinner(allPredictions['overall_winner'] || '');
     renderFixtures(allFixtures);
- 
+
     document.getElementById('loading').style.display = 'none';
     document.getElementById('fixtures-container').style.display = 'block';
   } catch (err) {
@@ -108,22 +106,18 @@ async function loadPage() {
     console.error(err);
   }
 }
- 
-// ── Set up tournament winner ──────────────────────────────────────────
 
+// ── Tournament winner setup ──────────────────────────────────
 async function setupTournamentWinner(currentPick) {
+  const locked = isLocked(TOURNAMENT_DEADLINE_UTC);
+  const select = document.getElementById('tournament-winner-select');
+  const btn = document.getElementById('tournament-winner-btn');
+  const deadlineEl = document.getElementById('winner-deadline');
+
+  // Load teams
   try {
-    const locked = isLocked(TOURNAMENT_DEADLINE_UTC);
-    const select = document.getElementById('tournament-winner-select');
-    const btn = document.getElementById('tournament-winner-btn');
-    const deadlineEl = document.getElementById('winner-deadline');
-
-    if (!select || !btn || !deadlineEl) {
-      console.error('Tournament winner elements not found');
-      return;
-    }
-
-    // Build team list from already-loaded allFixtures
+    const res = await API.get({ action: 'getFixtures' });
+    // Extract unique teams from fixtures (group stage only)
     const teams = new Set();
     allFixtures.forEach(f => {
       if (f.matchId <= 72) {
@@ -131,39 +125,28 @@ async function setupTournamentWinner(currentPick) {
         if (!String(f.away).match(/^[0-9WL]/)) teams.add(f.away);
       }
     });
-
-    // Fallback to getAllTeams() from data.js if allFixtures empty
-    if (teams.size === 0) {
-      getAllTeams().forEach(t => teams.add(t));
-    }
-
     const sortedTeams = [...teams].sort();
     select.innerHTML = '<option value="">— Select a team —</option>' +
-      sortedTeams.map(t => `<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+      sortedTeams.map(t => `<option value="${escHtml(t)}"${currentPick === t ? ' selected' : ''}>${escHtml(t)}</option>`).join('');
+  } catch (e) {}
 
-    // Set selected value after options rendered
+  if (locked) {
+    select.disabled = true;
+    btn.disabled = true;
+    btn.textContent = 'Deadline passed';
+    deadlineEl.innerHTML = `<span style="color:var(--red)">🔒 Locked — deadline was ${formatKickoff(TOURNAMENT_DEADLINE_UTC)}</span>`;
     if (currentPick) {
-      select.value = currentPick;
+      deadlineEl.innerHTML += `<br>Your pick: <strong style="color:var(--gold)">${escHtml(currentPick)}</strong>`;
     }
-
-    if (locked) {
-      select.disabled = true;
-      btn.disabled = true;
-      btn.textContent = 'Deadline passed';
-      deadlineEl.innerHTML = `<span style="color:var(--red)">🔒 Locked — deadline was ${formatKickoff(TOURNAMENT_DEADLINE_UTC)}</span>`;
-      if (currentPick) {
-        deadlineEl.innerHTML += `<br>Your pick: <strong style="color:var(--gold)">${escHtml(currentPick)}</strong>`;
-      }
-    } else {
-      deadlineEl.innerHTML = `Deadline: <span id="winner-countdown"></span>`;
-      startCountdown(TOURNAMENT_DEADLINE_UTC, 'winner-countdown');
-      btn.textContent = currentPick ? 'Update Pick' : 'Save Pick';
+  } else {
+    deadlineEl.innerHTML = `Deadline: <span id="winner-countdown"></span>`;
+    startCountdown(TOURNAMENT_DEADLINE_UTC, 'winner-countdown');
+    if (currentPick) {
+      btn.textContent = 'Update Pick';
     }
-
-  } catch (e) {
-    console.error('setupTournamentWinner error:', e);
   }
 }
+
 async function saveTournamentWinner() {
   const pick = document.getElementById('tournament-winner-select').value;
   if (!pick) { showToast('Please select a team', 'error'); return; }
@@ -186,12 +169,12 @@ async function saveTournamentWinner() {
     btn.disabled = false;
   }
 }
- 
+
 // ── Render fixtures ──────────────────────────────────────────
 function renderFixtures(fixtures) {
   const container = document.getElementById('fixtures-container');
   const filtered = filterFixtures(fixtures, currentFilter);
- 
+
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
@@ -200,39 +183,39 @@ function renderFixtures(fixtures) {
       </div>`;
     return;
   }
- 
+
   // Group by local date
   const grouped = groupByDate(filtered);
   let html = '';
- 
+
   Object.entries(grouped).forEach(([dateKey, dayFixtures]) => {
     const dateLabel = formatDate(dayFixtures[0].kickoffUTC);
     html += `<div class="day-group">
       <div class="day-label">${dateLabel}</div>`;
- 
+
     dayFixtures.forEach(f => {
       html += buildMatchCard(f);
     });
- 
+
     html += '</div>';
   });
- 
+
   container.innerHTML = html;
 }
- 
+
 function filterFixtures(fixtures, filter) {
   if (filter === 'open') return fixtures.filter(f => !isLocked(f.kickoffUTC));
   if (filter === 'locked') return fixtures.filter(f => isLocked(f.kickoffUTC));
   return fixtures;
 }
- 
+
 function filterMatches(filter, btn) {
   currentFilter = filter;
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   renderFixtures(allFixtures);
 }
- 
+
 // ── Build match card HTML ────────────────────────────────────
 function buildMatchCard(fixture) {
   const { matchId, home, away, kickoffUTC } = fixture;
@@ -240,10 +223,10 @@ function buildMatchCard(fixture) {
   const pred = allPredictions[matchId] || {};
   const hasPred = !!pred.winner;
   const isKnockout = matchId > 72;
- 
+
   const statusClass = locked ? 'locked' : (hasPred ? 'saved' : 'open');
-  const statusText = locked ? '🔒 Locked' : (hasPred ? '✓ Saved' : 'Open');
- 
+  const statusText = locked ? '🔒 Locked' : (hasPred ? '✓ Saved' : 'Not submitted');
+
   return `
   <div class="match-card${locked ? ' match-card--locked' : ''}${hasPred && !locked ? ' match-card--saved' : ''}"
        id="match-${matchId}">
@@ -254,7 +237,7 @@ function buildMatchCard(fixture) {
         <span class="match-team">${escHtml(away)}</span>
       </div>
       <div class="match-meta">
-        <span class="match-time">${formatKickoffShort(kickoffUTC)}</span>
+        <span class="match-time">Deadline: ${formatKickoffShort(kickoffUTC)}</span>
         <span class="match-status match-status--${statusClass}">${statusText}</span>
         <svg class="match-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -271,31 +254,31 @@ function buildMatchCard(fixture) {
     </div>
   </div>`;
 }
- 
+
 // ── Toggle match expand ──────────────────────────────────────
 async function toggleMatch(matchId, home, away) {
   const card = document.getElementById(`match-${matchId}`);
   const isExpanded = card.classList.contains('expanded');
- 
+
   // Collapse all others
   document.querySelectorAll('.match-card.expanded').forEach(c => {
     if (c.id !== `match-${matchId}`) c.classList.remove('expanded');
   });
- 
+
   if (isExpanded) {
     card.classList.remove('expanded');
     return;
   }
- 
+
   card.classList.add('expanded');
- 
+
   // Load squad if not already loaded
   const formEl = document.getElementById(`form-${matchId}`);
   if (formEl.dataset.loaded !== 'true') {
     const loadEl = document.getElementById(`loading-${matchId}`);
     loadEl.style.display = 'flex';
     formEl.style.display = 'none';
- 
+
     try {
       let squad = squadData[`${home}__${away}`];
       if (!squad) {
@@ -305,42 +288,42 @@ async function toggleMatch(matchId, home, away) {
           squad = res;
         }
       }
- 
+
       const fixture = allFixtures.find(f => f.matchId == matchId);
       const locked = fixture ? isLocked(fixture.kickoffUTC) : true;
       const pred = allPredictions[matchId] || {};
       const isKnockout = matchId > 72;
- 
+
       formEl.innerHTML = buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout);
       formEl.dataset.loaded = 'true';
- 
+
       // Wire up score inputs for dynamic goalscorer slots
       setupScoreListeners(matchId, home, away, squad, pred);
       setupAETListeners(matchId);
- 
+
     } catch (e) {
       console.error(e);
       document.getElementById(`loading-${matchId}`).innerHTML =
         '<span style="color:var(--red)">Failed to load squad.</span>';
       return;
     }
- 
+
     document.getElementById(`loading-${matchId}`).style.display = 'none';
     formEl.style.display = 'block';
   }
 }
- 
+
 // ── Build prediction form ─────────────────────────────────────
 function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout) {
   const homePlayers = squad?.home?.players || [];
   const awayPlayers = squad?.away?.players || [];
- 
+
   const homeScore = pred.homeScore !== undefined && pred.homeScore !== '' ? pred.homeScore : '';
   const awayScore = pred.awayScore !== undefined && pred.awayScore !== '' ? pred.awayScore : '';
   const winner = pred.winner || '';
- 
+
   const dis = locked ? 'disabled' : '';
- 
+
   // Winner options — for knockout, no draw option
   let winnerHtml = `
     <div class="pred-section">
@@ -356,12 +339,12 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
         <label for="w-away-${matchId}">${escHtml(away)}</label>
       </div>
     </div>`;
- 
+
   if (isKnockout) {
     // Adjust grid to 2 cols only (no draw)
     winnerHtml = winnerHtml.replace('grid-template-columns: 1fr 1fr', 'grid-template-columns: 1fr 1fr');
   }
- 
+
   // Score inputs
   const scoreHtml = `
     <div class="pred-section">
@@ -379,7 +362,7 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
         ${escHtml(home)} — ${escHtml(away)}
       </div>
     </div>`;
- 
+
   // Goalscorer slots (built dynamically based on score)
   const goalscorerHtml = `
     <div class="pred-section">
@@ -399,7 +382,7 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
         </div>
       </div>
     </div>`;
- 
+
   // AET section (knockout only)
   let aetHtml = '';
   if (isKnockout) {
@@ -409,10 +392,10 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
     const pens = pred.pens || '';
     const homePensScore = pred.homePensScore !== undefined ? pred.homePensScore : '';
     const awayPensScore = pred.awayPensScore !== undefined ? pred.awayPensScore : '';
- 
+
     const aetVisible = aet === 'Y';
     const pensVisible = pens === 'Y';
- 
+
     aetHtml = `
       <div class="pred-section">
         <div class="pred-section-title pred-section-title--aet">Extra Time (AET)</div>
@@ -425,7 +408,7 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
             <label for="aet-n-${matchId}">N</label>
           </div>
         </div>
- 
+
         <div class="yn-section${aetVisible ? ' visible' : ''}" id="aet-section-${matchId}">
           <div class="pred-section-title" style="margin-top:16px;">Score at 120 mins (cumulative)</div>
           <div class="score-inputs" style="margin-bottom:12px;">
@@ -451,7 +434,7 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
               </div>
             </div>
           </div>
- 
+
           <div style="margin-top:20px;">
             <div class="form-label" style="margin-bottom:8px;">Does it go to penalties?</div>
             <div class="yn-selector">
@@ -461,7 +444,7 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
               <label for="pens-n-${matchId}">N</label>
             </div>
           </div>
- 
+
           <div class="yn-section${pensVisible ? ' visible' : ''}" id="pens-section-${matchId}">
             <div class="pred-section-title pred-section-title--pens" style="margin-top:16px;">Penalty Shootout Score</div>
             <div class="score-inputs">
@@ -476,7 +459,7 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
         </div>
       </div>`;
   }
- 
+
   // Save bar
   const saveBar = locked ? `
     <div class="match-save-bar">
@@ -488,17 +471,17 @@ function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockou
         Save Prediction
       </button>
     </div>`;
- 
+
   return winnerHtml + scoreHtml + goalscorerHtml + aetHtml + saveBar;
 }
- 
+
 // ── Goalscorer slots ──────────────────────────────────────────
 function buildGoalscorerSlots(matchId, side, score, players, existing, locked) {
   const count = parseInt(score) || 0;
   if (count === 0) {
     return '<div style="color:var(--text3);font-size:0.82rem;">Enter a score above to add scorers</div>';
   }
- 
+
   const dis = locked ? 'disabled' : '';
   let html = '';
   for (let i = 0; i < count; i++) {
@@ -511,7 +494,7 @@ function buildGoalscorerSlots(matchId, side, score, players, existing, locked) {
         </select>
       </div>`;
   }
- 
+
   // Set values after render (via setTimeout trick)
   setTimeout(() => {
     for (let i = 0; i < count; i++) {
@@ -519,25 +502,25 @@ function buildGoalscorerSlots(matchId, side, score, players, existing, locked) {
       if (el && existing[i]) el.value = existing[i];
     }
   }, 0);
- 
+
   return html;
 }
- 
+
 function buildAETGoalscorerSlots(matchId, side, homeScoreAET, awayScoreAET, homeScore90, awayScore90, players, existing, locked) {
   const aetHome = parseInt(homeScoreAET) || 0;
   const aetAway = parseInt(awayScoreAET) || 0;
   const reg90Home = parseInt(homeScore90) || 0;
   const reg90Away = parseInt(awayScore90) || 0;
- 
+
   // Number of AET goals = AET cumulative score minus 90 min score
   const count = side === 'home'
     ? Math.max(0, aetHome - reg90Home)
     : Math.max(0, aetAway - reg90Away);
- 
+
   if (count === 0) {
     return '<div style="color:var(--text3);font-size:0.82rem;">Enter AET score above</div>';
   }
- 
+
   const dis = locked ? 'disabled' : '';
   let html = '';
   for (let i = 0; i < count && i < 4; i++) {
@@ -549,26 +532,26 @@ function buildAETGoalscorerSlots(matchId, side, homeScoreAET, awayScoreAET, home
         </select>
       </div>`;
   }
- 
+
   setTimeout(() => {
     for (let i = 0; i < count && i < 4; i++) {
       const el = document.getElementById(`${side}-aet-scorer-${matchId}-${i}`);
       if (el && existing[i]) el.value = existing[i];
     }
   }, 0);
- 
+
   return html;
 }
- 
+
 // ── Score change listeners ────────────────────────────────────
 function setupScoreListeners(matchId, home, away, squad, pred) {
   const homeInput = document.getElementById(`hs-${matchId}`);
   const awayInput = document.getElementById(`as-${matchId}`);
- 
+
   if (homeInput) homeInput.addEventListener('change', () => onScoreChange(matchId));
   if (awayInput) awayInput.addEventListener('change', () => onScoreChange(matchId));
 }
- 
+
 function onScoreChange(matchId) {
   const homeScore = document.getElementById(`hs-${matchId}`)?.value || '';
   const awayScore = document.getElementById(`as-${matchId}`)?.value || '';
@@ -579,44 +562,44 @@ function onScoreChange(matchId) {
     const keys = Object.keys(squadData);
     return keys[i].startsWith(fixture?.home || '');
   });
- 
+
   // Rebuild goalscorer slots
   const homeSlots = document.getElementById(`home-slots-${matchId}`);
   const awaySlots = document.getElementById(`away-slots-${matchId}`);
   const homePlayers = getPlayersForMatch(matchId, 'home');
   const awayPlayers = getPlayersForMatch(matchId, 'away');
- 
+
   if (homeSlots) homeSlots.innerHTML = buildGoalscorerSlots(matchId, 'home', homeScore, homePlayers, [], locked);
   if (awaySlots) awaySlots.innerHTML = buildGoalscorerSlots(matchId, 'away', awayScore, awayPlayers, [], locked);
 }
- 
+
 function setupAETListeners(matchId) {
   const aetYes = document.getElementById(`aet-y-${matchId}`);
   const aetNo = document.getElementById(`aet-n-${matchId}`);
   const pensYes = document.getElementById(`pens-y-${matchId}`);
   const pensNo = document.getElementById(`pens-n-${matchId}`);
- 
+
   if (aetYes) aetYes.addEventListener('change', () => toggleAETSection(matchId, true));
   if (aetNo) aetNo.addEventListener('change', () => toggleAETSection(matchId, false));
   if (pensYes) pensYes.addEventListener('change', () => togglePensSection(matchId, true));
   if (pensNo) pensNo.addEventListener('change', () => togglePensSection(matchId, false));
- 
+
   const haetInput = document.getElementById(`haet-${matchId}`);
   const aaetInput = document.getElementById(`aaet-${matchId}`);
   if (haetInput) haetInput.addEventListener('change', () => onAETScoreChange(matchId));
   if (aaetInput) aaetInput.addEventListener('change', () => onAETScoreChange(matchId));
 }
- 
+
 function toggleAETSection(matchId, show) {
   const section = document.getElementById(`aet-section-${matchId}`);
   if (section) section.classList.toggle('visible', show);
 }
- 
+
 function togglePensSection(matchId, show) {
   const section = document.getElementById(`pens-section-${matchId}`);
   if (section) section.classList.toggle('visible', show);
 }
- 
+
 function onAETScoreChange(matchId) {
   const homeScore90 = document.getElementById(`hs-${matchId}`)?.value || '0';
   const awayScore90 = document.getElementById(`as-${matchId}`)?.value || '0';
@@ -624,17 +607,17 @@ function onAETScoreChange(matchId) {
   const awayScoreAET = document.getElementById(`aaet-${matchId}`)?.value || '0';
   const fixture = allFixtures.find(f => f.matchId == matchId);
   const locked = fixture ? isLocked(fixture.kickoffUTC) : true;
- 
+
   const homePlayers = getPlayersForMatch(matchId, 'home');
   const awayPlayers = getPlayersForMatch(matchId, 'away');
- 
+
   const homeAETSlots = document.getElementById(`home-aet-slots-${matchId}`);
   const awayAETSlots = document.getElementById(`away-aet-slots-${matchId}`);
- 
+
   if (homeAETSlots) homeAETSlots.innerHTML = buildAETGoalscorerSlots(matchId, 'home', homeScoreAET, awayScoreAET, homeScore90, awayScore90, homePlayers, [], locked);
   if (awayAETSlots) awayAETSlots.innerHTML = buildAETGoalscorerSlots(matchId, 'away', homeScoreAET, awayScoreAET, homeScore90, awayScore90, awayPlayers, [], locked);
 }
- 
+
 function getPlayersForMatch(matchId, side) {
   const fixture = allFixtures.find(f => f.matchId == matchId);
   if (!fixture) return [];
@@ -643,32 +626,32 @@ function getPlayersForMatch(matchId, side) {
   if (!squad) return [];
   return side === 'home' ? (squad.home?.players || []) : (squad.away?.players || []);
 }
- 
+
 // ── Save prediction ───────────────────────────────────────────
 async function savePrediction(matchId) {
   const fixture = allFixtures.find(f => f.matchId == matchId);
   if (!fixture) return;
- 
+
   if (isLocked(fixture.kickoffUTC)) {
     showToast('Match has kicked off — no changes allowed', 'error');
     return;
   }
- 
+
   // Gather winner
   const winnerRadios = document.querySelectorAll(`input[name="winner-${matchId}"]`);
   let winner = '';
   winnerRadios.forEach(r => { if (r.checked) winner = r.value; });
- 
+
   // Gather scores
   const homeScore = document.getElementById(`hs-${matchId}`)?.value || '';
   const awayScore = document.getElementById(`as-${matchId}`)?.value || '';
- 
+
   // Gather 90 min goalscorers
   const homeScoreNum = parseInt(homeScore) || 0;
   const awayScoreNum = parseInt(awayScore) || 0;
   const homeGoalscorers = [];
   const awayGoalscorers = [];
- 
+
   for (let i = 0; i < homeScoreNum; i++) {
     const el = document.getElementById(`home-scorer-${matchId}-${i}`);
     homeGoalscorers.push(el ? el.value : '');
@@ -677,24 +660,24 @@ async function savePrediction(matchId) {
     const el = document.getElementById(`away-scorer-${matchId}-${i}`);
     awayGoalscorers.push(el ? el.value : '');
   }
- 
+
   // AET fields (knockout only)
   const isKnockout = matchId > 72;
   let aet = '', homeScoreAET = '', awayScoreAET = '';
   let homeGoalscorersAET = [], awayGoalscorersAET = [];
   let pens = '', homePensScore = '', awayPensScore = '';
- 
+
   if (isKnockout) {
     const aetRadios = document.querySelectorAll(`input[name="aet-${matchId}"]`);
     aetRadios.forEach(r => { if (r.checked) aet = r.value; });
- 
+
     if (aet === 'Y') {
       homeScoreAET = document.getElementById(`haet-${matchId}`)?.value || '';
       awayScoreAET = document.getElementById(`aaet-${matchId}`)?.value || '';
- 
+
       const homeAETCount = Math.max(0, (parseInt(homeScoreAET) || 0) - homeScoreNum);
       const awayAETCount = Math.max(0, (parseInt(awayScoreAET) || 0) - awayScoreNum);
- 
+
       for (let i = 0; i < homeAETCount && i < 4; i++) {
         const el = document.getElementById(`home-aet-scorer-${matchId}-${i}`);
         homeGoalscorersAET.push(el ? el.value : '');
@@ -703,50 +686,26 @@ async function savePrediction(matchId) {
         const el = document.getElementById(`away-aet-scorer-${matchId}-${i}`);
         awayGoalscorersAET.push(el ? el.value : '');
       }
- 
+
       const pensRadios = document.querySelectorAll(`input[name="pens-${matchId}"]`);
       pensRadios.forEach(r => { if (r.checked) pens = r.value; });
- 
+
       if (pens === 'Y') {
         homePensScore = document.getElementById(`hpens-${matchId}`)?.value || '';
         awayPensScore = document.getElementById(`apens-${matchId}`)?.value || '';
       }
     }
   }
- 
-// Validation
+
+  // Validation
   if (!winner) {
     showToast('Please select a winner', 'error');
     return;
   }
 
-  // Draw must have a level scoreline
-  if (winner === 'Draw' && homeScore !== '' && awayScore !== '' && homeScore !== awayScore) {
-    showToast('A draw must have a level scoreline (e.g. 1-1, 2-2)', 'error');
-    return;
-  }
-
-  // Goalscorers must match predicted score
-  if (homeScore !== '' && awayScore !== '') {
-    const expectedHome = parseInt(homeScore) || 0;
-    const expectedAway = parseInt(awayScore) || 0;
-
-    const filledHome = homeGoalscorers.filter(s => s !== '').length;
-    const filledAway = awayGoalscorers.filter(s => s !== '').length;
-
-    if (filledHome < expectedHome) {
-      showToast(`Please select all ${expectedHome} ${escHtml(home)} goalscorer${expectedHome > 1 ? 's' : ''}`, 'error');
-      return;
-    }
-    if (filledAway < expectedAway) {
-      showToast(`Please select all ${expectedAway} ${escHtml(away)} goalscorer${expectedAway > 1 ? 's' : ''}`, 'error');
-      return;
-    }
-  }
- 
   const statusEl = document.getElementById(`status-${matchId}`);
   if (statusEl) { statusEl.textContent = 'Saving...'; statusEl.className = 'save-status'; }
- 
+
   try {
     const res = await API.post({
       action: 'savePrediction',
@@ -759,16 +718,16 @@ async function savePrediction(matchId) {
         pens, homePensScore, awayPensScore
       }
     });
- 
+
     if (res.success) {
       showToast('Prediction saved! ⚽', 'success');
       if (statusEl) { statusEl.textContent = '✓ Saved'; statusEl.className = 'save-status save-status--success'; }
- 
+
       // Update local predictions cache
       allPredictions[matchId] = { winner, homeScore, awayScore, homeGoalscorers, awayGoalscorers,
         aet, homeScoreAET, awayScoreAET, homeGoalscorersAET, awayGoalscorersAET,
         pens, homePensScore, awayPensScore };
- 
+
       // Update card visual
       const card = document.getElementById(`match-${matchId}`);
       if (card) card.classList.add('match-card--saved');
@@ -793,4 +752,3 @@ async function savePrediction(matchId) {
 </script>
 </body>
 </html>
- 
