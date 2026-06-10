@@ -638,6 +638,9 @@ async function savePrediction(matchId) {
   const fixture = allFixtures.find(f => f.matchId == matchId);
   if (!fixture) return;
 
+  const home = fixture.home;
+  const away = fixture.away;
+
   if (isLocked(fixture.kickoffUTC)) {
     showToast('Match has kicked off — no changes allowed', 'error');
     return;
