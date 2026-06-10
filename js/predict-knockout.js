@@ -18,7 +18,7 @@
 
 const _originalBuildPredictionForm = buildPredictionForm;
 
-function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout) {
+const buildPredictionForm = function(matchId, home, away, squad, pred, locked, isKnockout) {
   if (!isKnockout) {
     return _originalBuildPredictionForm(matchId, home, away, squad, pred, locked, false);
   }
@@ -318,7 +318,7 @@ function ko_onWinnerChange(matchId) {
 // Wraps the original savePrediction to auto-derive AET/Pens
 const _originalSavePrediction = savePrediction;
 
-function savePrediction(matchId) {
+const savePrediction = function(matchId) {
   const fixture = allFixtures.find(f => f.matchId == matchId);
   const isKnockout = matchId > 72;
 
