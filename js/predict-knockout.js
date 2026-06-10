@@ -16,13 +16,10 @@
 // predict.html calls buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout)
 // When isKnockout is true this file's version takes over
 
-const _originalBuildPredictionForm = typeof buildPredictionForm === 'function'
-  ? buildPredictionForm
-  : null;
+const _originalBuildPredictionForm = buildPredictionForm;
 
 function buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout) {
   if (!isKnockout) {
-    // Group stage — use original function untouched
     return _originalBuildPredictionForm(matchId, home, away, squad, pred, locked, false);
   }
 
@@ -319,9 +316,7 @@ function ko_onWinnerChange(matchId) {
 
 // ── Override savePrediction for knockout matches ──────────────
 // Wraps the original savePrediction to auto-derive AET/Pens
-const _originalSavePrediction = typeof savePrediction === 'function'
-  ? savePrediction
-  : null;
+const _originalSavePrediction = savePrediction;
 
 function savePrediction(matchId) {
   const fixture = allFixtures.find(f => f.matchId == matchId);
