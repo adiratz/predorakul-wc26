@@ -231,12 +231,19 @@ function ko_onScoreChange(matchId) {
     const isLevel = ko_isLevelScore(hs, as);
     aetSection.classList.toggle('hidden', !isLevel);
     if (!isLevel) {
+      // Score is no longer level — clear AET fields and hide pens
       const haet = document.getElementById(`haet-${matchId}`);
       const aaet = document.getElementById(`aaet-${matchId}`);
       if (haet) haet.value = '';
       if (aaet) aaet.value = '';
       const pensSection = document.getElementById(`ko-pens-section-${matchId}`);
       if (pensSection) pensSection.classList.add('hidden');
+    } else {
+      // Score is level — pre-fill AET inputs with 90 min score as the floor
+      const haet = document.getElementById(`haet-${matchId}`);
+      const aaet = document.getElementById(`aaet-${matchId}`);
+      if (haet && haet.value === '') haet.value = hs;
+      if (aaet && aaet.value === '') aaet.value = as;
     }
   }
 }
@@ -321,6 +328,20 @@ function koSavePrediction(matchId) {
     return;
   }
 
+  // Change 2 — 90 min scoreline must favour the predicted winner (unless level)
+  if (!ko_isLevelScore(homeScore, awayScore)) {
+    const hs90 = parseInt(homeScore);
+    const as90 = parseInt(awayScore);
+    if (winner === fixture.home && hs90 < as90) {
+      showToast(`Scoreline must favour ${escHtml(fixture.home)} if they go through (or predict a level score for extra time)`, 'error');
+      return;
+    }
+    if (winner === fixture.away && as90 < hs90) {
+      showToast(`Scoreline must favour ${escHtml(fixture.away)} if they go through (or predict a level score for extra time)`, 'error');
+      return;
+    }
+  }
+
   // Derive AET and Pens
   const aet  = ko_deriveAET(matchId);
   const pens = ko_derivePens(matchId);
@@ -332,6 +353,30 @@ function koSavePrediction(matchId) {
   if (aet === 'Y') {
     homeScoreAET = document.getElementById(`haet-${matchId}`)?.value || '';
     awayScoreAET = document.getElementById(`aaet-${matchId}`)?.value || '';
+
+    // Change 3 — 120 min scores cannot be lower than 90 min scores
+    const haet = parseInt(homeScoreAET) || 0;
+    const aaet = parseInt(awayScoreAET) || 0;
+    if (haet < homeScoreNum) {
+      showToast(`Score at 120 mins for ${escHtml(fixture.home)} cannot be less than their 90 min score (${homeScoreNum})`, 'error');
+      return;
+    }
+    if (aaet < awayScoreNum) {
+      showToast(`Score at 120 mins for ${escHtml(fixture.away)} cannot be less than their 90 min score (${awayScoreNum})`, 'error');
+      return;
+    }
+
+    // Change 4 — if 120 min score is not level, winner must have higher score
+    if (!ko_isLevelScore(homeScoreAET, awayScoreAET)) {
+      if (winner === fixture.home && haet < aaet) {
+        showToast(`120 min score must favour ${escHtml(fixture.home)} if they go through (or predict level for penalties)`, 'error');
+        return;
+      }
+      if (winner === fixture.away && aaet < haet) {
+        showToast(`120 min score must favour ${escHtml(fixture.away)} if they go through (or predict level for penalties)`, 'error');
+        return;
+      }
+    }
 
     const homeAETCount = Math.max(0, (parseInt(homeScoreAET) || 0) - homeScoreNum);
     const awayAETCount = Math.max(0, (parseInt(awayScoreAET) || 0) - awayScoreNum);
