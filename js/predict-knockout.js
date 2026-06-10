@@ -402,6 +402,21 @@ function savePrediction(matchId) {
     return;
   }
 
+  // Goalscorers must match predicted score
+  const expectedHome = parseInt(homeScore) || 0;
+  const expectedAway = parseInt(awayScore) || 0;
+  const filledHome = homeGoalscorers.filter(s => s !== '').length;
+  const filledAway = awayGoalscorers.filter(s => s !== '').length;
+
+  if (filledHome < expectedHome) {
+    showToast(`Please select all ${expectedHome} ${escHtml(home)} goalscorer${expectedHome > 1 ? 's' : ''}`, 'error');
+    return;
+  }
+  if (filledAway < expectedAway) {
+    showToast(`Please select all ${expectedAway} ${escHtml(away)} goalscorer${expectedAway > 1 ? 's' : ''}`, 'error');
+    return;
+  }
+
   const statusEl = document.getElementById(`status-${matchId}`);
   if (statusEl) { statusEl.textContent = 'Saving...'; statusEl.className = 'save-status'; }
 
