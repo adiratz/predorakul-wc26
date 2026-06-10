@@ -409,12 +409,35 @@ function savePrediction(matchId) {
   const filledAway = awayGoalscorers.filter(s => s !== '').length;
 
   if (filledHome < expectedHome) {
-    showToast(`Please select all ${expectedHome} ${escHtml(home)} goalscorer${expectedHome > 1 ? 's' : ''}`, 'error');
+    showToast(`Please select all ${expectedHome} ${escHtml(fixture.home)} goalscorer${expectedHome > 1 ? 's' : ''}`, 'error');
     return;
   }
   if (filledAway < expectedAway) {
-    showToast(`Please select all ${expectedAway} ${escHtml(away)} goalscorer${expectedAway > 1 ? 's' : ''}`, 'error');
+    showToast(`Please select all ${expectedAway} ${escHtml(fixture.away)} goalscorer${expectedAway > 1 ? 's' : ''}`, 'error');
     return;
+  }
+
+  // Penalty score validation
+  if (pens === 'Y' && homePensScore !== '' && awayPensScore !== '') {
+    const hp = parseInt(homePensScore);
+    const ap = parseInt(awayPensScore);
+
+    // Scores must be different — draws impossible in shootout
+    if (hp === ap) {
+      showToast('Penalty shootout cannot end level — one team must win', 'error');
+      return;
+    }
+
+    // Winning team in shootout must match overall winner
+    const homeWins = hp > ap;
+    if (winner === fixture.home && !homeWins) {
+      showToast(`Penalty score must favour ${escHtml(fixture.home)} to match your predicted winner`, 'error');
+      return;
+    }
+    if (winner === fixture.away && homeWins) {
+      showToast(`Penalty score must favour ${escHtml(fixture.away)} to match your predicted winner`, 'error');
+      return;
+    }
   }
 
   const statusEl = document.getElementById(`status-${matchId}`);
