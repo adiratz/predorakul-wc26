@@ -428,8 +428,8 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0.05em; line-heig
 }
 
 .match-status--open {
-  background: rgba(0,230,118,0.15);
-  color: var(--green);
+  background: rgba(251,146,60,0.15);
+  color: #fb923c;
 }
 
 .match-status--locked {
