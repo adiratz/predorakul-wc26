@@ -64,9 +64,7 @@
 <!-- Toast container -->
 <div class="toast-container" id="toast-container"></div>
 
-<script src="js/data.js"></script>
 <script src="js/app.js"></script>
-  
 <script>
 let allFixtures = [];
 let allPredictions = {};
@@ -296,7 +294,9 @@ async function toggleMatch(matchId, home, away) {
       const pred = allPredictions[matchId] || {};
       const isKnockout = matchId > 72;
 
-      formEl.innerHTML = buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout);
+      formEl.innerHTML = isKnockout
+        ? koBuildPredictionForm(matchId, home, away, squad, pred, locked)
+        : buildPredictionForm(matchId, home, away, squad, pred, locked, false);
       formEl.dataset.loaded = 'true';
 
       // Wire up score inputs for dynamic goalscorer slots
@@ -631,6 +631,9 @@ function getPlayersForMatch(matchId, side) {
 
 // ── Save prediction ───────────────────────────────────────────
 async function savePrediction(matchId) {
+  // Route knockout matches to dedicated handler in predict-knockout.js
+  if (matchId > 72) return koSavePrediction(matchId);
+
   const fixture = allFixtures.find(f => f.matchId == matchId);
   if (!fixture) return;
 
@@ -705,6 +708,40 @@ async function savePrediction(matchId) {
     return;
   }
 
+  // Scoreline must be consistent with outcome
+  if (homeScore !== '' && awayScore !== '') {
+    const hs = parseInt(homeScore);
+    const as = parseInt(awayScore);
+    if (winner === home && hs <= as) {
+      showToast(`Scoreline must show ${escHtml(home)} winning (e.g. 2-1)`, 'error');
+      return;
+    }
+    if (winner === away && as <= hs) {
+      showToast(`Scoreline must show ${escHtml(away)} winning (e.g. 1-2)`, 'error');
+      return;
+    }
+    if (winner === 'Draw' && hs !== as) {
+      showToast('A draw must have a level scoreline (e.g. 1-1)', 'error');
+      return;
+    }
+  }
+
+  // Goalscorers must match predicted score
+  if (homeScore !== '' && awayScore !== '') {
+    const expectedHome = parseInt(homeScore) || 0;
+    const expectedAway = parseInt(awayScore) || 0;
+    const filledHome = homeGoalscorers.filter(s => s !== '').length;
+    const filledAway = awayGoalscorers.filter(s => s !== '').length;
+    if (filledHome < expectedHome) {
+      showToast(`Please select all ${expectedHome} ${escHtml(home)} goalscorer${expectedHome > 1 ? 's' : ''}`, 'error');
+      return;
+    }
+    if (filledAway < expectedAway) {
+      showToast(`Please select all ${expectedAway} ${escHtml(away)} goalscorer${expectedAway > 1 ? 's' : ''}`, 'error');
+      return;
+    }
+  }
+
   const statusEl = document.getElementById(`status-${matchId}`);
   if (statusEl) { statusEl.textContent = 'Saving...'; statusEl.className = 'save-status'; }
 
@@ -752,6 +789,5 @@ async function savePrediction(matchId) {
   }
 }
 </script>
-  <script src="js/predict-knockout.js"></script>
 </body>
 </html>
