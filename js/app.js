@@ -212,7 +212,7 @@ const pages = [
     { id: 'predict',     label: 'Predict',      icon: '⚽', href: `predict.html${codeParam}` },
     { id: 'leaderboard', label: 'Leaderboard',  icon: '🏆', href: `leaderboard.html${codeParam}` },
     { id: 'matches',     label: 'Match Centre', icon: '📊', href: `match.html${codeParam}` },
-    { id: 'picks',       label: 'Picks',        icon: '🔮', href: `picks.html${codeParam}` }
+    { id: 'picks',       label: 'Winner Pick',  icon: '🔮', href: `picks.html${codeParam}` }
   ];
 
   const navLinks = document.getElementById('nav-links');
