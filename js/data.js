@@ -106,35 +106,36 @@ const GROUP_STAGE_FIXTURES = [
 // Example: change { matchId: 73, home: "TBD", away: "TBD" }
 //      to: { matchId: 73, home: "France", away: "Argentina" }
 const ROUND_OF_16_FIXTURES = [
-  { matchId: 73,  home: "TBD", away: "TBD", kickoffUTC: "2026-06-28 19:00:00" },
-  { matchId: 74,  home: "TBD", away: "TBD", kickoffUTC: "2026-06-29 20:30:00" },
-  { matchId: 75,  home: "TBD", away: "TBD", kickoffUTC: "2026-06-30 01:00:00" },
-  { matchId: 76,  home: "TBD", away: "TBD", kickoffUTC: "2026-06-29 17:00:00" },
-  { matchId: 77,  home: "TBD", away: "TBD", kickoffUTC: "2026-06-30 21:00:00" },
-  { matchId: 78,  home: "TBD", away: "TBD", kickoffUTC: "2026-06-30 18:00:00" },
-  { matchId: 79,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-01 01:00:00" },
-  { matchId: 80,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-01 16:00:00" },
-  { matchId: 81,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-02 00:00:00" },
-  { matchId: 82,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-01 20:00:00" },
-  { matchId: 83,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-02 23:00:00" },
-  { matchId: 84,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-02 19:00:00" },
-  { matchId: 85,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-03 03:00:00" },
-  { matchId: 86,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-03 22:00:00" },
-  { matchId: 87,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-04 01:30:00" },
-  { matchId: 88,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-03 18:00:00" },
+  // { matchId: 73,  home: "2A", away: "2B", kickoffUTC: "2026-06-28 19:00:00" },
+    { matchId: 73,  home: "2A", away: "2B", kickoffUTC: "2026-06-13 19:00:00" },
+  { matchId: 74,  home: "1C", away: "2F", kickoffUTC: "2026-06-29 20:30:00" },
+  { matchId: 75,  home: "1E", away: "3ABCDF", kickoffUTC: "2026-06-30 01:00:00" },
+  { matchId: 76,  home: "1F", away: "2C", kickoffUTC: "2026-06-29 17:00:00" },
+  { matchId: 77,  home: "2E", away: "2I", kickoffUTC: "2026-06-30 21:00:00" },
+  { matchId: 78,  home: "1I", away: "3CDFGH", kickoffUTC: "2026-06-30 18:00:00" },
+  { matchId: 79,  home: "1A", away: "3CEFHI", kickoffUTC: "2026-07-01 01:00:00" },
+  { matchId: 80,  home: "1L", away: "3EHIJK", kickoffUTC: "2026-07-01 16:00:00" },
+  { matchId: 81,  home: "1G", away: "3AEHIJ", kickoffUTC: "2026-07-02 00:00:00" },
+  { matchId: 82,  home: "1D", away: "3BEFIJ", kickoffUTC: "2026-07-01 20:00:00" },
+  { matchId: 83,  home: "1H", away: "2J", kickoffUTC: "2026-07-02 23:00:00" },
+  { matchId: 84,  home: "2K", away: "2L", kickoffUTC: "2026-07-02 19:00:00" },
+  { matchId: 85,  home: "2B", away: "3EFGIJ", kickoffUTC: "2026-07-03 03:00:00" },
+  { matchId: 86,  home: "2D", away: "2G", kickoffUTC: "2026-07-03 22:00:00" },
+  { matchId: 87,  home: "1J", away: "2H", kickoffUTC: "2026-07-04 01:30:00" },
+  { matchId: 88,  home: "1K", away: "3DEIJL", kickoffUTC: "2026-07-03 18:00:00" },
 ];
 
 // ── Quarter Finals (Matches 89-96) ───────────────────────────
 // UPDATE AFTER ROUND OF 16 ENDS (July 4-5)
 const QUARTER_FINAL_FIXTURES = [
-  { matchId: 89,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-04 17:00:00" },
-  { matchId: 90,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-04 21:00:00" },
-  { matchId: 91,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-05 20:00:00" },
-  { matchId: 92,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-06 00:00:00" },
-  { matchId: 93,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-06 19:00:00" },
-  { matchId: 94,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-07 00:00:00" },
-  { matchId: 95,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-07 16:00:00" },
-  { matchId: 96,  home: "TBD", away: "TBD", kickoffUTC: "2026-07-07 20:00:00" },
+  { matchId: 89,  home: "W73", away: "W75", kickoffUTC: "2026-07-04 17:00:00" },
+  { matchId: 90,  home: "W74", away: "W77", kickoffUTC: "2026-07-04 21:00:00" },
+  { matchId: 91,  home: "W76", away: "W78", kickoffUTC: "2026-07-05 20:00:00" },
+  { matchId: 92,  home: "W79", away: "W80", kickoffUTC: "2026-07-06 00:00:00" },
+  { matchId: 93,  home: "W83", away: "W84", kickoffUTC: "2026-07-06 19:00:00" },
+  { matchId: 94,  home: "W81", away: "W82", kickoffUTC: "2026-07-07 00:00:00" },
+  { matchId: 95,  home: "W86", away: "W88", kickoffUTC: "2026-07-07 16:00:00" },
+  { matchId: 96,  home: "W85", away: "W87", kickoffUTC: "2026-07-07 20:00:00" },
 ];
 
 // ── All hardcoded fixtures combined ──────────────────────────
