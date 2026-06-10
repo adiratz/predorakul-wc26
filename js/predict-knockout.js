@@ -1,68 +1,49 @@
 // ============================================================
 // PREDICT-KNOCKOUT.JS
-// Overrides buildPredictionForm() for knockout matches (ID > 72)
-// Key difference from group stage:
-//   - No Draw option in winner selector
-//   - AET fields appear automatically when 90 min score is level
-//   - Pens fields appear automatically when AET score is still level
-//   - AET (Y/N) and Pens (Y/N) are derived and written automatically
-//   - No Y/N toggles shown to the player
+// Knockout prediction form and save logic (matches ID > 72)
 //
-// Load AFTER app.js and predict.html scripts.
-// Group stage logic in predict.html is completely untouched.
+// HOW IT HOOKS IN (no function redeclaration):
+//   predict.html's toggleMatch calls koBuildPredictionForm()
+//   predict.html's savePrediction calls koSavePrediction()
+//   Both are plain named functions — no override tricks needed
 // ============================================================
 
-// ── Override buildPredictionForm for knockout matches ─────────
-// predict.html calls buildPredictionForm(matchId, home, away, squad, pred, locked, isKnockout)
-// When isKnockout is true this file's version takes over
-
-const _originalBuildPredictionForm = buildPredictionForm;
-
-const buildPredictionForm = function(matchId, home, away, squad, pred, locked, isKnockout) {
-  if (!isKnockout) {
-    return _originalBuildPredictionForm(matchId, home, away, squad, pred, locked, false);
-  }
-
-  // ── Knockout form ─────────────────────────────────────────
+// ── Knockout prediction form ──────────────────────────────────
+function koBuildPredictionForm(matchId, home, away, squad, pred, locked) {
   const homePlayers = squad?.home?.players || [];
   const awayPlayers = squad?.away?.players || [];
   const dis = locked ? 'disabled' : '';
 
-  const homeScore   = pred.homeScore   !== undefined && pred.homeScore   !== '' ? pred.homeScore   : '';
-  const awayScore   = pred.awayScore   !== undefined && pred.awayScore   !== '' ? pred.awayScore   : '';
-  const winner      = pred.winner || '';
-  const homeScoreAET = pred.homeScoreAET !== undefined && pred.homeScoreAET !== '' ? pred.homeScoreAET : '';
-  const awayScoreAET = pred.awayScoreAET !== undefined && pred.awayScoreAET !== '' ? pred.awayScoreAET : '';
+  const homeScore     = pred.homeScore     !== undefined && pred.homeScore     !== '' ? pred.homeScore     : '';
+  const awayScore     = pred.awayScore     !== undefined && pred.awayScore     !== '' ? pred.awayScore     : '';
+  const winner        = pred.winner || '';
+  const homeScoreAET  = pred.homeScoreAET  !== undefined && pred.homeScoreAET  !== '' ? pred.homeScoreAET  : '';
+  const awayScoreAET  = pred.awayScoreAET  !== undefined && pred.awayScoreAET  !== '' ? pred.awayScoreAET  : '';
   const homePensScore = pred.homePensScore !== undefined && pred.homePensScore !== '' ? pred.homePensScore : '';
   const awayPensScore = pred.awayPensScore !== undefined && pred.awayPensScore !== '' ? pred.awayPensScore : '';
 
-  // Derive AET and Pens visibility from existing saved predictions
   const aetVisible  = ko_isLevelScore(homeScore, awayScore);
   const pensVisible = aetVisible && ko_isLevelScore(homeScoreAET, awayScoreAET) &&
                       homeScoreAET !== '' && awayScoreAET !== '';
 
-  // ── Section: Winner (who goes through overall) ────────────
   const winnerHtml = `
     <div class="pred-section">
       <div class="pred-section-title">Who goes through?</div>
       <p style="font-size:0.78rem;color:var(--text3);margin-bottom:10px;margin-top:-4px;">
-        Pick the team that advances — regardless of whether it takes 90 mins, extra time or penalties.
+        Pick the team that advances overall — 90 mins, extra time or penalties.
       </p>
       <div class="winner-selector" style="grid-template-columns:1fr 1fr;">
         <input type="radio" class="winner-option" name="winner-${matchId}"
           id="w-home-${matchId}" value="${escHtml(home)}"
-          ${winner === home ? 'checked' : ''} ${dis}
-          onchange="ko_onWinnerChange(${matchId})">
+          ${winner === home ? 'checked' : ''} ${dis}>
         <label for="w-home-${matchId}">${escHtml(home)}</label>
         <input type="radio" class="winner-option" name="winner-${matchId}"
           id="w-away-${matchId}" value="${escHtml(away)}"
-          ${winner === away ? 'checked' : ''} ${dis}
-          onchange="ko_onWinnerChange(${matchId})">
+          ${winner === away ? 'checked' : ''} ${dis}>
         <label for="w-away-${matchId}">${escHtml(away)}</label>
       </div>
     </div>`;
 
-  // ── Section: 90 min scoreline ─────────────────────────────
   const scoreHtml = `
     <div class="pred-section">
       <div class="pred-section-title">Scoreline at 90 mins</div>
@@ -83,7 +64,6 @@ const buildPredictionForm = function(matchId, home, away, squad, pred, locked, i
       </div>
     </div>`;
 
-  // ── Section: 90 min goalscorers ───────────────────────────
   const goalscorerHtml = `
     <div class="pred-section">
       <div class="pred-section-title">Goalscorers at 90 mins</div>
@@ -103,15 +83,13 @@ const buildPredictionForm = function(matchId, home, away, squad, pred, locked, i
       </div>
     </div>`;
 
-  // ── Section: AET (auto-shown when 90 min score is level) ──
   const aetHtml = `
-    <div class="pred-section pred-section--aet${aetVisible ? '' : ' hidden'}"
-         id="ko-aet-section-${matchId}">
+    <div class="pred-section${aetVisible ? '' : ' hidden'}" id="ko-aet-section-${matchId}">
       <div class="pred-section-title pred-section-title--aet">
         ⏱ Extra Time — Score at 120 mins (cumulative)
       </div>
       <p style="font-size:0.78rem;color:var(--text3);margin-bottom:8px;margin-top:-4px;">
-        If the game is still level at 120 mins you predict it goes to penalties.
+        Enter the cumulative score at 120 mins. A still-level score means penalties.
       </p>
       <div class="score-inputs">
         <input type="number" class="form-input score-input" id="haet-${matchId}"
@@ -141,15 +119,13 @@ const buildPredictionForm = function(matchId, home, away, squad, pred, locked, i
       </div>
     </div>`;
 
-  // ── Section: Penalties (auto-shown when AET score is level) ──
   const pensHtml = `
-    <div class="pred-section pred-section--pens${pensVisible ? '' : ' hidden'}"
-         id="ko-pens-section-${matchId}">
+    <div class="pred-section${pensVisible ? '' : ' hidden'}" id="ko-pens-section-${matchId}">
       <div class="pred-section-title pred-section-title--pens">
         🥅 Penalty Shootout Score
       </div>
       <p style="font-size:0.78rem;color:var(--text3);margin-bottom:8px;margin-top:-4px;">
-        Shootout score only, e.g. 5-4.
+        Shootout score only (e.g. 5-4). Must favour your predicted winner.
       </p>
       <div class="score-inputs">
         <input type="number" class="form-input score-input" id="hpens-${matchId}"
@@ -163,14 +139,13 @@ const buildPredictionForm = function(matchId, home, away, squad, pred, locked, i
       </div>
     </div>`;
 
-  // ── Save bar ──────────────────────────────────────────────
   const saveBar = locked ? `
     <div class="match-save-bar">
       <span class="save-status" style="color:var(--red)">🔒 Match locked — no more changes allowed</span>
     </div>` : `
     <div class="match-save-bar">
       <span class="save-status" id="status-${matchId}"></span>
-      <button class="btn btn--primary" onclick="savePrediction(${matchId})">
+      <button class="btn btn--primary" onclick="koSavePrediction(${matchId})">
         Save Prediction
       </button>
     </div>`;
@@ -178,14 +153,12 @@ const buildPredictionForm = function(matchId, home, away, squad, pred, locked, i
   return winnerHtml + scoreHtml + goalscorerHtml + aetHtml + pensHtml + saveBar;
 }
 
-// ── Knockout: AET goalscorer slots ────────────────────────────
-// Shows slots for goals scored specifically in ET
-// (AET cumulative score minus 90 min score = ET goals per team)
+// ── AET goalscorer slots ──────────────────────────────────────
 function ko_buildAETSlots(matchId, side, homeAET, awayAET, home90, away90, players, existing, locked) {
-  const aetHome = parseInt(homeAET) || 0;
-  const aetAway = parseInt(awayAET) || 0;
-  const reg90Home = parseInt(home90) || 0;
-  const reg90Away = parseInt(away90) || 0;
+  const aetHome   = parseInt(homeAET)  || 0;
+  const aetAway   = parseInt(awayAET)  || 0;
+  const reg90Home = parseInt(home90)   || 0;
+  const reg90Away = parseInt(away90)   || 0;
 
   const count = side === 'home'
     ? Math.max(0, aetHome - reg90Home)
@@ -208,19 +181,16 @@ function ko_buildAETSlots(matchId, side, homeAET, awayAET, home90, away90, playe
         </select>
       </div>`;
   }
-
-  // Restore existing values after render
   setTimeout(() => {
     for (let i = 0; i < count && i < 4; i++) {
       const el = document.getElementById(`${side}-aet-scorer-${matchId}-${i}`);
       if (el && existing[i]) el.value = existing[i];
     }
   }, 0);
-
   return html;
 }
 
-// ── Knockout: derive AET/Pens from scores ─────────────────────
+// ── Helpers ───────────────────────────────────────────────────
 function ko_isLevelScore(hs, as) {
   if (hs === '' || as === '' || hs === undefined || as === undefined) return false;
   const h = parseInt(hs);
@@ -242,57 +212,50 @@ function ko_derivePens(matchId) {
   return ko_isLevelScore(haet, aaet) ? 'Y' : 'N';
 }
 
-// ── Knockout: score change handler ───────────────────────────
+// ── Score change handlers ─────────────────────────────────────
 function ko_onScoreChange(matchId) {
   const hs = document.getElementById(`hs-${matchId}`)?.value || '';
   const as = document.getElementById(`as-${matchId}`)?.value || '';
   const fixture = allFixtures.find(f => f.matchId == matchId);
-  const locked = fixture ? isLocked(fixture.kickoffUTC) : true;
+  const locked  = fixture ? isLocked(fixture.kickoffUTC) : true;
   const homePlayers = getPlayersForMatch(matchId, 'home');
   const awayPlayers = getPlayersForMatch(matchId, 'away');
 
-  // Rebuild 90 min goalscorer slots
   const homeSlots = document.getElementById(`home-slots-${matchId}`);
   const awaySlots = document.getElementById(`away-slots-${matchId}`);
   if (homeSlots) homeSlots.innerHTML = buildGoalscorerSlots(matchId, 'home', hs, homePlayers, [], locked);
   if (awaySlots) awaySlots.innerHTML = buildGoalscorerSlots(matchId, 'away', as, awayPlayers, [], locked);
 
-  // Show/hide AET section based on level score
   const aetSection = document.getElementById(`ko-aet-section-${matchId}`);
   if (aetSection) {
     const isLevel = ko_isLevelScore(hs, as);
     aetSection.classList.toggle('hidden', !isLevel);
     if (!isLevel) {
-      // Clear AET values when score is no longer level
       const haet = document.getElementById(`haet-${matchId}`);
       const aaet = document.getElementById(`aaet-${matchId}`);
       if (haet) haet.value = '';
       if (aaet) aaet.value = '';
-      // Hide pens too
       const pensSection = document.getElementById(`ko-pens-section-${matchId}`);
       if (pensSection) pensSection.classList.add('hidden');
     }
   }
 }
 
-// ── Knockout: AET score change handler ───────────────────────
 function ko_onAETScoreChange(matchId) {
   const haet = document.getElementById(`haet-${matchId}`)?.value || '';
   const aaet = document.getElementById(`aaet-${matchId}`)?.value || '';
-  const hs = document.getElementById(`hs-${matchId}`)?.value || '0';
-  const as = document.getElementById(`as-${matchId}`)?.value || '0';
+  const hs   = document.getElementById(`hs-${matchId}`)?.value || '0';
+  const as   = document.getElementById(`as-${matchId}`)?.value || '0';
   const fixture = allFixtures.find(f => f.matchId == matchId);
-  const locked = fixture ? isLocked(fixture.kickoffUTC) : true;
+  const locked  = fixture ? isLocked(fixture.kickoffUTC) : true;
   const homePlayers = getPlayersForMatch(matchId, 'home');
   const awayPlayers = getPlayersForMatch(matchId, 'away');
 
-  // Rebuild AET goalscorer slots
   const homeAETSlots = document.getElementById(`home-aet-slots-${matchId}`);
   const awayAETSlots = document.getElementById(`away-aet-slots-${matchId}`);
   if (homeAETSlots) homeAETSlots.innerHTML = ko_buildAETSlots(matchId, 'home', haet, aaet, hs, as, homePlayers, [], locked);
   if (awayAETSlots) awayAETSlots.innerHTML = ko_buildAETSlots(matchId, 'away', haet, aaet, hs, as, awayPlayers, [], locked);
 
-  // Show/hide pens based on level AET score
   const pensSection = document.getElementById(`ko-pens-section-${matchId}`);
   if (pensSection) {
     const goesPens = ko_isLevelScore(haet, aaet) && haet !== '' && aaet !== '';
@@ -306,33 +269,15 @@ function ko_onAETScoreChange(matchId) {
   }
 }
 
-// ── Knockout: winner change handler ──────────────────────────
-function ko_onWinnerChange(matchId) {
-  // No UI changes needed — winner selection is independent
-  // Just clear status message
-  const statusEl = document.getElementById(`status-${matchId}`);
-  if (statusEl) statusEl.textContent = '';
-}
-
-// ── Override savePrediction for knockout matches ──────────────
-// Wraps the original savePrediction to auto-derive AET/Pens
-const _originalSavePrediction = savePrediction;
-
-const savePrediction = function(matchId) {
+// ── Knockout save prediction ──────────────────────────────────
+function koSavePrediction(matchId) {
   const fixture = allFixtures.find(f => f.matchId == matchId);
-  const isKnockout = matchId > 72;
 
-  if (!isKnockout) {
-    return _originalSavePrediction(matchId);
-  }
-
-  // ── Knockout save flow ────────────────────────────────────
   if (fixture && isLocked(fixture.kickoffUTC)) {
     showToast('Match has kicked off — no changes allowed', 'error');
     return;
   }
 
-  // Gather winner
   const winnerRadios = document.querySelectorAll(`input[name="winner-${matchId}"]`);
   let winner = '';
   winnerRadios.forEach(r => { if (r.checked) winner = r.value; });
@@ -342,9 +287,13 @@ const savePrediction = function(matchId) {
     return;
   }
 
-  // Gather 90 min scores
   const homeScore = document.getElementById(`hs-${matchId}`)?.value || '';
   const awayScore = document.getElementById(`as-${matchId}`)?.value || '';
+
+  if (homeScore === '' || awayScore === '') {
+    showToast('Please enter a scoreline', 'error');
+    return;
+  }
 
   // Gather 90 min goalscorers
   const homeScoreNum = parseInt(homeScore) || 0;
@@ -360,11 +309,22 @@ const savePrediction = function(matchId) {
     awayGoalscorers.push(el ? el.value : '');
   }
 
-  // Derive AET and Pens from scorelines
-  const aet = ko_deriveAET(matchId);
+  // Goalscorer completeness check
+  const filledHome = homeGoalscorers.filter(s => s !== '').length;
+  const filledAway = awayGoalscorers.filter(s => s !== '').length;
+  if (filledHome < homeScoreNum) {
+    showToast(`Please select all ${homeScoreNum} ${escHtml(fixture.home)} goalscorer${homeScoreNum > 1 ? 's' : ''}`, 'error');
+    return;
+  }
+  if (filledAway < awayScoreNum) {
+    showToast(`Please select all ${awayScoreNum} ${escHtml(fixture.away)} goalscorer${awayScoreNum > 1 ? 's' : ''}`, 'error');
+    return;
+  }
+
+  // Derive AET and Pens
+  const aet  = ko_deriveAET(matchId);
   const pens = ko_derivePens(matchId);
 
-  // Gather AET fields
   let homeScoreAET = '', awayScoreAET = '';
   let homeGoalscorersAET = [], awayGoalscorersAET = [];
   let homePensScore = '', awayPensScore = '';
@@ -375,7 +335,6 @@ const savePrediction = function(matchId) {
 
     const homeAETCount = Math.max(0, (parseInt(homeScoreAET) || 0) - homeScoreNum);
     const awayAETCount = Math.max(0, (parseInt(awayScoreAET) || 0) - awayScoreNum);
-
     for (let i = 0; i < homeAETCount && i < 4; i++) {
       const el = document.getElementById(`home-aet-scorer-${matchId}-${i}`);
       homeGoalscorersAET.push(el ? el.value : '');
@@ -391,39 +350,14 @@ const savePrediction = function(matchId) {
     }
   }
 
-  // Validation
-  if (homeScore === '' || awayScore === '') {
-    showToast('Please enter a scoreline', 'error');
-    return;
-  }
-
-  // Goalscorers must match predicted score
-  const expectedHome = parseInt(homeScore) || 0;
-  const expectedAway = parseInt(awayScore) || 0;
-  const filledHome = homeGoalscorers.filter(s => s !== '').length;
-  const filledAway = awayGoalscorers.filter(s => s !== '').length;
-
-  if (filledHome < expectedHome) {
-    showToast(`Please select all ${expectedHome} ${escHtml(fixture.home)} goalscorer${expectedHome > 1 ? 's' : ''}`, 'error');
-    return;
-  }
-  if (filledAway < expectedAway) {
-    showToast(`Please select all ${expectedAway} ${escHtml(fixture.away)} goalscorer${expectedAway > 1 ? 's' : ''}`, 'error');
-    return;
-  }
-
-  // Penalty score validation — check directly if fields are filled
+  // Penalty score validation
   if (homePensScore !== '' && awayPensScore !== '') {
     const hp = parseInt(homePensScore);
     const ap = parseInt(awayPensScore);
-
-    // Scores must be different — draws impossible in shootout
     if (hp === ap) {
       showToast('Penalty shootout cannot end level — one team must win', 'error');
       return;
     }
-
-    // Winning team in shootout must match overall winner
     if (fixture) {
       const homeWins = hp > ap;
       if (winner === fixture.home && !homeWins) {
@@ -446,37 +380,27 @@ const savePrediction = function(matchId) {
     prediction: {
       winner, homeScore, awayScore,
       homeGoalscorers, awayGoalscorers,
-      aet,                  // auto-derived: 'Y' if level score, 'N' otherwise
-      homeScoreAET, awayScoreAET,
+      aet, homeScoreAET, awayScoreAET,
       homeGoalscorersAET, awayGoalscorersAET,
-      pens,                 // auto-derived: 'Y' if AET also level, 'N' otherwise
-      homePensScore, awayPensScore
+      pens, homePensScore, awayPensScore
     }
   }).then(res => {
     if (res.success) {
       showToast('Prediction saved! ⚽', 'success');
       if (statusEl) { statusEl.textContent = '✓ Saved'; statusEl.className = 'save-status save-status--success'; }
-
-      // Update local cache
       allPredictions[matchId] = {
         winner, homeScore, awayScore, homeGoalscorers, awayGoalscorers,
         aet, homeScoreAET, awayScoreAET,
         homeGoalscorersAET, awayGoalscorersAET,
         pens, homePensScore, awayPensScore
       };
-
-      // Update card visual
       const card = document.getElementById(`match-${matchId}`);
       if (card) card.classList.add('match-card--saved');
       const badge = card?.querySelector('.match-status');
       if (badge) { badge.textContent = '✓ Saved'; badge.className = 'match-status match-status--saved'; }
-
     } else {
-      if (res.locked) {
-        showToast('Match has kicked off — no changes allowed', 'error');
-      } else {
-        showToast(res.error || 'Failed to save', 'error');
-      }
+      if (res.locked) showToast('Match has kicked off — no changes allowed', 'error');
+      else showToast(res.error || 'Failed to save', 'error');
       if (statusEl) { statusEl.textContent = '✗ Error'; statusEl.className = 'save-status save-status--error'; }
     }
   }).catch(() => {
