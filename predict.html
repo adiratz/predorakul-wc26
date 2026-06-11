@@ -712,6 +712,13 @@ async function savePrediction(matchId) {
     return;
   }
 
+   // Both scores must be filled
+  if (homeScore === '' || homeScore === null || homeScore === undefined ||
+      awayScore === '' || awayScore === null || awayScore === undefined) {
+    showToast('Please enter a score for both teams', 'error');
+    return;
+  }
+
   // Scoreline must be consistent with outcome
   if (homeScore !== '' && awayScore !== '') {
     const hs = parseInt(homeScore);
