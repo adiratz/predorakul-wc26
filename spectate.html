@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PredOrakul — Live Standings</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Spectator-specific styles ── */
+    .spec-hero {
+      text-align: center;
+      padding: 32px 20px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .spec-hero h1 {
+      font-size: 2rem;
+      margin-bottom: 4px;
+    }
+
+    .spec-hero p {
+      color: var(--text2);
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    .spec-badge {
+      display: inline-block;
+      background: rgba(245,200,66,0.1);
+      border: 1px solid rgba(245,200,66,0.3);
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Tab switcher ── */
+    .spec-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 28px;
+      background: var(--surface);
+      padding: 4px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+
+    .spec-tab {
+      padding: 9px 24px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      transition: all var(--transition);
+    }
+
+    .spec-tab.active {
+      background: var(--gold);
+      color: #0a0e1a;
+    }
+
+    .spec-tab:hover:not(.active) {
+      color: var(--text);
+      background: var(--surface2);
+    }
+
+    /* ── Leaderboard ── */
+    .spec-podium {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding: 0 20px;
+    }
+
+    .spec-podium-item {
+      flex: 1;
+      max-width: 160px;
+      text-align: center;
+    }
+
+    .spec-podium-item.first { order: 2; }
+    .spec-podium-item.second { order: 1; }
+    .spec-podium-item.third { order: 3; }
+
+    .spec-podium-block {
+      border-radius: var(--radius2) var(--radius2) 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 16px 8px 12px;
+    }
+
+    .first .spec-podium-block {
+      background: linear-gradient(180deg, rgba(245,200,66,0.2) 0%, rgba(245,200,66,0.05) 100%);
+      border: 1px solid rgba(245,200,66,0.4);
+      min-height: 120px;
+    }
+
+    .second .spec-podium-block {
+      background: linear-gradient(180deg, rgba(148,163,184,0.15) 0%, rgba(148,163,184,0.05) 100%);
+      border: 1px solid rgba(148,163,184,0.3);
+      min-height: 95px;
+    }
+
+    .third .spec-podium-block {
+      background: linear-gradient(180deg, rgba(180,130,70,0.15) 0%, rgba(180,130,70,0.05) 100%);
+      border: 1px solid rgba(180,130,70,0.3);
+      min-height: 75px;
+    }
+
+    .spec-podium-medal {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .spec-podium-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .spec-podium-pts {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 0.05em;
+    }
+
+    .first .spec-podium-pts { color: var(--gold); }
+    .second .spec-podium-pts { color: #94a3b8; }
+    .third .spec-podium-pts { color: #b48246; }
+
+    .spec-podium-rank {
+      font-size: 0.7rem;
+      color: var(--text3);
+      margin-top: 4px;
+    }
+
+    /* ── Full standings table ── */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .spec-table th {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      white-space: nowrap;
+    }
+
+    .spec-table th.right { text-align: right; }
+
+    .spec-table td {
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .spec-table tr:last-child td { border-bottom: none; }
+    .spec-table tr:hover td { background: var(--surface2); }
+
+    .spec-rank {
+      font-weight: 700;
+      color: var(--text3);
+      font-size: 0.85rem;
+      width: 36px;
+    }
+
+    .spec-rank.top3 { color: var(--gold); }
+
+    .spec-name {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .spec-pts {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .spec-bar-wrap {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .spec-bar-bg {
+      background: var(--surface2);
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .spec-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--gold), #f0a020);
+      transition: width 0.6s ease;
+    }
+
+    /* ── Match Centre (reused from match.html) ── */
+    .mc-filter {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      background: var(--surface);
+      padding: 4px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+
+    .mc-filter-btn {
+      padding: 7px 18px;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      transition: all var(--transition);
+    }
+
+    .mc-filter-btn.active { background: var(--gold); color: #0a0e1a; }
+    .mc-filter-btn:hover:not(.active) { color: var(--text); background: var(--surface2); }
+
+    .mc-day { margin-bottom: 32px; }
+
+    .mc-day-label {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      color: var(--text2);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mc-day-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .mc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .mc-match-header {
+      background: var(--bg2);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .mc-match-header:hover { background: var(--bg3); }
+
+    .mc-match-id {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text3);
+      background: var(--surface);
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .mc-match-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      color: var(--text);
+    }
+
+    .mc-match-title .vs { color: var(--text3); font-size: 0.8rem; margin: 0 6px; }
+    .mc-chevron { color: var(--text3); transition: transform var(--transition); flex-shrink: 0; }
+    .mc-card.expanded .mc-chevron { transform: rotate(180deg); }
+
+    .mc-result-block {
+      background: linear-gradient(135deg, rgba(245,200,66,0.06) 0%, rgba(245,200,66,0.02) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+    }
+
+    .mc-result-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .mc-result-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .mc-result-winner { font-family: var(--font-display); font-size: 1.3rem; color: var(--gold); }
+    .mc-result-score {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text);
+      background: var(--surface2);
+      padding: 4px 12px;
+      border-radius: var(--radius);
+    }
+    .mc-result-arrow { color: var(--text3); font-size: 0.8rem; }
+    .mc-result-aet { font-size: 0.82rem; color: var(--blue); }
+    .mc-result-pens { font-size: 0.82rem; color: var(--platinum); }
+    .mc-result-scorers { margin-top: 8px; font-size: 0.8rem; color: var(--text2); }
+    .mc-result-scorers span { color: var(--text3); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 6px; }
+    .mc-awaiting { padding: 12px 20px; font-size: 0.82rem; color: var(--text3); font-style: italic; }
+
+    .mc-body { display: none; }
+    .mc-card.expanded .mc-body { display: block; }
+
+    .mc-table { width: 100%; border-collapse: collapse; }
+    .mc-table th {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text3);
+      padding: 10px 16px; text-align: left;
+      border-bottom: 1px solid var(--border); background: var(--bg2);
+      white-space: nowrap;
+    }
+    .mc-table th.right { text-align: right; }
+    .mc-table th.center { text-align: center; }
+    .mc-table td {
+      padding: 12px 16px; font-size: 0.88rem;
+      border-bottom: 1px solid var(--border); vertical-align: top;
+    }
+    .mc-table tr:last-child td { border-bottom: none; }
+    .mc-table tr:hover td { background: var(--surface2); }
+
+    .mc-player-name { font-weight: 600; color: var(--text); white-space: nowrap; }
+    .mc-pred-winner { font-weight: 600; color: var(--text); }
+    .mc-pred-winner.correct { color: var(--green); }
+    .mc-pred-winner.incorrect { color: var(--red); }
+    .mc-pred-score { font-family: var(--font-display); font-size: 1rem; color: var(--text); }
+    .mc-pred-score.correct { color: var(--green); }
+    .mc-pred-scorers { font-size: 0.78rem; color: var(--text2); line-height: 1.5; max-width: 200px; }
+    .mc-pred-aet { font-size: 0.8rem; color: var(--blue); }
+    .mc-pred-aet.correct { color: var(--green); }
+    .mc-pred-pens { font-size: 0.8rem; color: var(--platinum); }
+    .mc-pts-label { display: block; font-size: 0.65rem; color: var(--green); margin-top: 2px; font-weight: 600; }
+    .mc-empty { color: var(--text3); font-style: italic; }
+    .mc-pts { font-weight: 700; font-size: 1rem; text-align: right; white-space: nowrap; }
+    .mc-pts-pos { color: var(--green); }
+    .mc-pts-zero { color: var(--text3); }
+    .mc-pts-pending { color: var(--text3); font-style: italic; font-size: 0.78rem; font-weight: 400; }
+    .mc-pp-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 3px; vertical-align: middle; }
+    .mc-pp-silver { background: rgba(170,180,190,0.2); color: #aab4be; }
+    .mc-pp-golden { background: rgba(245,200,66,0.15); color: var(--gold); }
+    .mc-pp-platinum { background: rgba(0,229,255,0.15); color: var(--platinum); }
+    .mc-no-matches { text-align: center; padding: 60px 20px; color: var(--text3); }
+    .mc-no-matches h3 { color: var(--text2); margin-bottom: 8px; }
+
+    @media (max-width: 640px) {
+      .mc-table th.hide-mobile, .mc-table td.hide-mobile { display: none; }
+      .spec-podium { gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav__inner">
+    <div class="nav__brand">
+      <span class="nav__title">FPL WC26</span>
+      <span class="nav__tagline">Become a Predorakul</span>
+    </div>
+    <div class="nav__links">
+      <a href="#" class="nav__link active" onclick="showTab('leaderboard', this); return false;">Leaderboard</a>
+      <a href="#" class="nav__link" onclick="showTab('matches', this); return false;">Match Centre</a>
+    </div>
+    <div style="font-size:0.78rem; color:var(--text3);">👁 Spectator View</div>
+  </div>
+</nav>
+
+<main class="container--wide" style="padding-top:28px; padding-bottom:40px;">
+
+  <!-- Hero -->
+  <div class="spec-hero">
+    <div class="spec-badge">⚽ FIFA World Cup 2026</div>
+    <h1>PRED<em>ORAKUL</em></h1>
+    <p>Fantasy Prediction League — Live Standings</p>
+  </div>
+
+  <!-- Tab switcher -->
+  <div class="spec-tabs">
+    <button class="spec-tab active" id="tab-leaderboard" onclick="showTab('leaderboard', this)">🏆 Leaderboard</button>
+    <button class="spec-tab" id="tab-matches" onclick="showTab('matches', this)">📊 Match Centre</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    Loading live standings...
+  </div>
+
+  <!-- Leaderboard view -->
+  <div id="view-leaderboard" style="display:none;">
+    <div id="podium-section"></div>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); overflow:hidden;">
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th style="width:48px;">#</th>
+            <th>Player</th>
+            <th class="hide-mobile">Progress</th>
+            <th class="right">Points</th>
+          </tr>
+        </thead>
+        <tbody id="standings-body"></tbody>
+      </table>
+    </div>
+    <p style="text-align:center; color:var(--text3); font-size:0.78rem; margin-top:16px;">
+      Updates after each matchday. Predictions locked at kickoff.
+    </p>
+  </div>
+
+  <!-- Match Centre view -->
+  <div id="view-matches" style="display:none;">
+    <div class="mc-filter">
+      <button class="mc-filter-btn active" onclick="setMcFilter('all', this)">All Matches</button>
+      <button class="mc-filter-btn" onclick="setMcFilter('scored', this)">Scored</button>
+      <button class="mc-filter-btn" onclick="setMcFilter('pending', this)">Awaiting Result</button>
+    </div>
+    <div id="mc-content"></div>
+  </div>
+
+</main>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script src="js/results-cache.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+// ── State ─────────────────────────────────────────────────────
+let leaderboardData = [];
+let matchData = {};
+let playerList = [];
+let allLockedFixtures = [];
+let mcFilter = 'all';
+let activeTab = 'leaderboard';
+
+// ── Init — no auth required ───────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  // Build mobile nav manually (no auth-dependent links)
+  const mobileNav = document.querySelector('.mobile-nav__links');
+  if (mobileNav) {
+    mobileNav.innerHTML = `
+      <a href="#" onclick="showTab('leaderboard'); return false;" class="mobile-nav__link active" id="mob-tab-leaderboard">
+        <span class="mobile-nav__icon">🏆</span>Leaderboard
+      </a>
+      <a href="#" onclick="showTab('matches'); return false;" class="mobile-nav__link" id="mob-tab-matches">
+        <span class="mobile-nav__icon">📊</span>Match Centre
+      </a>`;
+  }
+
+  await loadAll();
+});
+
+async function loadAll() {
+  try {
+    // Load leaderboard and match data in parallel
+    const [lbRes] = await Promise.all([
+      API.get({ action: 'getLeaderboard' })
+    ]);
+
+    if (lbRes.success) {
+      leaderboardData = lbRes.leaderboard || [];
+    }
+
+    // Get locked fixtures
+    allLockedFixtures = HARDCODED_FIXTURES.filter(f =>
+      new Date() >= new Date(f.kickoffUTC.replace(' ', 'T') + 'Z')
+    );
+
+    try {
+      const dynRes = await API.get({ action: 'getFixtures', dynamicOnly: 'true' });
+      if (dynRes.success && dynRes.fixtures) {
+        const dynLocked = dynRes.fixtures.filter(f =>
+          f.matchId >= DYNAMIC_FROM_MATCH_ID &&
+          new Date() >= new Date(f.kickoffUTC.replace(' ', 'T') + 'Z')
+        );
+        allLockedFixtures = [...allLockedFixtures, ...dynLocked];
+      }
+    } catch(e) {}
+
+    // Load match data (cache first)
+    await loadMatchData(allLockedFixtures);
+
+    document.getElementById('loading').style.display = 'none';
+    renderLeaderboard();
+    renderMatches();
+    showTab('leaderboard');
+
+  } catch(err) {
+    document.getElementById('loading').innerHTML =
+      '<div style="color:var(--red)">Failed to load. Please refresh.</div>';
+  }
+}
+
+async function loadMatchData(fixtures) {
+  const uncachedIds = [];
+  if (typeof RESULTS_CACHE !== 'undefined') {
+    fixtures.forEach(f => {
+      if (RESULTS_CACHE[f.matchId]) {
+        matchData[f.matchId] = RESULTS_CACHE[f.matchId];
+      } else {
+        uncachedIds.push(f.matchId);
+      }
+    });
+  } else {
+    fixtures.forEach(f => uncachedIds.push(f.matchId));
+  }
+
+  if (uncachedIds.length > 0) {
+    try {
+      const res = await API.get({
+        action: 'getMatchPredictions',
+        matchIds: uncachedIds.join(',')
+      });
+      if (res.success) {
+        Object.assign(matchData, res.data);
+        if (res.players && res.players.length > 0) playerList = res.players;
+      }
+    } catch(e) {}
+  }
+
+  if (playerList.length === 0) {
+    const first = Object.values(matchData)[0];
+    if (first && first.players) playerList = Object.keys(first.players);
+  }
+}
+
+// ── Tab switching ─────────────────────────────────────────────
+function showTab(tab, btn) {
+  activeTab = tab;
+  document.getElementById('view-leaderboard').style.display = tab === 'leaderboard' ? 'block' : 'none';
+  document.getElementById('view-matches').style.display    = tab === 'matches'     ? 'block' : 'none';
+
+  document.querySelectorAll('.spec-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav__link').forEach(b => b.classList.remove('active'));
+
+  const tabBtn = btn || document.getElementById(`tab-${tab}`);
+  if (tabBtn) tabBtn.classList.add('active');
+
+  // Mobile nav
+  document.querySelectorAll('.mobile-nav__link').forEach(b => b.classList.remove('active'));
+  const mobBtn = document.getElementById(`mob-tab-${tab}`);
+  if (mobBtn) mobBtn.classList.add('active');
+}
+
+// ── Render leaderboard ────────────────────────────────────────
+function renderLeaderboard() {
+  if (!leaderboardData.length) {
+    document.getElementById('podium-section').innerHTML = '';
+    document.getElementById('standings-body').innerHTML =
+      '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:32px;">No standings yet — check back after the first matchday.</td></tr>';
+    return;
+  }
+
+  const sorted = [...leaderboardData].sort((a, b) => {
+    const pa = Number(a['Total pts'] || a['total_pts'] || a[Object.keys(a)[2]] || 0);
+    const pb = Number(b['Total pts'] || b['total_pts'] || b[Object.keys(b)[2]] || 0);
+    return pb - pa;
+  });
+
+  const maxPts = Number(sorted[0]['Total pts'] || sorted[0][Object.keys(sorted[0])[2]] || 1);
+
+  // Podium (top 3)
+  const medals = ['🥇', '🥈', '🥉'];
+  const podiumClasses = ['first', 'second', 'third'];
+  const podiumItems = sorted.slice(0, 3).map((p, i) => {
+    const name = p['Player'] || p[Object.keys(p)[1]] || '—';
+    const pts  = Number(p['Total pts'] || p[Object.keys(p)[2]] || 0);
+    return { name, pts, medal: medals[i], cls: podiumClasses[i], rank: i+1 };
+  });
+
+  let podiumHtml = '<div class="spec-podium">';
+  podiumItems.forEach(p => {
+    podiumHtml += `
+      <div class="spec-podium-item ${p.cls}">
+        <div class="spec-podium-block">
+          <div class="spec-podium-medal">${p.medal}</div>
+          <div class="spec-podium-name">${escHtml(p.name)}</div>
+          <div class="spec-podium-pts">${p.pts}</div>
+          <div class="spec-podium-rank">#${p.rank}</div>
+        </div>
+      </div>`;
+  });
+  podiumHtml += '</div>';
+  document.getElementById('podium-section').innerHTML = podiumHtml;
+
+  // Full table
+  let tbodyHtml = '';
+  sorted.forEach((p, i) => {
+    const rank = i + 1;
+    const name = p['Player'] || p[Object.keys(p)[1]] || '—';
+    const pts  = Number(p['Total pts'] || p[Object.keys(p)[2]] || 0);
+    const pct  = maxPts > 0 ? Math.round((pts / maxPts) * 100) : 0;
+    const rankClass = rank <= 3 ? 'top3' : '';
+
+    tbodyHtml += `
+      <tr>
+        <td><span class="spec-rank ${rankClass}">${rank}</span></td>
+        <td><span class="spec-name">${escHtml(name)}</span></td>
+        <td class="hide-mobile">
+          <div class="spec-bar-wrap">
+            <div class="spec-bar-bg">
+              <div class="spec-bar-fill" style="width:${pct}%"></div>
+            </div>
+          </div>
+        </td>
+        <td><span class="spec-pts">${pts}</span></td>
+      </tr>`;
+  });
+  document.getElementById('standings-body').innerHTML = tbodyHtml;
+}
+
+// ── Match Centre ──────────────────────────────────────────────
+function setMcFilter(filter, btn) {
+  mcFilter = filter;
+  document.querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMatches();
+}
+
+function renderMatches() {
+  const content = document.getElementById('mc-content');
+
+  let filtered = allLockedFixtures;
+  if (mcFilter === 'scored') {
+    filtered = allLockedFixtures.filter(f => {
+      const d = matchData[f.matchId];
+      return d && d.result && d.result.winner;
+    });
+  } else if (mcFilter === 'pending') {
+    filtered = allLockedFixtures.filter(f => {
+      const d = matchData[f.matchId];
+      return !d || !d.result || !d.result.winner;
+    });
+  }
+
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="mc-no-matches"><h3>${
+      allLockedFixtures.length === 0
+        ? 'No matches locked yet'
+        : 'No matches in this filter'
+    }</h3><p>${
+      allLockedFixtures.length === 0
+        ? 'Match Centre shows predictions after each match kicks off.'
+        : ''
+    }</p></div>`;
+    return;
+  }
+
+  const groups = {};
+  filtered.forEach(f => {
+    const key = formatDate(f.kickoffUTC);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(f);
+  });
+
+  let html = '';
+  Object.entries(groups).forEach(([dateLabel, fixtures]) => {
+    html += `<div class="mc-day"><div class="mc-day-label">${dateLabel}</div>`;
+    fixtures.forEach(f => { html += renderMatchCard(f); });
+    html += '</div>';
+  });
+  content.innerHTML = html;
+}
+
+function renderMatchCard(fixture) {
+  const { matchId, home, away, kickoffUTC } = fixture;
+  const data = matchData[matchId] || { result: null, players: {} };
+  const result = data.result || null;
+  const hasResult = !!(result && result.winner);
+  const isKnockout = matchId > 72;
+  const hasAET  = hasResult && result.aetScore && result.aetScore !== '';
+  const hasPens = hasResult && result.pensScore && result.pensScore !== '';
+
+  let resultHtml = '';
+  if (hasResult) {
+    let scoreLine = `<div class="mc-result-main">
+      <div class="mc-result-winner">${escHtml(result.winner)}</div>
+      <div class="mc-result-score">${escHtml(result.score || '—')}</div>`;
+    if (hasAET)  scoreLine += `<div class="mc-result-arrow">→</div><div class="mc-result-aet">AET ${escHtml(result.aetScore)}</div>`;
+    if (hasPens) scoreLine += `<div class="mc-result-arrow">→</div><div class="mc-result-pens">Pens ${escHtml(result.pensScore)}</div>`;
+    scoreLine += '</div>';
+    let scorersHtml = '';
+    if (result.scorers) scorersHtml += `<div class="mc-result-scorers"><span>90 min</span>${escHtml(result.scorers)}</div>`;
+    if (hasAET && result.etScorers) scorersHtml += `<div class="mc-result-scorers"><span>ET</span>${escHtml(result.etScorers)}</div>`;
+    resultHtml = `<div class="mc-result-block"><div class="mc-result-label">Actual Result</div>${scoreLine}${scorersHtml}</div>`;
+  } else {
+    resultHtml = `<div class="mc-awaiting">⏳ Awaiting result...</div>`;
+  }
+
+  const showAET  = hasAET  || isKnockout;
+  const showPens = hasPens || isKnockout;
+
+  const tableHeaders = `<tr>
+    <th>Player</th><th>Winner</th><th>Score</th>
+    <th class="hide-mobile">Scorers</th>
+    ${showAET  ? '<th class="hide-mobile">AET Score</th>' : ''}
+    ${showAET  ? '<th class="hide-mobile">ET Scorers</th>' : ''}
+    ${showPens ? '<th class="hide-mobile">Pens</th>' : ''}
+    <th class="hide-mobile center">PP</th>
+    <th class="right">Pts</th>
+  </tr>`;
+
+  const players = playerList.length > 0 ? playerList : Object.keys(data.players || {});
+  let playerRows = '';
+
+  players.forEach(pName => {
+    const pred = (data.players && data.players[pName]) || null;
+    const hasPred = pred && pred.winner;
+    const pts = pred ? pred.points : null;
+
+    let winnerCell = '<span class="mc-empty">—</span>';
+    let scoreCell  = '<span class="mc-empty">—</span>';
+    let scorersCell = '<span class="mc-empty">—</span>';
+    let aetCell    = '<span class="mc-empty">—</span>';
+    let etScorersCell = '<span class="mc-empty">—</span>';
+    let pensCell   = '<span class="mc-empty">—</span>';
+    let ppCell     = '<span class="mc-empty">—</span>';
+    let ptsCell    = '<span class="mc-pts-pending">no pick</span>';
+
+    if (hasPred) {
+      let wClass = '';
+      if (hasResult) wClass = pred.winner === result.winner ? 'correct' : 'incorrect';
+      const wPts = hasResult && pred.winner === result.winner ? '<span class="mc-pts-label">+3</span>' : '';
+      winnerCell = `<span class="mc-pred-winner ${wClass}">${escHtml(pred.winner)}</span>${wPts}`;
+
+      let sClass = '', sPts = '';
+      if (hasResult && pred.score && pred.score === result.score) { sClass = 'correct'; sPts = '<span class="mc-pts-label">+5</span>'; }
+      scoreCell = pred.score ? `<span class="mc-pred-score ${sClass}">${escHtml(pred.score)}</span>${sPts}` : '<span class="mc-empty">—</span>';
+
+      let scorersPts = '';
+      if (hasResult && pred.scorers && result.scorers) {
+        const pList = pred.scorers.split(',').map(s=>s.trim().toUpperCase()).filter(s=>s);
+        const rBag  = result.scorers.split(',').map(s=>s.trim().toUpperCase()).filter(s=>s);
+        let m = 0;
+        pList.forEach(p => { const i = rBag.indexOf(p); if (i !== -1) { m++; rBag.splice(i,1); } });
+        if (m > 0) scorersPts = `<span class="mc-pts-label">+${m*2}</span>`;
+      }
+      scorersCell = pred.scorers ? `<div class="mc-pred-scorers">${escHtml(pred.scorers)}</div>${scorersPts}` : '<span class="mc-empty">—</span>';
+
+      if (showAET) {
+        let aC = '', aP = '';
+        if (hasResult && pred.aetScore && pred.aetScore === result.aetScore) { aC = 'correct'; aP = '<span class="mc-pts-label">+3</span>'; }
+        aetCell = pred.aetScore ? `<span class="mc-pred-aet ${aC}">${escHtml(pred.aetScore)}</span>${aP}` : '<span class="mc-empty">—</span>';
+
+        let etP = '';
+        if (hasResult && pred.etScorers && result.etScorers) {
+          const pET = pred.etScorers.split(',').map(s=>s.trim().toUpperCase()).filter(s=>s);
+          const rET = result.etScorers.split(',').map(s=>s.trim().toUpperCase()).filter(s=>s);
+          let m = 0;
+          pET.forEach(p => { const i = rET.indexOf(p); if (i !== -1) { m++; rET.splice(i,1); } });
+          if (m > 0) etP = `<span class="mc-pts-label">+${m}</span>`;
+        }
+        etScorersCell = pred.etScorers ? `<div class="mc-pred-scorers">${escHtml(pred.etScorers)}</div>${etP}` : '<span class="mc-empty">—</span>';
+      }
+
+      if (showPens) {
+        let pP = '';
+        if (hasResult && pred.pensScore && result.pensScore && pred.pensScore === result.pensScore) pP = '<span class="mc-pts-label">+1</span>';
+        pensCell = pred.pensScore ? `<span class="mc-pred-pens">${escHtml(pred.pensScore)}</span>${pP}` : '<span class="mc-empty">—</span>';
+      }
+
+      if (hasResult) {
+        const tier = pred.ppTier || '';
+        if (isKnockout) {
+          if      (tier === 'Silver')   ppCell = `<span class="mc-pp-badge mc-pp-silver">Silver</span><span class="mc-pts-label" style="text-align:center;display:block;">+5</span>`;
+          else if (tier === 'Golden')   ppCell = `<span class="mc-pp-badge mc-pp-golden">Golden</span><span class="mc-pts-label" style="text-align:center;display:block;">+6</span>`;
+          else if (tier === 'Platinum') ppCell = `<span class="mc-pp-badge mc-pp-platinum">Platinum</span><span class="mc-pts-label" style="text-align:center;display:block;">+7</span>`;
+          else ppCell = `<span style="color:var(--text3);">✗</span>`;
+        } else {
+          ppCell = tier === 'Silver'
+            ? `<span style="color:var(--green);">✓</span><span class="mc-pts-label" style="text-align:center;display:block;">+5</span>`
+            : `<span style="color:var(--text3);">✗</span>`;
+        }
+        ptsCell = pts > 0 ? `<span class="mc-pts mc-pts-pos">+${pts}</span>` : `<span class="mc-pts mc-pts-zero">0</span>`;
+      } else {
+        ptsCell = '<span class="mc-pts-pending">pending</span>';
+      }
+    }
+
+    playerRows += `<tr>
+      <td><span class="mc-player-name">${escHtml(pName)}</span></td>
+      <td>${winnerCell}</td>
+      <td>${scoreCell}</td>
+      <td class="hide-mobile">${scorersCell}</td>
+      ${showAET  ? `<td class="hide-mobile">${aetCell}</td>` : ''}
+      ${showAET  ? `<td class="hide-mobile">${etScorersCell}</td>` : ''}
+      ${showPens ? `<td class="hide-mobile">${pensCell}</td>` : ''}
+      <td class="hide-mobile" style="text-align:center;">${ppCell}</td>
+      <td style="text-align:right;">${ptsCell}</td>
+    </tr>`;
+  });
+
+  return `<div class="mc-card" id="spec-card-${matchId}">
+    <div class="mc-match-header" onclick="toggleSpecCard(${matchId})">
+      <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;">
+        <span class="mc-match-id">Match ${matchId}</span>
+        <span class="mc-match-title">${escHtml(home)} <span class="vs">vs</span> ${escHtml(away)}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        ${hasResult
+          ? `<span style="font-size:0.82rem;color:var(--gold);font-weight:600;">${escHtml(result.winner)} ${escHtml(result.score)}</span>`
+          : `<span style="font-size:0.78rem;color:var(--text3);">Awaiting result</span>`}
+        <span style="font-size:0.78rem;color:var(--text3);">${formatKickoffShort(kickoffUTC)}</span>
+        <svg class="mc-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="mc-body" id="spec-body-${matchId}">
+      ${resultHtml}
+      <div style="overflow-x:auto;">
+        <table class="mc-table">
+          <thead>${tableHeaders}</thead>
+          <tbody>${playerRows || '<tr><td colspan="9" style="text-align:center;color:var(--text3);padding:20px;">No prediction data available</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleSpecCard(matchId) {
+  const card = document.getElementById(`spec-card-${matchId}`);
+  const isExpanded = card.classList.contains('expanded');
+  document.querySelectorAll('.mc-card.expanded').forEach(c => {
+    if (c.id !== `spec-card-${matchId}`) c.classList.remove('expanded');
+  });
+  card.classList.toggle('expanded', !isExpanded);
+}
+</script>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav">
+  <div class="mobile-nav__links" id="mobile-nav-links"></div>
+</nav>
+
+</body>
+</html>
