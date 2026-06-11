@@ -6,7 +6,6 @@
   <title>Match Centre — FPL WC26</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* ── Match Centre styles ── */
     .mc-page-intro {
       color: var(--text2);
       font-size: 0.9rem;
@@ -46,10 +45,7 @@
       background: var(--surface2);
     }
 
-    /* ── Day group ── */
-    .mc-day {
-      margin-bottom: 32px;
-    }
+    .mc-day { margin-bottom: 32px; }
 
     .mc-day-label {
       font-family: var(--font-display);
@@ -69,7 +65,6 @@
       background: var(--border);
     }
 
-    /* ── Match card ── */
     .mc-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -78,7 +73,6 @@
       overflow: hidden;
     }
 
-    /* ── Match header ── */
     .mc-match-header {
       background: var(--bg2);
       padding: 12px 20px;
@@ -91,9 +85,7 @@
       user-select: none;
     }
 
-    .mc-match-header:hover {
-      background: var(--bg3);
-    }
+    .mc-match-header:hover { background: var(--bg3); }
 
     .mc-match-id {
       font-size: 0.7rem;
@@ -131,11 +123,8 @@
       flex-shrink: 0;
     }
 
-    .mc-card.expanded .mc-chevron {
-      transform: rotate(180deg);
-    }
+    .mc-card.expanded .mc-chevron { transform: rotate(180deg); }
 
-    /* ── Result block ── */
     .mc-result-block {
       background: linear-gradient(135deg, rgba(245,200,66,0.06) 0%, rgba(245,200,66,0.02) 100%);
       border-bottom: 1px solid var(--border);
@@ -175,20 +164,9 @@
       border-radius: var(--radius);
     }
 
-    .mc-result-arrow {
-      color: var(--text3);
-      font-size: 0.8rem;
-    }
-
-    .mc-result-aet {
-      font-size: 0.82rem;
-      color: var(--blue);
-    }
-
-    .mc-result-pens {
-      font-size: 0.82rem;
-      color: var(--platinum);
-    }
+    .mc-result-arrow { color: var(--text3); font-size: 0.8rem; }
+    .mc-result-aet { font-size: 0.82rem; color: var(--blue); }
+    .mc-result-pens { font-size: 0.82rem; color: var(--platinum); }
 
     .mc-result-scorers {
       margin-top: 8px;
@@ -212,20 +190,10 @@
       font-style: italic;
     }
 
-    /* ── Predictions table ── */
-    .mc-body {
-      display: none;
-      padding: 0;
-    }
+    .mc-body { display: none; padding: 0; }
+    .mc-card.expanded .mc-body { display: block; }
 
-    .mc-card.expanded .mc-body {
-      display: block;
-    }
-
-    .mc-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    .mc-table { width: 100%; border-collapse: collapse; }
 
     .mc-table th {
       font-size: 0.68rem;
@@ -241,6 +209,7 @@
     }
 
     .mc-table th.right { text-align: right; }
+    .mc-table th.center { text-align: center; }
 
     .mc-table td {
       padding: 12px 16px;
@@ -252,21 +221,10 @@
     .mc-table tr:last-child td { border-bottom: none; }
     .mc-table tr:hover td { background: var(--surface2); }
 
-    .mc-player-name {
-      font-weight: 600;
-      color: var(--text);
-      white-space: nowrap;
-    }
+    .mc-player-name { font-weight: 600; color: var(--text); white-space: nowrap; }
+    .mc-player-name.is-me { color: var(--gold); }
 
-    .mc-player-name.is-me {
-      color: var(--gold);
-    }
-
-    .mc-pred-winner {
-      font-weight: 600;
-      color: var(--text);
-    }
-
+    .mc-pred-winner { font-weight: 600; color: var(--text); }
     .mc-pred-winner.correct { color: var(--green); }
     .mc-pred-winner.incorrect { color: var(--red); }
 
@@ -286,30 +244,21 @@
       max-width: 200px;
     }
 
-    .mc-pred-aet {
-      font-size: 0.8rem;
-      color: var(--blue);
-    }
-
+    .mc-pred-aet { font-size: 0.8rem; color: var(--blue); }
     .mc-pred-aet.correct { color: var(--green); }
+    .mc-pred-pens { font-size: 0.8rem; color: var(--platinum); }
 
-    .mc-pred-pens {
-      font-size: 0.8rem;
-      color: var(--platinum);
+    .mc-pts-label {
+      display: block;
+      font-size: 0.65rem;
+      color: var(--green);
+      margin-top: 2px;
+      font-weight: 600;
     }
 
-    .mc-empty {
-      color: var(--text3);
-      font-style: italic;
-    }
+    .mc-empty { color: var(--text3); font-style: italic; }
 
-    .mc-pts {
-      font-weight: 700;
-      font-size: 1rem;
-      text-align: right;
-      white-space: nowrap;
-    }
-
+    .mc-pts { font-weight: 700; font-size: 1rem; text-align: right; white-space: nowrap; }
     .mc-pts-pos { color: var(--green); }
     .mc-pts-zero { color: var(--text3); }
     .mc-pts-pending { color: var(--text3); font-style: italic; font-size: 0.78rem; font-weight: 400; }
@@ -321,7 +270,6 @@
       letter-spacing: 0.08em;
       padding: 2px 6px;
       border-radius: 3px;
-      margin-left: 4px;
       vertical-align: middle;
     }
 
@@ -329,19 +277,55 @@
     .mc-pp-golden { background: rgba(245,200,66,0.15); color: var(--gold); }
     .mc-pp-platinum { background: rgba(0,229,255,0.15); color: var(--platinum); }
 
-    /* ── No matches state ── */
+    /* Points key */
+    .mc-points-key {
+      margin-top: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 20px 24px;
+    }
+
+    .mc-points-key-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text3);
+      margin-bottom: 16px;
+    }
+
+    .mc-points-key-section {
+      margin-bottom: 16px;
+    }
+
+    .mc-points-key-section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mc-points-key-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text2);
+    }
+
     .mc-no-matches {
       text-align: center;
       padding: 60px 20px;
       color: var(--text3);
     }
 
-    .mc-no-matches h3 {
-      color: var(--text2);
-      margin-bottom: 8px;
-    }
+    .mc-no-matches h3 { color: var(--text2); margin-bottom: 8px; }
 
-    /* ── Loading ── */
     .mc-loading-row td {
       text-align: center;
       padding: 20px;
@@ -351,9 +335,7 @@
 
     @media (max-width: 640px) {
       .mc-table th.hide-mobile,
-      .mc-table td.hide-mobile {
-        display: none;
-      }
+      .mc-table td.hide-mobile { display: none; }
     }
   </style>
 </head>
@@ -390,22 +372,42 @@
 
   <div id="mc-content" style="display:none;"></div>
 
-      <!-- Points key -->
-    <div class="card mt-24" style="padding:20px;">
-      <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--text3); margin-bottom:12px;">Points System</div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:8px; font-size:0.82rem; color:var(--text2);">
+  <!-- Points Key -->
+  <div class="mc-points-key">
+    <div class="mc-points-key-title">Points System</div>
+
+    <div class="mc-points-key-section">
+      <div class="mc-points-key-section-label">Group Stage</div>
+      <div class="mc-points-key-grid">
         <div>⚽ Correct outcome — <strong style="color:var(--text)">+3 pts</strong></div>
         <div>🎯 Correct scoreline — <strong style="color:var(--text)">+5 pts</strong></div>
-        <div>🏃 Correct goalscorer — <strong style="color:var(--text)">+2 pts</strong></div>
-        <div>⏱ Correct AET — <strong style="color:var(--text)">+2 pts</strong></div>
+        <div>🏃 Correct goalscorer — <strong style="color:var(--text)">+2 pts each</strong></div>
+        <div>⭐ Perfect Prediction — <strong style="color:var(--text)">+5 pts</strong></div>
+      </div>
+    </div>
+
+    <div class="mc-points-key-section">
+      <div class="mc-points-key-section-label">Knockouts</div>
+      <div class="mc-points-key-grid">
+        <div>⚽ Correct team to progress— <strong style="color:var(--text)">+3 pts</strong></div>
+        <div>🎯 Correct 90 mins scoreline — <strong style="color:var(--text)">+5 pts</strong></div>
+        <div>🏃 Correct 90 mins goalscorer — <strong style="color:var(--text)">+2 pts each</strong></div>
+        
+        <div>⏱ Correct "Goes to ET" prediction — <strong style="color:var(--text)">+2 pts</strong></div>
         <div>📊 Correct AET scoreline — <strong style="color:var(--text)">+3 pts</strong></div>
-        <div>👟 Correct AET scorer — <strong style="color:var(--text)">+1 pt</strong></div>
-        <div>🥅 Correct Pens — <strong style="color:var(--text)">+2 pts</strong></div>
-        <div>📋 Correct Pens score — <strong style="color:var(--text)">+1 pt</strong></div>
-        <div><span class="pp-badge pp-badge--silver">Silver PP</span> — <strong style="color:var(--text)">+5 pts</strong></div>
-        <div><span class="pp-badge pp-badge--golden">Golden PP</span> — <strong style="color:var(--text)">+6 pts</strong></div>
-        <div><span class="pp-badge pp-badge--platinum">Platinum PP</span> — <strong style="color:var(--text)">+7 pts</strong></div>
-        <div>🏆 Tournament winner — <strong style="color:var(--text)">+12 pts</strong></div>
+        <div>👟 Correct ET scorer — <strong style="color:var(--text)">+1 pt each</strong></div>
+        <div>🥅 Correct "Goes to Penalties" Prediction — <strong style="color:var(--text)">+2 pts</strong></div>
+        <div>📋 Correct pen shootout score — <strong style="color:var(--text)">+1 pt</strong></div>
+        <div>⭐ Silver PP — <strong style="color:var(--text)">+5 pts</strong></div>
+        <div>🌟 Golden PP — <strong style="color:var(--text)">+6 pts</strong></div>
+        <div>💫 Platinum PP — <strong style="color:var(--text)">+7 pts</strong></div>
+      </div>
+    </div>
+
+    <div class="mc-points-key-section" style="margin-bottom:0;">
+      <div class="mc-points-key-section-label">Tournament</div>
+      <div class="mc-points-key-grid">
+        <div>🏆 Tournament winner prediction — <strong style="color:var(--text)">+12 pts</strong></div>
       </div>
     </div>
   </div>
@@ -439,12 +441,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 async function loadPage() {
   const now = new Date();
 
-  // Get all locked fixtures from hardcoded data
   allLockedFixtures = HARDCODED_FIXTURES.filter(f =>
     now >= new Date(f.kickoffUTC.replace(' ', 'T') + 'Z')
   );
 
-  // Also check dynamic fixtures (semis/final)
   try {
     const dynRes = await API.get({ action: 'getFixtures', dynamicOnly: 'true' });
     if (dynRes.success && dynRes.fixtures) {
@@ -469,7 +469,6 @@ async function loadPage() {
     return;
   }
 
-  // Load data for all locked fixtures
   await loadMatchData(allLockedFixtures);
   renderAll();
 }
@@ -477,7 +476,6 @@ async function loadPage() {
 async function loadMatchData(fixtures) {
   const uncachedIds = [];
 
-  // Check cache first
   if (typeof RESULTS_CACHE !== 'undefined') {
     fixtures.forEach(f => {
       if (RESULTS_CACHE[f.matchId]) {
@@ -490,7 +488,6 @@ async function loadMatchData(fixtures) {
     fixtures.forEach(f => uncachedIds.push(f.matchId));
   }
 
-  // Fetch uncached from API in one call
   if (uncachedIds.length > 0) {
     try {
       const res = await API.get({
@@ -506,7 +503,6 @@ async function loadMatchData(fixtures) {
     }
   }
 
-  // Build player list from cache if not set by API
   if (playerList.length === 0) {
     const firstCached = Object.values(matchData)[0];
     if (firstCached && firstCached.players) {
@@ -547,7 +543,6 @@ function renderAll() {
     return;
   }
 
-  // Group by local date
   const groups = {};
   filtered.forEach(f => {
     const key = formatDate(f.kickoffUTC);
@@ -581,38 +576,23 @@ function renderMatchCard(fixture) {
       <div class="mc-result-main">
         <div class="mc-result-winner">${escHtml(result.winner)}</div>
         <div class="mc-result-score">${escHtml(result.score || '—')}</div>`;
-
-    if (hasAET) {
-      scoreLine += `
-        <div class="mc-result-arrow">→</div>
-        <div class="mc-result-aet">AET ${escHtml(result.aetScore)}</div>`;
-    }
-    if (hasPens) {
-      scoreLine += `
-        <div class="mc-result-arrow">→</div>
-        <div class="mc-result-pens">Pens ${escHtml(result.pensScore)}</div>`;
-    }
+    if (hasAET) scoreLine += `<div class="mc-result-arrow">→</div><div class="mc-result-aet">AET ${escHtml(result.aetScore)}</div>`;
+    if (hasPens) scoreLine += `<div class="mc-result-arrow">→</div><div class="mc-result-pens">Pens ${escHtml(result.pensScore)}</div>`;
     scoreLine += '</div>';
 
     let scorersHtml = '';
-    if (result.scorers) {
-      scorersHtml += `<div class="mc-result-scorers"><span>90 min</span>${escHtml(result.scorers)}</div>`;
-    }
-    if (hasAET && result.etScorers) {
-      scorersHtml += `<div class="mc-result-scorers"><span>ET</span>${escHtml(result.etScorers)}</div>`;
-    }
+    if (result.scorers) scorersHtml += `<div class="mc-result-scorers"><span>90 min</span>${escHtml(result.scorers)}</div>`;
+    if (hasAET && result.etScorers) scorersHtml += `<div class="mc-result-scorers"><span>ET</span>${escHtml(result.etScorers)}</div>`;
 
     resultHtml = `
       <div class="mc-result-block">
         <div class="mc-result-label">Actual Result</div>
-        ${scoreLine}
-        ${scorersHtml}
+        ${scoreLine}${scorersHtml}
       </div>`;
   } else {
     resultHtml = `<div class="mc-awaiting">⏳ Awaiting result...</div>`;
   }
 
-  // Table headers — only show AET/Pens columns if match went to AET
   const showAET = hasAET || isKnockout;
   const showPens = hasPens || isKnockout;
 
@@ -625,10 +605,10 @@ function renderMatchCard(fixture) {
       ${showAET ? '<th class="hide-mobile">AET Score</th>' : ''}
       ${showAET ? '<th class="hide-mobile">ET Scorers</th>' : ''}
       ${showPens ? '<th class="hide-mobile">Pens</th>' : ''}
+      <th class="hide-mobile center">PP</th>
       <th class="right">Pts</th>
     </tr>`;
 
-  // Player rows
   const players = playerList.length > 0 ? playerList : Object.keys(data.players || {});
   let playerRows = '';
 
@@ -644,62 +624,107 @@ function renderMatchCard(fixture) {
     let aetCell = '<span class="mc-empty">—</span>';
     let etScorersCell = '<span class="mc-empty">—</span>';
     let pensCell = '<span class="mc-empty">—</span>';
+    let ppCell = '<span class="mc-empty">—</span>';
     let ptsCell = '<span class="mc-pts-pending">no pick</span>';
 
     if (hasPred) {
-      // Winner — colour based on correctness
+      // Winner
       let winnerClass = '';
-      if (hasResult) {
-        winnerClass = pred.winner === result.winner ? 'correct' : 'incorrect';
-      }
-      winnerCell = `<span class="mc-pred-winner ${winnerClass}">${escHtml(pred.winner)}</span>`;
+      if (hasResult) winnerClass = pred.winner === result.winner ? 'correct' : 'incorrect';
+      const winnerPtsLabel = hasResult && pred.winner === result.winner ? '<span class="mc-pts-label">+3</span>' : '';
+      winnerCell = `<span class="mc-pred-winner ${winnerClass}">${escHtml(pred.winner)}</span>${winnerPtsLabel}`;
 
       // Score
       let scoreClass = '';
+      let scorePtsLabel = '';
       if (hasResult && pred.score) {
-        scoreClass = pred.score === result.score ? 'correct' : '';
+        if (pred.score === result.score) {
+          scoreClass = 'correct';
+          scorePtsLabel = '<span class="mc-pts-label">+5</span>';
+        }
       }
       scoreCell = pred.score
-        ? `<span class="mc-pred-score ${scoreClass}">${escHtml(pred.score)}</span>`
+        ? `<span class="mc-pred-score ${scoreClass}">${escHtml(pred.score)}</span>${scorePtsLabel}`
         : '<span class="mc-empty">—</span>';
 
-      // Scorers
+      // Scorers — calculate how many matched
+      let scorersPtsLabel = '';
+      if (hasResult && pred.scorers && result.scorers) {
+        const predList = pred.scorers.split(',').map(s => s.trim().toUpperCase()).filter(s => s);
+        const resList  = result.scorers.split(',').map(s => s.trim().toUpperCase()).filter(s => s);
+        const bag = [...resList];
+        let matched = 0;
+        predList.forEach(p => {
+          const idx = bag.indexOf(p);
+          if (idx !== -1) { matched++; bag.splice(idx, 1); }
+        });
+        if (matched > 0) scorersPtsLabel = `<span class="mc-pts-label">+${matched * 2}</span>`;
+      }
       scorersCell = pred.scorers
-        ? `<div class="mc-pred-scorers">${escHtml(pred.scorers)}</div>`
+        ? `<div class="mc-pred-scorers">${escHtml(pred.scorers)}</div>${scorersPtsLabel}`
         : '<span class="mc-empty">—</span>';
 
       // AET
       if (showAET) {
         let aetClass = '';
+        let aetPtsLabel = '';
         if (hasResult && pred.aetScore) {
-          aetClass = pred.aetScore === result.aetScore ? 'correct' : '';
+          if (pred.aetScore === result.aetScore) {
+            aetClass = 'correct';
+            aetPtsLabel = '<span class="mc-pts-label">+3</span>';
+          }
         }
         aetCell = pred.aetScore
-          ? `<span class="mc-pred-aet ${aetClass}">${escHtml(pred.aetScore)}</span>`
+          ? `<span class="mc-pred-aet ${aetClass}">${escHtml(pred.aetScore)}</span>${aetPtsLabel}`
           : '<span class="mc-empty">—</span>';
 
+        // ET scorers
+        let etScorersPtsLabel = '';
+        if (hasResult && pred.etScorers && result.etScorers) {
+          const predET = pred.etScorers.split(',').map(s => s.trim().toUpperCase()).filter(s => s);
+          const resET  = result.etScorers.split(',').map(s => s.trim().toUpperCase()).filter(s => s);
+          const bag = [...resET];
+          let matched = 0;
+          predET.forEach(p => {
+            const idx = bag.indexOf(p);
+            if (idx !== -1) { matched++; bag.splice(idx, 1); }
+          });
+          if (matched > 0) etScorersPtsLabel = `<span class="mc-pts-label">+${matched}</span>`;
+        }
         etScorersCell = pred.etScorers
-          ? `<div class="mc-pred-scorers">${escHtml(pred.etScorers)}</div>`
+          ? `<div class="mc-pred-scorers">${escHtml(pred.etScorers)}</div>${etScorersPtsLabel}`
           : '<span class="mc-empty">—</span>';
       }
 
       // Pens
       if (showPens) {
+        let pensPtsLabel = '';
+        if (hasResult && pred.pensScore && result.pensScore) {
+          if (pred.pensScore === result.pensScore) pensPtsLabel = '<span class="mc-pts-label">+1</span>';
+        }
         pensCell = pred.pensScore
-          ? `<span class="mc-pred-pens">${escHtml(pred.pensScore)}</span>`
+          ? `<span class="mc-pred-pens">${escHtml(pred.pensScore)}</span>${pensPtsLabel}`
           : '<span class="mc-empty">—</span>';
+      }
+
+      // PP cell
+      if (hasResult) {
+        const tier = pred.ppTier || '';
+        if (isKnockout) {
+          if (tier === 'Silver')   ppCell = `<span class="mc-pp-badge mc-pp-silver">Silver</span><span class="mc-pts-label" style="text-align:center;display:block;">+5</span>`;
+          else if (tier === 'Golden')   ppCell = `<span class="mc-pp-badge mc-pp-golden">Golden</span><span class="mc-pts-label" style="text-align:center;display:block;">+6</span>`;
+          else if (tier === 'Platinum') ppCell = `<span class="mc-pp-badge mc-pp-platinum">Platinum</span><span class="mc-pts-label" style="text-align:center;display:block;">+7</span>`;
+          else ppCell = `<span style="color:var(--text3);font-size:0.85rem;">✗</span>`;
+        } else {
+          if (tier === 'Silver') ppCell = `<span style="color:var(--green);">✓</span><span class="mc-pts-label" style="text-align:center;display:block;">+5</span>`;
+          else ppCell = `<span style="color:var(--text3);font-size:0.85rem;">✗</span>`;
+        }
       }
 
       // Points
       if (hasResult) {
-        const ppTier = pred.ppTier || '';
-        let ppBadge = '';
-        if (ppTier === 'Silver') ppBadge = '<span class="mc-pp-badge mc-pp-silver">Silver PP</span>';
-        if (ppTier === 'Golden') ppBadge = '<span class="mc-pp-badge mc-pp-golden">Golden PP</span>';
-        if (ppTier === 'Platinum') ppBadge = '<span class="mc-pp-badge mc-pp-platinum">Platinum PP</span>';
-
         ptsCell = pts > 0
-          ? `<span class="mc-pts mc-pts-pos">+${pts}</span>${ppBadge}`
+          ? `<span class="mc-pts mc-pts-pos">+${pts}</span>`
           : `<span class="mc-pts mc-pts-zero">0</span>`;
       } else {
         ptsCell = '<span class="mc-pts-pending">pending</span>';
@@ -715,6 +740,7 @@ function renderMatchCard(fixture) {
         ${showAET ? `<td class="hide-mobile">${aetCell}</td>` : ''}
         ${showAET ? `<td class="hide-mobile">${etScorersCell}</td>` : ''}
         ${showPens ? `<td class="hide-mobile">${pensCell}</td>` : ''}
+        <td class="hide-mobile" style="text-align:center;">${ppCell}</td>
         <td style="text-align:right;">${ptsCell}</td>
       </tr>`;
   });
@@ -726,7 +752,7 @@ function renderMatchCard(fixture) {
         <table class="mc-table">
           <thead>${tableHeaders}</thead>
           <tbody>
-            ${playerRows || '<tr class="mc-loading-row"><td colspan="8">No prediction data available</td></tr>'}
+            ${playerRows || '<tr class="mc-loading-row"><td colspan="9">No prediction data available</td></tr>'}
           </tbody>
         </table>
       </div>
@@ -755,14 +781,10 @@ function renderMatchCard(fixture) {
 
 function toggleMcCard(matchId) {
   const card = document.getElementById(`mc-card-${matchId}`);
-  const body = document.getElementById(`mc-body-${matchId}`);
   const isExpanded = card.classList.contains('expanded');
-
-  // Collapse all others
   document.querySelectorAll('.mc-card.expanded').forEach(c => {
     if (c.id !== `mc-card-${matchId}`) c.classList.remove('expanded');
   });
-
   card.classList.toggle('expanded', !isExpanded);
 }
 </script>
