@@ -39,7 +39,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 0
+        "points": 0,
+        "ppTier": ""
       },
       "Test1": {
         "winner": "Mexico",
@@ -48,7 +49,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 5
+        "points": 5,
+        "ppTier": ""
       },
       "Test2": {
         "winner": "Draw",
@@ -57,7 +59,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 0
+        "points": 0,
+        "ppTier": ""
       }
     }
   },
@@ -78,7 +81,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 3
+        "points": 3,
+        "ppTier": ""
       },
       "Test1": {
         "winner": "South Korea",
@@ -87,7 +91,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 0
+        "points": 0,
+        "ppTier": ""
       },
       "Test2": {
         "winner": "Draw",
@@ -96,7 +101,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 0
+        "points": 0,
+        "ppTier": ""
       }
     }
   },
@@ -117,7 +123,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 0
+        "points": 0,
+        "ppTier": ""
       },
       "Test2": {
         "winner": "Canada",
@@ -126,7 +133,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 5
+        "points": 5,
+        "ppTier": ""
       }
     }
   },
@@ -147,7 +155,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 3
+        "points": 3,
+        "ppTier": ""
       },
       "Test2": {
         "winner": "United States",
@@ -156,7 +165,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 0
+        "points": 0,
+        "ppTier": ""
       }
     }
   },
@@ -177,7 +187,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 21
+        "points": 21,
+        "ppTier": "Silver"
       },
       "Test2": {
         "winner": "Switzerland",
@@ -186,7 +197,8 @@ const RESULTS_CACHE = {
         "aetScore": "",
         "etScorers": "",
         "pensScore": "",
-        "points": 3
+        "points": 3,
+        "ppTier": ""
       }
     }
   },
@@ -207,7 +219,8 @@ const RESULTS_CACHE = {
         "aetScore": "2-1",
         "etScorers": "OWN GOAL",
         "pensScore": "",
-        "points": 24
+        "points": 26,
+        "ppTier": "Golden"
       }
     }
   }
