@@ -18,22 +18,14 @@ const DYNAMIC_FROM_MATCH_ID = 97;
 // ── Group Stage Fixtures (Matches 1-72) ──────────────────────
 // DO NOT EDIT — these are final and correct
 const GROUP_STAGE_FIXTURES = [
-  // { matchId: 1,  home: "Mexico",                  away: "South Africa",          kickoffUTC: "2026-06-11 19:00:00" },
-  // { matchId: 2,  home: "South Korea",             away: "Czechia",               kickoffUTC: "2026-06-12 02:00:00" },
-  // { matchId: 3,  home: "Canada",                  away: "Bosnia And Herzegovina", kickoffUTC: "2026-06-12 19:00:00" },
-  // { matchId: 4,  home: "United States",           away: "Paraguay",              kickoffUTC: "2026-06-13 01:00:00" },
-  // { matchId: 5,  home: "Haiti",                   away: "Scotland",              kickoffUTC: "2026-06-14 01:00:00" },
-  // { matchId: 6,  home: "Australia",               away: "Türkiye",               kickoffUTC: "2026-06-14 04:00:00" },
-  // { matchId: 7,  home: "Brazil",                  away: "Morocco",               kickoffUTC: "2026-06-13 22:00:00" },
-  // { matchId: 8,  home: "Qatar",                   away: "Switzerland",           kickoffUTC: "2026-06-13 19:00:00" },
-    { matchId: 1,  home: "Mexico",                  away: "South Africa",          kickoffUTC: "2026-06-10 07:00:00" },
-  { matchId: 2,  home: "South Korea",             away: "Czechia",               kickoffUTC: "2026-06-10 07:00:00" },
-  { matchId: 3,  home: "Canada",                  away: "Bosnia And Herzegovina", kickoffUTC: "2026-06-10 07:00:00" },
-  { matchId: 4,  home: "United States",           away: "Paraguay",              kickoffUTC: "2026-06-10 07:00:00" },
-  { matchId: 5,  home: "Haiti",                   away: "Scotland",              kickoffUTC: "2026-06-10 07:00:00" },
-  { matchId: 6,  home: "Australia",               away: "Türkiye",               kickoffUTC: "2026-06-10 07:00:00" },
-  { matchId: 7,  home: "Brazil",                  away: "Morocco",               kickoffUTC: "2026-06-10 07:00:00" },
-  { matchId: 8,  home: "Qatar",                   away: "Switzerland",           kickoffUTC: "2026-06-10 07:20:00" },
+  { matchId: 1,  home: "Mexico",                  away: "South Africa",          kickoffUTC: "2026-06-11 19:00:00" },
+  { matchId: 2,  home: "South Korea",             away: "Czechia",               kickoffUTC: "2026-06-12 02:00:00" },
+  { matchId: 3,  home: "Canada",                  away: "Bosnia And Herzegovina", kickoffUTC: "2026-06-12 19:00:00" },
+  { matchId: 4,  home: "United States",           away: "Paraguay",              kickoffUTC: "2026-06-13 01:00:00" },
+  { matchId: 5,  home: "Haiti",                   away: "Scotland",              kickoffUTC: "2026-06-14 01:00:00" },
+  { matchId: 6,  home: "Australia",               away: "Türkiye",               kickoffUTC: "2026-06-14 04:00:00" },
+  { matchId: 7,  home: "Brazil",                  away: "Morocco",               kickoffUTC: "2026-06-13 22:00:00" },
+  { matchId: 8,  home: "Qatar",                   away: "Switzerland",           kickoffUTC: "2026-06-13 19:00:00" },
   { matchId: 9,  home: "Ivory Coast",             away: "Ecuador",               kickoffUTC: "2026-06-14 23:00:00" },
   { matchId: 10, home: "Germany",                 away: "Curacao",               kickoffUTC: "2026-06-14 17:00:00" },
   { matchId: 11, home: "Netherlands",             away: "Japan",                 kickoffUTC: "2026-06-14 20:00:00" },
@@ -106,8 +98,7 @@ const GROUP_STAGE_FIXTURES = [
 // Example: change { matchId: 73, home: "TBD", away: "TBD" }
 //      to: { matchId: 73, home: "France", away: "Argentina" }
 const ROUND_OF_16_FIXTURES = [
-  // { matchId: 73,  home: "2A", away: "2B", kickoffUTC: "2026-06-28 19:00:00" },
-    { matchId: 73,  home: "2A", away: "2B", kickoffUTC: "2026-06-10 07:00:00" },
+  { matchId: 73,  home: "2A", away: "2B", kickoffUTC: "2026-06-28 19:00:00" },
   { matchId: 74,  home: "1C", away: "2F", kickoffUTC: "2026-06-29 20:30:00" },
   { matchId: 75,  home: "1E", away: "3ABCDF", kickoffUTC: "2026-06-30 01:00:00" },
   { matchId: 76,  home: "1F", away: "2C", kickoffUTC: "2026-06-29 17:00:00" },
