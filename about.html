@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — PredOrakul</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .about-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    .about-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .about-title {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .about-title em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .about-subtitle {
+      font-size: 1rem;
+      color: var(--text2);
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .about-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 36px 0;
+    }
+
+    .about-section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 14px;
+    }
+
+    .about-body {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text2);
+      margin-bottom: 16px;
+    }
+
+    .about-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Scoring grid */
+    .scoring-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .scoring-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 16px 18px;
+    }
+
+    .scoring-block-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .scoring-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.85rem;
+      color: var(--text2);
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .scoring-row:last-child {
+      border-bottom: none;
+    }
+
+    .scoring-pts {
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+
+    /* PP tiers */
+    .pp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .pp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .pp-card-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+
+    .pp-card-pts {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+    }
+
+    .pp-card-desc {
+      font-size: 0.72rem;
+      color: var(--text3);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .pp-silver .pp-card-name { color: #aab4be; }
+    .pp-silver .pp-card-pts  { color: #aab4be; }
+    .pp-golden .pp-card-name { color: var(--gold); }
+    .pp-golden .pp-card-pts  { color: var(--gold); }
+    .pp-platinum .pp-card-name { color: var(--platinum); }
+    .pp-platinum .pp-card-pts  { color: var(--platinum); }
+
+    /* Stat bar */
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text2);
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    .stat-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--gold), #e09010);
+    }
+
+    .stat-val {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      width: 40px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Nav override for about page — no auth needed */
+    .about-nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .about-nav a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color var(--transition);
+    }
+
+    .about-nav a:hover { color: var(--gold); }
+
+    @media (max-width: 560px) {
+      .scoring-grid { grid-template-columns: 1fr; }
+      .pp-grid { grid-template-columns: 1fr; }
+      .about-title { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <div class="nav__brand">
+      <span class="nav__title">FPL WC26</span>
+      <span class="nav__tagline">Become a Predorakul</span>
+    </div>
+    <div class="about-nav">
+      <a href="spectate.html">Live Standings</a>
+      <a href="index.html" style="color:var(--gold); font-weight:600;">Sign In</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="about-wrap">
+
+    <!-- Hero -->
+    <div class="about-eyebrow">FIFA World Cup 2026</div>
+    <h1 class="about-title">PRED<em>ORAKUL</em></h1>
+    <p class="about-subtitle">
+      A fantasy prediction league for people who think they know football.<br>
+      104 matches. One Predorakul.
+    </p>
+
+    <div class="about-divider"></div>
+
+    <!-- Origin -->
+    <div class="about-section-label">The Idea</div>
+    <p class="about-body">
+      PredOrakul started as a WhatsApp argument. A couple of friends, all convinced they 
+      read the game better than the others, needed a way to settle it. 
+      Not just predicting winners — anyone can do that. Scorelines. Goalscorers. 
+      Extra time. Penalties. Every match, every detail, for the entire World Cup.
+    </p>
+    <p class="about-body">
+      The name comes from <strong>Predict</strong> and <strong>Oracle</strong> — 
+      the person who sees what others don't. There is exactly one PredOrakul per tournament. 
+      The rest are just guessing.
+    </p>
+
+    <div class="about-divider"></div>
+
+    <!-- How it works -->
+    <div class="about-section-label">How It Works</div>
+    <p class="about-body">
+      Before each match kicks off, players submit their full prediction — 
+      who wins, what the score is, and who scores. 
+      Once the whistle blows, predictions are locked. No changes, no excuses.
+      Points are awarded after the result, and the leaderboard updates in real time.
+    </p>
+    <p class="about-body">
+      Knockout games go deeper. If you think it goes to extra time, predict that too. 
+      Penalties? Pick the shootout score. The further you go, the more you can earn — 
+      but also the more you can lose.
+    </p>
+
+    <div class="about-divider"></div>
+
+    <!-- Scoring -->
+    <div class="about-section-label">Points System</div>
+    <div class="scoring-grid">
+
+      <div class="scoring-block">
+        <div class="scoring-block-label">Group Stage</div>
+        <div class="scoring-row">
+          <span>Correct outcome</span>
+          <span class="scoring-pts">+3</span>
+        </div>
+        <div class="scoring-row">
+          <span>Correct scoreline</span>
+          <span class="scoring-pts">+5</span>
+        </div>
+        <div class="scoring-row">
+          <span>Correct goalscorer</span>
+          <span class="scoring-pts">+2 each</span>
+        </div>
+        <div class="scoring-row">
+          <span>Tournament winner pick</span>
+          <span class="scoring-pts">+12</span>
+        </div>
+      </div>
+
+      <div class="scoring-block">
+        <div class="scoring-block-label">Knockout Additions</div>
+        <div class="scoring-row">
+          <span>Correct AET prediction</span>
+          <span class="scoring-pts">+2</span>
+        </div>
+        <div class="scoring-row">
+          <span>Correct AET scoreline</span>
+          <span class="scoring-pts">+3</span>
+        </div>
+        <div class="scoring-row">
+          <span>Correct AET goalscorer</span>
+          <span class="scoring-pts">+1 each</span>
+        </div>
+        <div class="scoring-row">
+          <span>Correct penalties Y/N</span>
+          <span class="scoring-pts">+2</span>
+        </div>
+        <div class="scoring-row">
+          <span>Correct shootout score</span>
+          <span class="scoring-pts">+1</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="about-section-label" style="margin-bottom:14px;">Perfect Prediction Bonus</div>
+      <p class="about-body" style="margin-bottom:16px;">
+        Get everything right — outcome, scoreline, every goalscorer — and you earn a 
+        Perfect Prediction bonus on top of your regular points. 
+        In knockout games, going deeper earns a higher tier.
+      </p>
+      <div class="pp-grid">
+        <div class="pp-card pp-silver">
+          <div class="pp-card-name">SILVER PP</div>
+          <div class="pp-card-pts">+5</div>
+          <div class="pp-card-desc">Outcome + scoreline + all scorers correct</div>
+        </div>
+        <div class="pp-card pp-golden">
+          <div class="pp-card-name">GOLDEN PP</div>
+          <div class="pp-card-pts">+6</div>
+          <div class="pp-card-desc">Silver PP + correct AET scoreline and scorers</div>
+        </div>
+        <div class="pp-card pp-platinum">
+          <div class="pp-card-name">PLATINUM PP</div>
+          <div class="pp-card-pts">+7</div>
+          <div class="pp-card-desc">Golden PP + correct penalty shootout score</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <!-- Tournament at a glance -->
+    <div class="about-section-label">The Tournament</div>
+    <div style="margin-top:4px;">
+      <div class="stat-row">
+        <span class="stat-label">Matches</span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:100%"></div></div>
+        <span class="stat-val">104</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Group Stage</span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:69%"></div></div>
+        <span class="stat-val">72</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Knockout Rounds</span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:31%"></div></div>
+        <span class="stat-val">32</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Teams</span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:46%"></div></div>
+        <span class="stat-val">48</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Host Nations</span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:6%"></div></div>
+        <span class="stat-val">3</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Predictors</span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:9%"></div></div>
+        <span class="stat-val">9</span>
+      </div>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <!-- Tiebreakers -->
+    <div class="about-section-label">Tiebreakers</div>
+    <p class="about-body">
+      If two players finish level on points, the following rules apply in order:
+    </p>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius2); overflow:hidden; margin-top:4px;">
+      <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; border-bottom:1px solid var(--border);">
+        <span style="font-family:var(--font-display);font-size:1.1rem;color:var(--gold);width:24px;flex-shrink:0;">1</span>
+        <span style="font-size:0.88rem;color:var(--text2);">More correct outcomes (winners)</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; border-bottom:1px solid var(--border);">
+        <span style="font-family:var(--font-display);font-size:1.1rem;color:var(--gold);width:24px;flex-shrink:0;">2</span>
+        <span style="font-size:0.88rem;color:var(--text2);">More correct scorelines</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; border-bottom:1px solid var(--border);">
+        <span style="font-family:var(--font-display);font-size:1.1rem;color:var(--gold);width:24px;flex-shrink:0;">3</span>
+        <span style="font-size:0.88rem;color:var(--text2);">Fewer total goals predicted</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; padding:12px 16px;">
+        <span style="font-family:var(--font-display);font-size:1.1rem;color:var(--gold);width:24px;flex-shrink:0;">4</span>
+        <span style="font-size:0.88rem;color:var(--text2);">Correct tournament winner prediction <span style="color:var(--text3);font-size:0.78rem;">(applied after July 19)</span></span>
+      </div>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <!-- CTA -->
+    <div style="text-align:center; padding:8px 0 4px;">
+      <p style="color:var(--text3); font-size:0.85rem; margin-bottom:16px;">
+        Following along without a code?
+      </p>
+      <a href="spectate.html" class="btn btn--primary" style="display:inline-block; text-decoration:none; padding:12px 32px;">
+        View Live Standings
+      </a>
+      <p style="color:var(--text3); font-size:0.78rem; margin-top:16px;">
+        Have a code? &nbsp;<a href="index.html" style="color:var(--gold); text-decoration:none;">Sign in →</a>
+      </p>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
