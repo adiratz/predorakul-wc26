@@ -21,7 +21,7 @@
 
 // const RESULTS_CACHE = {};
 
-"const RESULTS_CACHE = {
+const RESULTS_CACHE = {
   ""1"": {
     ""result"": {
       ""winner"": ""Mexico"",
@@ -2012,4 +2012,4 @@
       }
     }
   }
-};"
+};
