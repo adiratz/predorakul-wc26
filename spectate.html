@@ -406,7 +406,10 @@
       <a href="#" class="nav__link active" onclick="showTab('leaderboard', this); return false;">Leaderboard</a>
       <a href="#" class="nav__link" onclick="showTab('matches', this); return false;">Match Centre</a>
     </div>
-    <div style="font-size:0.78rem; color:var(--text3);">👁 Spectator View</div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="about.html" style="font-size:0.82rem;color:var(--text2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text2)'">About</a>
+      <span style="font-size:0.78rem; color:var(--text3);">👁 Spectator View</span>
+    </div>
   </div>
 </nav>
 
@@ -596,13 +599,9 @@ function renderLeaderboard() {
     return;
   }
 
-  const sorted = [...leaderboardData].sort((a, b) => {
-    const pa = Number(a['Total pts'] || a['total_pts'] || a[Object.keys(a)[2]] || 0);
-    const pb = Number(b['Total pts'] || b['total_pts'] || b[Object.keys(b)[2]] || 0);
-    return pb - pa;
-  });
-
-  const maxPts = Number(sorted[0]['Total pts'] || sorted[0][Object.keys(sorted[0])[2]] || 1);
+  // Trust the Scoreboard sheet order — already sorted with tiebreakers by updateScoreboard()
+  const sorted = leaderboardData;
+  const maxPts = Math.max(...sorted.map(p => Number(p['Total pts'] || 0))) || 1;
 
   // Podium (top 3)
   const medals = ['🥇', '🥈', '🥉'];
@@ -610,7 +609,8 @@ function renderLeaderboard() {
   const podiumItems = sorted.slice(0, 3).map((p, i) => {
     const name = p['Player'] || p[Object.keys(p)[1]] || '—';
     const pts  = Number(p['Total pts'] || p[Object.keys(p)[2]] || 0);
-    return { name, pts, medal: medals[i], cls: podiumClasses[i], rank: i+1 };
+    const rank = Number(p['Rank'] || p[Object.keys(p)[0]] || i + 1);
+    return { name, pts, medal: medals[i], cls: podiumClasses[i], rank };
   });
 
   let podiumHtml = '<div class="spec-podium">';
@@ -631,11 +631,12 @@ function renderLeaderboard() {
   // Full table
   let tbodyHtml = '';
   sorted.forEach((p, i) => {
-    const rank = i + 1;
+    const rank = Number(p['Rank'] || p[Object.keys(p)[0]] || i + 1);
     const name = p['Player'] || p[Object.keys(p)[1]] || '—';
-    const pts  = Number(p['Total pts'] || p[Object.keys(p)[2]] || 0);
+    const pts  = Number(p['Total pts'] || 0);
     const pct  = maxPts > 0 ? Math.round((pts / maxPts) * 100) : 0;
     const rankClass = rank <= 3 ? 'top3' : '';
+    // Use pre-computed rank from sheet, not loop index
 
     tbodyHtml += `
       <tr>
