@@ -601,14 +601,14 @@ function renderLeaderboard() {
 
   // Trust the Scoreboard sheet order — already sorted with tiebreakers by updateScoreboard()
   const sorted = leaderboardData;
-  const maxPts = Math.max(...sorted.map(p => Number(p['Total pts'] || 0))) || 1;
+  const maxPts = Math.max(...sorted.map(p => Number(p['Total Pts'] || 0))) || 1;
 
   // Podium (top 3)
   const medals = ['🥇', '🥈', '🥉'];
   const podiumClasses = ['first', 'second', 'third'];
   const podiumItems = sorted.slice(0, 3).map((p, i) => {
     const name = p['Player'] || p[Object.keys(p)[1]] || '—';
-    const pts  = Number(p['Total pts'] || p[Object.keys(p)[2]] || 0);
+    const pts  = Number(p['Total Pts'] || p[Object.keys(p)[2]] || 0);
     const rank = Number(p['Rank'] || p[Object.keys(p)[0]] || i + 1);
     return { name, pts, medal: medals[i], cls: podiumClasses[i], rank };
   });
@@ -631,12 +631,11 @@ function renderLeaderboard() {
   // Full table
   let tbodyHtml = '';
   sorted.forEach((p, i) => {
-    const rank = Number(p['Rank'] || p[Object.keys(p)[0]] || i + 1);
-    const name = p['Player'] || p[Object.keys(p)[1]] || '—';
-    const pts  = Number(p['Total pts'] || 0);
+    const rank = Number(p['Rank'] || i + 1);
+    const name = p['Player'] || '—';
+    const pts  = Number(p['Total Pts'] || 0);
     const pct  = maxPts > 0 ? Math.round((pts / maxPts) * 100) : 0;
     const rankClass = rank <= 3 ? 'top3' : '';
-    // Use pre-computed rank from sheet, not loop index
 
     tbodyHtml += `
       <tr>
