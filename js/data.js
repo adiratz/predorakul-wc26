@@ -46,7 +46,7 @@ const GROUP_STAGE_FIXTURES = [
   { matchId: 26, home: "Switzerland",             away: "Bosnia And Herzegovina", kickoffUTC: "2026-06-18 19:00:00" },
   { matchId: 27, home: "Canada",                  away: "Qatar",                 kickoffUTC: "2026-06-18 22:00:00" },
   { matchId: 28, home: "Mexico",                  away: "South Korea",           kickoffUTC: "2026-06-19 01:00:00" },
-  { matchId: 29, home: "Brazil",                  away: "Haiti",                 kickoffUTC: "2026-06-20 12:30:00" },
+  { matchId: 29, home: "Brazil",                  away: "Haiti",                 kickoffUTC: "2026-06-20 00:30:00" },
   { matchId: 30, home: "Scotland",                away: "Morocco",               kickoffUTC: "2026-06-19 22:00:00" },
   { matchId: 31, home: "Türkiye",                 away: "Paraguay",              kickoffUTC: "2026-06-20 03:00:00" },
   { matchId: 32, home: "United States",           away: "Australia",             kickoffUTC: "2026-06-19 19:00:00" },
