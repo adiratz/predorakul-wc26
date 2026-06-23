@@ -547,7 +547,7 @@ function filterFixtures(fixtures) {
 
 function renderAll() {
   const content = document.getElementById('mc-content');
-  const filtered = filterFixtures(allLockedFixtures);
+  let filtered = filterFixtures(allLockedFixtures);
 
   if (filtered.length === 0) {
     content.innerHTML = `<div class="mc-no-matches"><h3>No matches in this filter</h3></div>`;
