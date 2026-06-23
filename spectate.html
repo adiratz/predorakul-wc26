@@ -78,14 +78,15 @@
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      gap: 12px;
+      gap: 8px;
       margin-bottom: 32px;
-      padding: 0 20px;
+      padding: 0 12px;
     }
 
     .spec-podium-item {
-      flex: 1;
-      max-width: 160px;
+      flex: 0 0 30%;
+      max-width: 140px;
+      min-width: 80px;
       text-align: center;
     }
 
@@ -99,25 +100,27 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding: 16px 8px 12px;
+      padding: 12px 6px 10px;
+      /* Fixed heights prevent content from distorting podium steps */
+      box-sizing: border-box;
     }
 
     .first .spec-podium-block {
       background: linear-gradient(180deg, rgba(245,200,66,0.2) 0%, rgba(245,200,66,0.05) 100%);
       border: 1px solid rgba(245,200,66,0.4);
-      min-height: 120px;
+      height: 130px;
     }
 
     .second .spec-podium-block {
       background: linear-gradient(180deg, rgba(148,163,184,0.15) 0%, rgba(148,163,184,0.05) 100%);
       border: 1px solid rgba(148,163,184,0.3);
-      min-height: 95px;
+      height: 105px;
     }
 
     .third .spec-podium-block {
       background: linear-gradient(180deg, rgba(180,130,70,0.15) 0%, rgba(180,130,70,0.05) 100%);
       border: 1px solid rgba(180,130,70,0.3);
-      min-height: 75px;
+      height: 85px;
     }
 
     .spec-podium-medal {
@@ -389,7 +392,10 @@
 
     @media (max-width: 640px) {
       .mc-table th.hide-mobile, .mc-table td.hide-mobile { display: none; }
-      .spec-podium { gap: 6px; }
+      .spec-podium { gap: 4px; padding: 0 4px; }
+      .spec-podium-item { min-width: 0; }
+      .spec-podium-name { font-size: 0.75rem; }
+      .spec-podium-pts { font-size: 1.1rem; }
     }
   </style>
 </head>
@@ -457,10 +463,16 @@
 
   <!-- Match Centre view -->
   <div id="view-matches" style="display:none;">
-    <div class="mc-filter">
-      <button class="mc-filter-btn active" onclick="setMcFilter('all', this)">All Matches</button>
-      <button class="mc-filter-btn" onclick="setMcFilter('scored', this)">Scored</button>
-      <button class="mc-filter-btn" onclick="setMcFilter('pending', this)">Awaiting Result</button>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
+      <div class="mc-filter" style="margin-bottom:0;">
+        <button class="mc-filter-btn active" onclick="setMcFilter('all', this)">All Matches</button>
+        <button class="mc-filter-btn" onclick="setMcFilter('scored', this)">Scored</button>
+        <button class="mc-filter-btn" onclick="setMcFilter('pending', this)">Awaiting Result</button>
+      </div>
+      <div class="mc-filter" style="margin-bottom:0;">
+        <button class="mc-filter-btn active" onclick="setMcSort('desc', this)">↓ Match No.</button>
+        <button class="mc-filter-btn" onclick="setMcSort('asc', this)">↑ Match No.</button>
+      </div>
     </div>
     <div id="mc-content"></div>
   </div>
@@ -479,6 +491,7 @@ let matchData = {};
 let playerList = [];
 let allLockedFixtures = [];
 let mcFilter = 'all';
+let mcSort = 'desc';
 let activeTab = 'leaderboard';
 
 // ── Init — no auth required ───────────────────────────────────
@@ -657,7 +670,14 @@ function renderLeaderboard() {
 // ── Match Centre ──────────────────────────────────────────────
 function setMcFilter(filter, btn) {
   mcFilter = filter;
-  document.querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.closest('.mc-filter').querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMatches();
+}
+
+function setMcSort(sort, btn) {
+  mcSort = sort;
+  btn.closest('.mc-filter').querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderMatches();
 }
@@ -690,6 +710,11 @@ function renderMatches() {
     }</p></div>`;
     return;
   }
+
+  // Apply sort order
+  filtered = filtered.slice().sort((a, b) =>
+    mcSort === 'asc' ? a.matchId - b.matchId : b.matchId - a.matchId
+  );
 
   const groups = {};
   filtered.forEach(f => {
