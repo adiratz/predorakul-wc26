@@ -366,8 +366,8 @@
       <button class="mc-filter-btn" onclick="setFilter('pending', this)">Awaiting Result</button>
     </div>
     <div class="mc-filter" style="margin-bottom:0;">
-      <button class="mc-filter-btn active" id="sort-asc-btn" onclick="setSort('asc', this)">↑ Match No.</button>
-      <button class="mc-filter-btn" id="sort-desc-btn" onclick="setSort('desc', this)">↓ Match No.</button>
+      <button class="mc-filter-btn active" id="sort-desc-btn" onclick="setSort('desc', this)">↓ Match No.</button>
+      <button class="mc-filter-btn" id="sort-asc-btn" onclick="setSort('asc', this)">↑ Match No.</button>
     </div>
   </div>
 
@@ -431,7 +431,7 @@ let playerList = [];
 let myName = '';
 let allLockedFixtures = [];
 let currentFilter = 'all';
-let currentSort = 'asc';
+let currentSort = 'desc';
 
 window.addEventListener('DOMContentLoaded', async () => {
   const player = await requireAuth();
