@@ -359,10 +359,16 @@
   </div>
   <p class="mc-page-intro">Predictions revealed after each match kicks off. Click a match to expand.</p>
 
-  <div class="mc-filter">
-    <button class="mc-filter-btn active" onclick="setFilter('all', this)">All Matches</button>
-    <button class="mc-filter-btn" onclick="setFilter('scored', this)">Scored</button>
-    <button class="mc-filter-btn" onclick="setFilter('pending', this)">Awaiting Result</button>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
+    <div class="mc-filter" style="margin-bottom:0;">
+      <button class="mc-filter-btn active" onclick="setFilter('all', this)">All Matches</button>
+      <button class="mc-filter-btn" onclick="setFilter('scored', this)">Scored</button>
+      <button class="mc-filter-btn" onclick="setFilter('pending', this)">Awaiting Result</button>
+    </div>
+    <div class="mc-filter" style="margin-bottom:0;">
+      <button class="mc-filter-btn active" id="sort-asc-btn" onclick="setSort('asc', this)">↑ Match No.</button>
+      <button class="mc-filter-btn" id="sort-desc-btn" onclick="setSort('desc', this)">↓ Match No.</button>
+    </div>
   </div>
 
   <div class="loading" id="loading">
@@ -379,35 +385,31 @@
     <div class="mc-points-key-section">
       <div class="mc-points-key-section-label">Group Stage</div>
       <div class="mc-points-key-grid">
-        <div>⚽ Correct outcome: <strong style="color:var(--text)">+3 pts</strong></div>
-        <div>🎯 Correct scoreline: <strong style="color:var(--text)">+5 pts</strong></div>
-        <div>🏃 Correct goalscorer: <strong style="color:var(--text)">+2 pts each</strong></div>
-        <div>⭐ Perfect Prediction: <strong style="color:var(--text)">+5 pts</strong></div>
+        <div>⚽ Correct outcome — <strong style="color:var(--text)">+3 pts</strong></div>
+        <div>🎯 Correct scoreline — <strong style="color:var(--text)">+5 pts</strong></div>
+        <div>🏃 Correct goalscorer — <strong style="color:var(--text)">+2 pts each</strong></div>
+        <div>⭐ Perfect Prediction (Silver) — <strong style="color:var(--text)">+5 pts</strong></div>
       </div>
     </div>
 
     <div class="mc-points-key-section">
-      <div class="mc-points-key-section-label">Knockouts</div>
+      <div class="mc-points-key-section-label">Knockout Additions</div>
       <div class="mc-points-key-grid">
-        <div>⚽ Correct team to progress: <strong style="color:var(--text)">+3 pts</strong></div>
-        <div>🎯 Correct 90min scoreline: <strong style="color:var(--text)">+5 pts</strong></div>
-        <div>🏃 Correct 90min goalscorer: <strong style="color:var(--text)">+2 pts each</strong></div>
-        
-        <div>⏱ Correct "game goes to ET": <strong style="color:var(--text)">+2 pts</strong></div>
-        <div>📊 Correct AET scoreline: <strong style="color:var(--text)">+3 pts</strong></div>
-        <div>👟 Correct ET scorer: <strong style="color:var(--text)">+1 pt each</strong></div>
-        <div>🥅 Correct "game goes to pens": <strong style="color:var(--text)">+2 pts</strong></div>
-        <div>📋 Correct pen shootout score: <strong style="color:var(--text)">+1 pt</strong></div>
-        <div>⭐ Silver PP: <strong style="color:var(--text)">+5 pts</strong></div>
-        <div>🌟 Golden PP: <strong style="color:var(--text)">+6 pts</strong></div>
-        <div>💫 Platinum PP: <strong style="color:var(--text)">+7 pts</strong></div>
+        <div>⏱ Correct AET prediction — <strong style="color:var(--text)">+2 pts</strong></div>
+        <div>📊 Correct AET scoreline — <strong style="color:var(--text)">+3 pts</strong></div>
+        <div>👟 Correct AET scorer — <strong style="color:var(--text)">+1 pt each</strong></div>
+        <div>🥅 Correct penalties prediction — <strong style="color:var(--text)">+2 pts</strong></div>
+        <div>📋 Correct shootout score — <strong style="color:var(--text)">+1 pt</strong></div>
+        <div>⭐ Silver PP — <strong style="color:var(--text)">+5 pts</strong></div>
+        <div>🌟 Golden PP — <strong style="color:var(--text)">+6 pts</strong></div>
+        <div>💫 Platinum PP — <strong style="color:var(--text)">+7 pts</strong></div>
       </div>
     </div>
 
     <div class="mc-points-key-section" style="margin-bottom:0;">
       <div class="mc-points-key-section-label">Tournament</div>
       <div class="mc-points-key-grid">
-        <div>🏆 Correct WC Winner: <strong style="color:var(--text)">+12 pts</strong></div>
+        <div>🏆 Tournament winner prediction — <strong style="color:var(--text)">+12 pts</strong></div>
       </div>
     </div>
   </div>
@@ -429,6 +431,7 @@ let playerList = [];
 let myName = '';
 let allLockedFixtures = [];
 let currentFilter = 'all';
+let currentSort = 'asc';
 
 window.addEventListener('DOMContentLoaded', async () => {
   const player = await requireAuth();
@@ -513,7 +516,15 @@ async function loadMatchData(fixtures) {
 
 function setFilter(filter, btn) {
   currentFilter = filter;
-  document.querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
+  // Only remove active from filter buttons (not sort buttons)
+  btn.closest('.mc-filter').querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function setSort(sort, btn) {
+  currentSort = sort;
+  btn.closest('.mc-filter').querySelectorAll('.mc-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderAll();
 }
@@ -542,6 +553,11 @@ function renderAll() {
     content.innerHTML = `<div class="mc-no-matches"><h3>No matches in this filter</h3></div>`;
     return;
   }
+
+  // Apply sort order before grouping
+  filtered = filtered.slice().sort((a, b) =>
+    currentSort === 'asc' ? a.matchId - b.matchId : b.matchId - a.matchId
+  );
 
   const groups = {};
   filtered.forEach(f => {
