@@ -98,7 +98,7 @@ const GROUP_STAGE_FIXTURES = [
 // Example: change { matchId: 73, home: "TBD", away: "TBD" }
 //      to: { matchId: 73, home: "France", away: "Argentina" }
 const ROUND_OF_16_FIXTURES = [
-  { matchId: 73,  home: "2A", away: "2B", kickoffUTC: "2026-06-28 19:00:00" },
+  { matchId: 73,  home: "South Africa", away: "Canada", kickoffUTC: "2026-06-28 19:00:00" },
   { matchId: 74,  home: "1C", away: "2F", kickoffUTC: "2026-06-29 20:30:00" },
   { matchId: 75,  home: "1E", away: "3ABCDF", kickoffUTC: "2026-06-30 01:00:00" },
   { matchId: 76,  home: "1F", away: "2C", kickoffUTC: "2026-06-29 17:00:00" },
