@@ -103,7 +103,7 @@ const ROUND_OF_16_FIXTURES = [
   { matchId: 75,  home: "Netherlands", away: "Morocco", kickoffUTC: "2026-06-30 01:00:00" },
   { matchId: 76,  home: "Brazil", away: "Japan", kickoffUTC: "2026-06-29 17:00:00" },
   { matchId: 77,  home: "France", away: "Sweden", kickoffUTC: "2026-06-30 21:00:00" },
-  { matchId: 78,  home: "Ivory Coast", away: "Norway", kickoffUTC: "2026-06-30 18:00:00" },
+  { matchId: 78,  home: "Ivory Coast", away: "Norway", kickoffUTC: "2026-06-30 17:00:00" },
   { matchId: 79,  home: "Mexico", away: "Ecuador", kickoffUTC: "2026-07-01 01:00:00" },
   { matchId: 80,  home: "England", away: "Congo DR", kickoffUTC: "2026-07-01 16:00:00" },
   { matchId: 81,  home: "United States", away: "Bosnia And Herzegovina", kickoffUTC: "2026-07-02 00:00:00" },
