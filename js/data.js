@@ -119,10 +119,10 @@ const ROUND_OF_16_FIXTURES = [
 // ── Quarter Finals (Matches 89-96) ───────────────────────────
 // UPDATE AFTER ROUND OF 16 ENDS (July 4-5)
 const QUARTER_FINAL_FIXTURES = [
-  { matchId: 89,  home: "W73", away: "W75", kickoffUTC: "2026-07-04 17:00:00" },
-  { matchId: 90,  home: "W74", away: "W77", kickoffUTC: "2026-07-04 21:00:00" },
-  { matchId: 91,  home: "W76", away: "W78", kickoffUTC: "2026-07-05 20:00:00" },
-  { matchId: 92,  home: "W79", away: "W80", kickoffUTC: "2026-07-06 00:00:00" },
+  { matchId: 89,  home: "Canada", away: "Morocco", kickoffUTC: "2026-07-04 17:00:00" },
+  { matchId: 90,  home: "Paraguay", away: "France", kickoffUTC: "2026-07-04 21:00:00" },
+  { matchId: 91,  home: "Brazil", away: "Norway", kickoffUTC: "2026-07-05 20:00:00" },
+  { matchId: 92,  home: "Mexico", away: "W80", kickoffUTC: "2026-07-06 00:00:00" },
   { matchId: 93,  home: "W83", away: "W84", kickoffUTC: "2026-07-06 19:00:00" },
   { matchId: 94,  home: "W81", away: "W82", kickoffUTC: "2026-07-07 00:00:00" },
   { matchId: 95,  home: "W86", away: "W88", kickoffUTC: "2026-07-07 16:00:00" },
