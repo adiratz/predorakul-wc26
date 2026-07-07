@@ -111,16 +111,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 10,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Mexico"",
-        ""score"": ""2-1"",
-        ""scorers"": ""JIMENEZ RAUL, QUINONES JULIAN, APPOLLIS OSWIN"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 7,
-        ""ppTier"": """"
       }
     }
   },
@@ -212,16 +202,6 @@ const RESULTS_CACHE = {
         ""etScorers"": """",
         ""pensScore"": """",
         ""points"": 2,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""South Korea"",
-        ""score"": ""2-1"",
-        ""scorers"": ""SON HEUNGMIN, LEE KANGIN, SCHICK PATRIK"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 8,
         ""ppTier"": """"
       }
     }
@@ -315,16 +295,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 2,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Canada"",
-        ""score"": ""2-1"",
-        ""scorers"": ""DAVID JONATHAN, BUCHANAN TAJON, DZEKO EDIN"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
       }
     }
   },
@@ -416,16 +386,6 @@ const RESULTS_CACHE = {
         ""etScorers"": """",
         ""pensScore"": """",
         ""points"": 3,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""United States"",
-        ""score"": ""2-0"",
-        ""scorers"": ""PULISIC CHRISTIAN, BALOGUN FOLARIN"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 5,
         ""ppTier"": """"
       }
     }
@@ -519,16 +479,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 8,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Scotland"",
-        ""score"": ""0-2"",
-        ""scorers"": ""MCTOMINAY SCOTT, ADAMS CHE"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
       }
     }
   },
@@ -606,16 +556,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Türkiye"",
         ""score"": ""1-2"",
         ""scorers"": ""YENGI TETE, GULER ARDA, GULER ARDA"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Türkiye"",
-        ""score"": ""1-2"",
-        ""scorers"": ""YENGI TETE, GULER ARDA, CALHANOGLU HAKAN"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -713,16 +653,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 2,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Draw"",
-        ""score"": ""1-1"",
-        ""scorers"": ""VINICIUS JUNIOR, DIAZ BRAHIM"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 10,
-        ""ppTier"": """"
       }
     }
   },
@@ -814,16 +744,6 @@ const RESULTS_CACHE = {
         ""etScorers"": """",
         ""pensScore"": """",
         ""points"": 2,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Switzerland"",
-        ""score"": ""0-2"",
-        ""scorers"": ""NDOYE DAN, OKAFOR NOAH"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
         ""ppTier"": """"
       }
     }
@@ -1004,16 +924,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Germany"",
         ""score"": ""4-0"",
         ""scorers"": ""HAVERTZ KAI, WIRTZ FLORIAN, MUSIALA JAMAL, SANE LEROY"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 7,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Germany"",
-        ""score"": ""4-0"",
-        ""scorers"": ""MUSIALA JAMAL, WOLTEMADE NICK, HAVERTZ KAI, WIRTZ FLORIAN"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -1295,16 +1205,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 0,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Uruguay"",
-        ""score"": ""0-2"",
-        ""scorers"": ""NUNEZ DARWIN, VALVERDE FEDERICO"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
       }
     }
   },
@@ -1489,16 +1389,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 0,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Iran"",
-        ""score"": ""3-0"",
-        ""scorers"": ""TAREMI MEHDI, GHODDOS SAMAN, JAHANBAKHSH ALIREZA"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
       }
     }
   },
@@ -1586,16 +1476,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Belgium"",
         ""score"": ""2-1"",
         ""scorers"": ""DOKU JEREMY, DOKU JEREMY, MOHAMED SALAH"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Belgium"",
-        ""score"": ""2-0"",
-        ""scorers"": ""LUKAKU ROMELU, DE BRUYNE KEVIN"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -1693,16 +1573,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 5,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""France"",
-        ""score"": ""2-1"",
-        ""scorers"": ""MBAPPE KYLIAN, DEMBELE OUSMANE, MANE SADIO"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 5,
-        ""ppTier"": """"
       }
     }
   },
@@ -1795,16 +1665,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 7,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Norway"",
-        ""score"": ""0-2"",
-        ""scorers"": ""HAALAND ERLING, SORLOTH ALEXANDER"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 5,
-        ""ppTier"": """"
       }
     }
   },
@@ -1892,16 +1752,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Argentina"",
         ""score"": ""2-0"",
         ""scorers"": ""MESSI LIONEL, MARTINEZ LAUTARO"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 5,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Argentina"",
-        ""score"": ""2-0"",
-        ""scorers"": ""MESSI LIONEL, ALVAREZ JULIAN"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -1999,16 +1849,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 5,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Austria"",
-        ""score"": ""2-0"",
-        ""scorers"": ""GREGORITSCH MICHAEL, SABITZER MARCEL"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
       }
     }
   },
@@ -2096,16 +1936,6 @@ const RESULTS_CACHE = {
         ""winner"": ""England"",
         ""score"": ""2-1"",
         ""scorers"": ""KANE HARRY, BELLINGHAM JUDE, PERISIC IVAN"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 7,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""England"",
-        ""score"": ""2-1"",
-        ""scorers"": ""BELLINGHAM JUDE, KANE HARRY, KRAMARIC ANDREJ"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -2203,16 +2033,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 3,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Draw"",
-        ""score"": ""1-1"",
-        ""scorers"": ""SEMENYO ANTOINE, FAJARDO JOSE"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
       }
     }
   },
@@ -2300,16 +2120,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Portugal"",
         ""score"": ""2-0"",
         ""scorers"": ""CRISTIANO RONALDO, BRUNO FERNANDES"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Portugal"",
-        ""score"": ""3-0"",
-        ""scorers"": ""CRISTIANO RONALDO, RAFAEL LEAO, BRUNO FERNANDES"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -2407,16 +2217,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 5,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Colombia"",
-        ""score"": ""0-3"",
-        ""scorers"": ""DIAZ LUIS, ARIAS JHON, SUAREZ LUIS"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 5,
-        ""ppTier"": """"
       }
     }
   },
@@ -2509,16 +2309,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 0,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Czechia"",
-        ""score"": ""2-1"",
-        ""scorers"": ""SCHICK PATRIK, SOUCEK TOMAS, FOSTER LYLE"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
       }
     }
   },
@@ -2606,16 +2396,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Switzerland"",
         ""score"": ""2-1"",
         ""scorers"": ""NDOYE DAN, EMBOLO BREEL, LUKIC JOVO"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Switzerland"",
-        ""score"": ""3-1"",
-        ""scorers"": ""EMBOLO BREEL, AMDOUNI ZEKI, NDOYE DAN, DZEKO EDIN"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -2897,16 +2677,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 10,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Brazil"",
-        ""score"": ""3-0"",
-        ""scorers"": ""VINICIUS JUNIOR, RAPHINHA, ROGER IBANEZ"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 10,
-        ""ppTier"": """"
       }
     }
   },
@@ -2994,16 +2764,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Morocco"",
         ""score"": ""1-2"",
         ""scorers"": ""MCGINN JOHN, DIAZ BRAHIM, EL KAABI AYOUB"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Morocco"",
-        ""score"": ""1-2"",
-        ""scorers"": ""MCTOMINAY SCOTT, HAKIMI ACHRAF, BELAMMARI YOUSSEF"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -3101,16 +2861,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 0,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Türkiye"",
-        ""score"": ""2-1"",
-        ""scorers"": ""AKTURKOGLU KEREM, GULER ARDA, ALMIRON MIGUEL"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
       }
     }
   },
@@ -3198,16 +2948,6 @@ const RESULTS_CACHE = {
         ""winner"": ""United States"",
         ""score"": ""2-1"",
         ""scorers"": ""BALOGUN FOLARIN, TILLMAN MALIK, IRANKUNDA NESTORY"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""United States"",
-        ""score"": ""2-1"",
-        ""scorers"": ""BALOGUN FOLARIN, REYNA GIOVANNI, IRANKUNDA NESTORY"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -3305,16 +3045,6 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 3,
         ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Germany"",
-        ""score"": ""3-0"",
-        ""scorers"": ""MUSIALA JAMAL, WIRTZ FLORIAN, HAVERTZ KAI"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
       }
     }
   },
@@ -3402,16 +3132,6 @@ const RESULTS_CACHE = {
         ""winner"": ""Ecuador"",
         ""score"": ""2-0"",
         ""scorers"": ""PAEZ KENDRY, VALENCIA ENNER"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 0,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Ecuador"",
-        ""score"": ""2-0"",
-        ""scorers"": ""VALENCIA ENNER, PAEZ KENDRY"",
         ""aetScore"": """",
         ""etScorers"": """",
         ""pensScore"": """",
@@ -3508,16 +3228,6 @@ const RESULTS_CACHE = {
         ""etScorers"": """",
         ""pensScore"": """",
         ""points"": 2,
-        ""ppTier"": """"
-      },
-      ""Rohit"": {
-        ""winner"": ""Netherlands"",
-        ""score"": ""2-1"",
-        ""scorers"": ""GAKPO CODY, VAN DIJK VIRGIL, ISAK ALEXANDER"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 5,
         ""ppTier"": """"
       }
     }
@@ -3978,6 +3688,5068 @@ const RESULTS_CACHE = {
         ""etScorers"": """",
         ""pensScore"": """",
         ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""41"": {
+    ""result"": {
+      ""winner"": ""Norway"",
+      ""score"": ""3-2"",
+      ""scorers"": ""HOLMGREN PEDERSEN MARCUS, HAALAND ERLING, HAALAND ERLING, SARR ISMAILA, SARR ISMAILA"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Norway"",
+        ""score"": ""3-2"",
+        ""scorers"": ""HAALAND ERLING, HAALAND ERLING, NUSA ANTONIO, JACKSON NICOLAS, MANE SADIO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Draw"",
+        ""score"": ""3-3"",
+        ""scorers"": ""HAALAND ERLING, HAALAND ERLING, SORLOTH ALEXANDER, MANE SADIO, JACKSON NICOLAS, SARR ISMAILA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 6,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Norway"",
+        ""score"": ""3-2"",
+        ""scorers"": ""HAALAND ERLING, HAALAND ERLING, ODEGAARD MARTIN, JACKSON NICOLAS, SARR ISMAILA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 14,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Norway"",
+        ""score"": ""2-1"",
+        ""scorers"": ""HAALAND ERLING, HAALAND ERLING, MANE SADIO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Norway"",
+        ""score"": ""1-0"",
+        ""scorers"": ""HAALAND ERLING"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Norway"",
+        ""score"": ""3-1"",
+        ""scorers"": ""NUSA ANTONIO, HAALAND ERLING, HAALAND ERLING, MANE SADIO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Norway"",
+        ""score"": ""2-1"",
+        ""scorers"": ""ODEGAARD MARTIN, HAALAND ERLING, SARR ISMAILA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Norway"",
+        ""score"": ""2-1"",
+        ""scorers"": ""HAALAND ERLING, HAALAND ERLING, MANE SADIO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""42"": {
+    ""result"": {
+      ""winner"": ""France"",
+      ""score"": ""3-0"",
+      ""scorers"": ""MBAPPE KYLIAN, MBAPPE KYLIAN, DEMBELE OUSMANE"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""France"",
+        ""score"": ""5-0"",
+        ""scorers"": ""MBAPPE KYLIAN, OLISE MICHAEL, DEMBELE OUSMANE, MBAPPE KYLIAN, BARCOLA BRADLEY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""France"",
+        ""score"": ""6-1"",
+        ""scorers"": ""MBAPPE KYLIAN, MBAPPE KYLIAN, MBAPPE KYLIAN, DEMBELE OUSMANE, OLISE MICHAEL, BARCOLA BRADLEY, AYMEN HUSSEIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""France"",
+        ""score"": ""5-1"",
+        ""scorers"": ""MBAPPE KYLIAN, BARCOLA BRADLEY, MBAPPE KYLIAN, MBAPPE KYLIAN, OLISE MICHAEL, AYMEN HUSSEIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""France"",
+        ""score"": ""5-0"",
+        ""scorers"": ""MBAPPE KYLIAN, MBAPPE KYLIAN, MBAPPE KYLIAN, OLISE MICHAEL, DEMBELE OUSMANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""France"",
+        ""score"": ""3-0"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, MBAPPE KYLIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 19,
+        ""ppTier"": ""Silver""
+      },
+      ""Joker"": {
+        ""winner"": ""France"",
+        ""score"": ""5-0"",
+        ""scorers"": ""MBAPPE KYLIAN, MBAPPE KYLIAN, DEMBELE OUSMANE, SALIBA WILLIAM, BARCOLA BRADLEY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""France"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MBAPPE KYLIAN, MBAPPE KYLIAN, MBAPPE KYLIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""France"",
+        ""score"": ""3-0"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, OLISE MICHAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""43"": {
+    ""result"": {
+      ""winner"": ""Argentina"",
+      ""score"": ""2-0"",
+      ""scorers"": ""MESSI LIONEL, MESSI LIONEL"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MESSI LIONEL, MARTINEZ LAUTARO, ALVAREZ JULIAN, GREGORITSCH MICHAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MESSI LIONEL, MARTINEZ LAUTARO, ALMADA THIAGO, SABITZER MARCEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""ALMADA THIAGO, MESSI LIONEL, ALVAREZ JULIAN, SABITZER MARCEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MESSI LIONEL, MARTINEZ LAUTARO, SCHMID ROMANO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""2-0"",
+        ""scorers"": ""MESSI LIONEL, MARTINEZ LAUTARO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MESSI LIONEL, MARTINEZ LAUTARO, DE PAUL RODRIGO, ARNAUTOVIC MARKO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-0"",
+        ""scorers"": ""DE PAUL RODRIGO, MESSI LIONEL, MESSI LIONEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, ALVAREZ JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""44"": {
+    ""result"": {
+      ""winner"": ""Algeria"",
+      ""score"": ""1-2"",
+      ""scorers"": ""NIZAR ALRASHDAN, BENBOUALI NADHIR, GOUIRI AMINE"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""ALI OLWAN, GOUIRI AMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Algeria"",
+        ""score"": ""1-2"",
+        ""scorers"": ""ALI OLWAN, CHAIBI FARES, GOUIRI AMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Algeria"",
+        ""score"": ""1-3"",
+        ""scorers"": ""ALI OLWAN, GOUIRI AMINE, GOUIRI AMINE, HADJ MOUSSA ANIS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Algeria"",
+        ""score"": ""1-2"",
+        ""scorers"": ""MOUSA ALTAMARI, AMOURA MOHAMED, GOUIRI AMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Algeria"",
+        ""score"": ""0-1"",
+        ""scorers"": ""MAHREZ RIYAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Algeria"",
+        ""score"": ""0-2"",
+        ""scorers"": ""GOUIRI AMINE, CHAIBI FARES"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Algeria"",
+        ""score"": ""0-1"",
+        ""scorers"": ""AMOURA MOHAMED"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""45"": {
+    ""result"": {
+      ""winner"": ""Draw"",
+      ""score"": ""0-0"",
+      ""scorers"": """",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""England"",
+        ""score"": ""4-1"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, BELLINGHAM JUDE, GORDON ANTHONY, AYEW JORDAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""England"",
+        ""score"": ""6-1"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, BELLINGHAM JUDE, MADUEKE NONI, OREILLY NICO, SAKA BUKAYO, SEMENYO ANTOINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""England"",
+        ""score"": ""4-1"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, BELLINGHAM JUDE, MADUEKE NONI, WILLIAMS INAKI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""England"",
+        ""score"": ""4-1"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, MADUEKE NONI, OWN GOAL, SEMENYO ANTOINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""England"",
+        ""score"": ""3-1"",
+        ""scorers"": ""KANE HARRY, RASHFORD MARCUS, KANE HARRY, WILLIAMS INAKI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""England"",
+        ""score"": ""3-0"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, RASHFORD MARCUS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""England"",
+        ""score"": ""3-0"",
+        ""scorers"": ""BELLINGHAM JUDE, KANE HARRY, KANE HARRY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""England"",
+        ""score"": ""3-1"",
+        ""scorers"": ""BELLINGHAM JUDE, KANE HARRY, KANE HARRY, SEMENYO ANTOINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""46"": {
+    ""result"": {
+      ""winner"": ""Croatia"",
+      ""score"": ""0-1"",
+      ""scorers"": ""BUDIMIR ANTE"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""0-2"",
+        ""scorers"": ""MUSA PETAR, PERISIC IVAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""0-2"",
+        ""scorers"": ""MODRIC LUKA, MUSA PETAR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""0-3"",
+        ""scorers"": ""MUSA PETAR, PERISIC IVAN, PASALIC MARCO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""0-2"",
+        ""scorers"": ""MUSA PETAR, BATURINA MARTIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""1-2"",
+        ""scorers"": ""MARTINEZ CRISTIAN, MUSA PETAR, KRAMARIC ANDREJ"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""0-3"",
+        ""scorers"": ""MUSA PETAR, BATURINA MARTIN, KOVACIC MATEO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""0-2"",
+        ""scorers"": ""BATURINA MARTIN, MUSA PETAR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""1-2"",
+        ""scorers"": ""WATERMAN CECILIO, KRAMARIC ANDREJ, MUSA PETAR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""47"": {
+    ""result"": {
+      ""winner"": ""Portugal"",
+      ""score"": ""5-0"",
+      ""scorers"": ""CRISTIANO RONALDO, NUNO MENDES, CRISTIANO RONALDO, OWN GOAL, RAFAEL LEAO"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""3-0"",
+        ""scorers"": ""BRUNO FERNANDES, CRISTIANO RONALDO, PEDRO NETO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""2-0"",
+        ""scorers"": ""JOAO FELIX, CRISTIANO RONALDO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""4-0"",
+        ""scorers"": ""CRISTIANO RONALDO, BRUNO FERNANDES, JOAO FELIX, GONCALO RAMOS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""3-0"",
+        ""scorers"": ""JOAO FELIX, CRISTIANO RONALDO, PEDRO NETO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""4-1"",
+        ""scorers"": ""CRISTIANO RONALDO, CRISTIANO RONALDO, CRISTIANO RONALDO, JOAO FELIX, SHOMURODOV ELDOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""2-1"",
+        ""scorers"": ""NUNO MENDES, CRISTIANO RONALDO, URUNOV OSTON"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""3-0"",
+        ""scorers"": ""BRUNO FERNANDES, CRISTIANO RONALDO, JOAO FELIX"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""3-1"",
+        ""scorers"": ""CRISTIANO RONALDO, BRUNO FERNANDES, RAFAEL LEAO, SHOMURODOV ELDOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""48"": {
+    ""result"": {
+      ""winner"": ""Colombia"",
+      ""score"": ""1-0"",
+      ""scorers"": ""MUNOZ DANIEL"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""3-1"",
+        ""scorers"": ""DIAZ LUIS, SUAREZ LUIS, ARIAS SANTIAGO, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DIAZ LUIS, SUAREZ LUIS, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""3-1"",
+        ""scorers"": ""DIAZ LUIS, ARIAS JHON, HERNANDEZ CUCHO, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DIAZ LUIS, RODRIGUEZ JAMES, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-0"",
+        ""scorers"": ""DIAZ LUIS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""3-1"",
+        ""scorers"": ""SUAREZ LUIS, DIAZ LUIS, ARIAS JHON, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DIAZ LUIS, RODRIGUEZ JAMES, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""2-0"",
+        ""scorers"": ""DIAZ LUIS, RODRIGUEZ JAMES"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""49"": {
+    ""result"": {
+      ""winner"": ""Brazil"",
+      ""score"": ""0-3"",
+      ""scorers"": ""VINICIUS JUNIOR, VINICIUS JUNIOR, MATHEUS CUNHA"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""1-3"",
+        ""scorers"": ""SHANKLAND LAWRENCE, VINICIUS JUNIOR, MATHEUS CUNHA, VINICIUS JUNIOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""0-2"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""1-4"",
+        ""scorers"": ""MCGINN JOHN, VINICIUS JUNIOR, MATHEUS CUNHA, VINICIUS JUNIOR, ENDRICK"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""0-3"",
+        ""scorers"": ""VINICIUS JUNIOR, VINICIUS JUNIOR, RAYAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""0-3"",
+        ""scorers"": ""VINICIUS JUNIOR, VINICIUS JUNIOR, MATHEUS CUNHA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 19,
+        ""ppTier"": ""Silver""
+      },
+      ""Joker"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""0-4"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, RAYAN, MATHEUS CUNHA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""0-2"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""0-3"",
+        ""scorers"": ""VINICIUS JUNIOR, RAPHINHA, MATHEUS CUNHA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""50"": {
+    ""result"": {
+      ""winner"": ""Morocco"",
+      ""score"": ""4-2"",
+      ""scorers"": ""HAKIMI ACHRAF, SAIBARI ISMAEL, RAHIMI SOUFIANE, YASSINE GESSIME, ISIDOR WILSON, OWN GOAL"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""2-0"",
+        ""scorers"": ""EL KAABI AYOUB, SAIBARI ISMAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""2-0"",
+        ""scorers"": ""SAIBARI ISMAEL, EL KAABI AYOUB"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""4-0"",
+        ""scorers"": ""SAIBARI ISMAEL, SAIBARI ISMAEL, DIAZ BRAHIM, EL KHANNOUSS BILAL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""2-0"",
+        ""scorers"": ""DIAZ BRAHIM, EL KAABI AYOUB"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""3-0"",
+        ""scorers"": ""TALBI CHEMSDINE, HAKIMI ACHRAF, SAIBARI ISMAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""3-0"",
+        ""scorers"": ""SAIBARI ISMAEL, DIAZ BRAHIM, EL KAABI AYOUB"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""1-0"",
+        ""scorers"": ""SAIBARI ISMAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""2-1"",
+        ""scorers"": ""SAIBARI ISMAEL, EL KAABI AYOUB, NAZON DUCKENS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""51"": {
+    ""result"": {
+      ""winner"": ""Switzerland"",
+      ""score"": ""2-1"",
+      ""scorers"": ""VARGAS RUBEN, MANZAMBI JOHAN, DAVID PROMISE"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-1"",
+        ""scorers"": ""EMBOLO BREEL, MANZAMBI JOHAN, DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MANZAMBI JOHAN, EMBOLO BREEL, LARIN CYLE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Draw"",
+        ""score"": ""2-2"",
+        ""scorers"": ""EMBOLO BREEL, VARGAS RUBEN, DAVID JONATHAN, LARIN CYLE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Draw"",
+        ""score"": ""2-2"",
+        ""scorers"": ""EMBOLO BREEL, MANZAMBI JOHAN, LARIN CYLE, DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""3-1"",
+        ""scorers"": ""EMBOLO BREEL, MANZAMBI JOHAN, XHAKA GRANIT, DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Draw"",
+        ""score"": ""3-3"",
+        ""scorers"": ""OWN GOAL, EMBOLO BREEL, MANZAMBI JOHAN, OWN GOAL, LARIN CYLE, DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Canada"",
+        ""score"": ""0-1"",
+        ""scorers"": ""DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-1"",
+        ""scorers"": ""EMBOLO BREEL, NDOYE DAN, DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""52"": {
+    ""result"": {
+      ""winner"": ""Bosnia And Herzegovina"",
+      ""score"": ""3-1"",
+      ""scorers"": ""ALAJBEGOVIC KERIM, OWN GOAL, MAHMIC ERMIN, HASSAN ALHAYDOS"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DEMIROVIC ERMEDIN, AKRAM AFIF"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Bosnia And Herzegovina"",
+        ""score"": ""3-0"",
+        ""scorers"": ""DEMIROVIC ERMEDIN, DZEKO EDIN, DZEKO EDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Bosnia And Herzegovina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""DZEKO EDIN, DEMIROVIC ERMEDIN, BAJRAKTAREVIC ESMIR, AKRAM AFIF"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Bosnia And Herzegovina"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DZEKO EDIN, DEMIROVIC ERMEDIN, AKRAM AFIF"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Bosnia And Herzegovina"",
+        ""score"": ""2-0"",
+        ""scorers"": ""BAJRAKTAREVIC ESMIR, DZEKO EDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Bosnia And Herzegovina"",
+        ""score"": ""3-2"",
+        ""scorers"": ""OWN GOAL, VASILJ NIKOLA, LUKIC JOVO, OWN GOAL, AKRAM AFIF"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Bosnia And Herzegovina"",
+        ""score"": ""2-0"",
+        ""scorers"": ""DZEKO EDIN, DEMIROVIC ERMEDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Bosnia And Herzegovina"",
+        ""score"": ""2-0"",
+        ""scorers"": ""DZEKO EDIN, DEMIROVIC ERMEDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""53"": {
+    ""result"": {
+      ""winner"": ""Mexico"",
+      ""score"": ""0-3"",
+      ""scorers"": ""CHAVEZ MATEO, QUINONES JULIAN, FIDALGO ALVARO"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""SULC PAVEL, QUINONES JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""2-3"",
+        ""scorers"": ""COUFAL VLADIMIR, HLOZEK ADAM, MARTINEZ GUILLERMO, QUINONES JULIAN, JIMENEZ RAUL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-2"",
+        ""scorers"": ""KREJCI LADISLAV, QUINONES JULIAN, MORA GILBERTO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-2"",
+        ""scorers"": ""HLOZEK ADAM, QUINONES JULIAN, ALVARADO ROBERTO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-2"",
+        ""scorers"": ""HLOZEK ADAM, MARTINEZ GUILLERMO, QUINONES JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-3"",
+        ""scorers"": ""HLOZEK ADAM, MARTINEZ GUILLERMO, ALVARADO ROBERTO, ROMO LUIS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-2"",
+        ""scorers"": ""SADILEK MICHAL, ROMO LUIS, GIMENEZ SANTIAGO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Czechia"",
+        ""score"": ""2-1"",
+        ""scorers"": ""SOUCEK TOMAS, SCHICK PATRIK, JIMENEZ RAUL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""54"": {
+    ""result"": {
+      ""winner"": ""South Africa"",
+      ""score"": ""1-0"",
+      ""scorers"": ""MASEKO THAPELO"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""1-2"",
+        ""scorers"": ""MAKGOPA EVIDENCE, HWANG HEECHAN, OH HYEONGYU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""0-2"",
+        ""scorers"": ""LEE KANGIN, OH HYEONGYU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""0-3"",
+        ""scorers"": ""HWANG HEECHAN, SON HEUNGMIN, OH HYEONGYU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""1-2"",
+        ""scorers"": ""MAKGOPA EVIDENCE, OH HYEONGYU, LEE KANGIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""0-1"",
+        ""scorers"": ""OH HYEONGYU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""1-3"",
+        ""scorers"": ""OWN GOAL, OWN GOAL, HWANG INBEOM, HWANG HEECHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""0-2"",
+        ""scorers"": ""HWANG INBEOM, HWANG INBEOM"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""South Korea"",
+        ""score"": ""1-2"",
+        ""scorers"": ""FOSTER LYLE, HWANG HEECHAN, SON HEUNGMIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""55"": {
+    ""result"": {
+      ""winner"": ""Ivory Coast"",
+      ""score"": ""0-2"",
+      ""scorers"": ""PEPE NICOLAS, PEPE NICOLAS"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""0-2"",
+        ""scorers"": ""BONNY ANGE-YOAN, PEPE NICOLAS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""1-4"",
+        ""scorers"": ""BACUNA JUNINHO, DIOMANDE YAN, PEPE NICOLAS, DIALLO AMAD, OWN GOAL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""0-3"",
+        ""scorers"": ""DIOMANDE YAN, DIALLO AMAD, PEPE NICOLAS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""1-2"",
+        ""scorers"": ""LOCADIA JUERGEN, DIALLO AMAD, BONNY ANGE-YOAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""1-3"",
+        ""scorers"": ""LOCADIA JUERGEN, DIOMANDE YAN, PEPE NICOLAS, BONNY ANGE-YOAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""0-2"",
+        ""scorers"": ""BONNY ANGE-YOAN, PEPE NICOLAS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""0-1"",
+        ""scorers"": ""ADINGRA SIMON"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Ivory Coast"",
+        ""score"": ""1-3"",
+        ""scorers"": ""KASTANEER GERVANE, DIOMANDE OUSMANE, DIALLO AMAD, BONNY ANGE-YOAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""56"": {
+    ""result"": {
+      ""winner"": ""Ecuador"",
+      ""score"": ""2-1"",
+      ""scorers"": ""ANGULO NILSON, PLATA GONZALO, SANE LEROY"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Germany"",
+        ""score"": ""0-3"",
+        ""scorers"": ""HAVERTZ KAI, MUSIALA JAMAL, WIRTZ FLORIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Germany"",
+        ""score"": ""0-1"",
+        ""scorers"": ""HAVERTZ KAI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Germany"",
+        ""score"": ""0-4"",
+        ""scorers"": ""HAVERTZ KAI, UNDAV DENIZ, WIRTZ FLORIAN, MUSIALA JAMAL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Germany"",
+        ""score"": ""1-2"",
+        ""scorers"": ""VALENCIA ENNER, HAVERTZ KAI, WIRTZ FLORIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Germany"",
+        ""score"": ""1-3"",
+        ""scorers"": ""VALENCIA ENNER, MUSIALA JAMAL, HAVERTZ KAI, LEWELING JAMIE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Germany"",
+        ""score"": ""0-3"",
+        ""scorers"": ""HAVERTZ KAI, HAVERTZ KAI, WIRTZ FLORIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Germany"",
+        ""score"": ""1-3"",
+        ""scorers"": ""ESTUPINAN PERVIS, UNDAV DENIZ, UNDAV DENIZ, SANE LEROY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Germany"",
+        ""score"": ""1-2"",
+        ""scorers"": ""VALENCIA ENNER, HAVERTZ KAI, UNDAV DENIZ"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""57"": {
+    ""result"": {
+      ""winner"": ""Draw"",
+      ""score"": ""1-1"",
+      ""scorers"": ""MAEDA DAIZEN, ELANGA ANTHONY"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Draw"",
+        ""score"": ""2-2"",
+        ""scorers"": ""UEDA AYASE, MAEDA DAIZEN, GYOKERES VIKTOR, ELANGA ANTHONY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Japan"",
+        ""score"": ""3-1"",
+        ""scorers"": ""DOAN RITSU, UEDA AYASE, KAMADA DAICHI, GYOKERES VIKTOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Japan"",
+        ""score"": ""4-2"",
+        ""scorers"": ""UEDA AYASE, MAEDA DAIZEN, NAKAMURA KEITO, MAEDA DAIZEN, ISAK ALEXANDER, ELANGA ANTHONY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Draw"",
+        ""score"": ""2-2"",
+        ""scorers"": ""UEDA AYASE, DOAN RITSU, GYOKERES VIKTOR, ISAK ALEXANDER"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""UEDA AYASE, ISAK ALEXANDER"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Draw"",
+        ""score"": ""2-2"",
+        ""scorers"": ""UEDA AYASE, KAMADA DAICHI, GYOKERES VIKTOR, ISAK ALEXANDER"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Japan"",
+        ""score"": ""2-1"",
+        ""scorers"": ""KAMADA DAICHI, ITO JUNYA, ISAK ALEXANDER"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""UEDA AYASE, ISAK ALEXANDER"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""58"": {
+    ""result"": {
+      ""winner"": ""Netherlands"",
+      ""score"": ""1-3"",
+      ""scorers"": ""MASTOURI HAZEM, OWN GOAL, BROBBEY BRIAN, VAN HECKE JAN PAUL"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-4"",
+        ""scorers"": ""GAKPO CODY, BROBBEY BRIAN, VAN DIJK VIRGIL, MALEN DONYELL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-5"",
+        ""scorers"": ""GAKPO CODY, BROBBEY BRIAN, BROBBEY BRIAN, DUMFRIES DENZEL, VAN DIJK VIRGIL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-5"",
+        ""scorers"": ""BROBBEY BRIAN, GAKPO CODY, GAKPO CODY, MALEN DONYELL, VAN DIJK VIRGIL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-4"",
+        ""scorers"": ""GAKPO CODY, GAKPO CODY, MALEN DONYELL, BROBBEY BRIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-3"",
+        ""scorers"": ""BROBBEY BRIAN, GAKPO CODY, DEPAY MEMPHIS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-5"",
+        ""scorers"": ""GAKPO CODY, GAKPO CODY, DEPAY MEMPHIS, BROBBEY BRIAN, AKE NATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-4"",
+        ""scorers"": ""GAKPO CODY, DE JONG FRENKIE, BROBBEY BRIAN, BROBBEY BRIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""0-3"",
+        ""scorers"": ""GAKPO CODY, DEPAY MEMPHIS, BROBBEY BRIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""59"": {
+    ""result"": {
+      ""winner"": ""Türkiye"",
+      ""score"": ""3-2"",
+      ""scorers"": ""GULER ARDA, YILMAZ BARIS ALPER, AYHAN KAAN, TRUSTY AUSTON, BERHALTER SEBASTIAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""United States"",
+        ""score"": ""0-2"",
+        ""scorers"": ""REYNA GIOVANNI, PEPI RICARDO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""United States"",
+        ""score"": ""1-2"",
+        ""scorers"": ""YILMAZ BARIS ALPER, WEAH TIMOTHY, REYNA GIOVANNI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""United States"",
+        ""score"": ""1-3"",
+        ""scorers"": ""YILMAZ BARIS ALPER, WEAH TIMOTHY, PEPI RICARDO, REYNA GIOVANNI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""United States"",
+        ""score"": ""1-2"",
+        ""scorers"": ""GULER ARDA, REYNA GIOVANNI, PEPI RICARDO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""United States"",
+        ""score"": ""0-2"",
+        ""scorers"": ""PEPI RICARDO, BALOGUN FOLARIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""United States"",
+        ""score"": ""0-4"",
+        ""scorers"": ""PEPI RICARDO, REYNA GIOVANNI, MCKENNIE WESTON, AARONSON BRENDEN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""United States"",
+        ""score"": ""0-2"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""United States"",
+        ""score"": ""1-2"",
+        ""scorers"": ""GULER ARDA, BALOGUN FOLARIN, PULISIC CHRISTIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""60"": {
+    ""result"": {
+      ""winner"": ""Draw"",
+      ""score"": ""0-0"",
+      ""scorers"": """",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Australia"",
+        ""score"": ""1-2"",
+        ""scorers"": ""AVALOS GABRIEL, IRANKUNDA NESTORY, VOLPATO CRISTIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Australia"",
+        ""score"": ""0-1"",
+        ""scorers"": ""SOUTTAR HARRY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""AVALOS GABRIEL, VOLPATO CRISTIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""AVALOS GABRIEL, IRANKUNDA NESTORY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Australia"",
+        ""score"": ""0-1"",
+        ""scorers"": ""IRANKUNDA NESTORY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Australia"",
+        ""score"": ""1-2"",
+        ""scorers"": ""AVALOS GABRIEL, IRANKUNDA NESTORY, METCALFE CONNOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Australia"",
+        ""score"": ""1-2"",
+        ""scorers"": ""ENCISO JULIO, METCALFE CONNOR, ONEILL AIDEN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""SANABRIA ANTONIO, IRANKUNDA NESTORY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""61"": {
+    ""result"": {
+      ""winner"": ""France"",
+      ""score"": ""1-4"",
+      ""scorers"": ""AASGAARD THELO, DEMBELE OUSMANE, DEMBELE OUSMANE, DEMBELE OUSMANE, DOUE DESIRE"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""France"",
+        ""score"": ""1-4"",
+        ""scorers"": ""STRAND LARSEN JORGEN, MBAPPE KYLIAN, MBAPPE KYLIAN, OLISE MICHAEL, DEMBELE OUSMANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""France"",
+        ""score"": ""1-3"",
+        ""scorers"": ""STRAND LARSEN JORGEN, MBAPPE KYLIAN, DEMBELE OUSMANE, DEMBELE OUSMANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""France"",
+        ""score"": ""0-4"",
+        ""scorers"": ""MBAPPE KYLIAN, MBAPPE KYLIAN, DEMBELE OUSMANE, OLISE MICHAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""France"",
+        ""score"": ""1-3"",
+        ""scorers"": ""STRAND LARSEN JORGEN, DEMBELE OUSMANE, MBAPPE KYLIAN, MBAPPE KYLIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""France"",
+        ""score"": ""2-3"",
+        ""scorers"": ""HAALAND ERLING, STRAND LARSEN JORGEN, MBAPPE KYLIAN, MBAPPE KYLIAN, DOUE DESIRE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""France"",
+        ""score"": ""1-3"",
+        ""scorers"": ""HAALAND ERLING, MBAPPE KYLIAN, MBAPPE KYLIAN, DEMBELE OUSMANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""France"",
+        ""score"": ""1-4"",
+        ""scorers"": ""HAALAND ERLING, MBAPPE KYLIAN, MBAPPE KYLIAN, MBAPPE KYLIAN, DEMBELE OUSMANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""France"",
+        ""score"": ""1-2"",
+        ""scorers"": ""HAALAND ERLING, MBAPPE KYLIAN, MBAPPE KYLIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""62"": {
+    ""result"": {
+      ""winner"": ""Senegal"",
+      ""score"": ""5-0"",
+      ""scorers"": ""DIARRA HABIB, SARR ISMAILA, GUEYE PAPE, GUEYE PAPE, NDIAYE ILIMAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""3-1"",
+        ""scorers"": ""SARR ISMAILA, MBAYE IBRAHIM, MANE SADIO, ALI ALHAMADI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""3-0"",
+        ""scorers"": ""SARR ISMAILA, MBAYE IBRAHIM, MANE SADIO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""3-1"",
+        ""scorers"": ""SARR ISMAILA, MBAYE IBRAHIM, MANE SADIO, ZIDANE IQBAL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MANE SADIO, JACKSON NICOLAS, AYMEN HUSSEIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MANE SADIO, SARR ISMAILA, MBAYE IBRAHIM"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""3-2"",
+        ""scorers"": ""OWN GOAL, SARR ISMAILA, MANE SADIO, OWN GOAL, AYMEN HUSSEIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""1-0"",
+        ""scorers"": ""SARR ISMAILA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""2-0"",
+        ""scorers"": ""JACKSON NICOLAS, MANE SADIO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""63"": {
+    ""result"": {
+      ""winner"": ""Draw"",
+      ""score"": ""1-1"",
+      ""scorers"": ""MAHMOUD SABER, REZAEIAN RAMIN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MOHAMED SALAH, TREZEGUET, TAREMI MEHDI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MOHAMED SALAH, TREZEGUET, TAREMI MEHDI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MOSTAFA ZICO, MOHAMED SALAH, TAREMI MEHDI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MOHAMED SALAH, TAREMI MEHDI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""1-0"",
+        ""scorers"": ""MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""3-2"",
+        ""scorers"": ""OWN GOAL, MOSTAFA ZICO, MOHAMED SALAH, OWN GOAL, MOHEBBI MOHAMMAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MOHAMED SALAH, MOHAMED SALAH, MOSTAFA ZICO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""2-1"",
+        ""scorers"": ""OMAR MARMOUSH, MOHAMED SALAH, TAREMI MEHDI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""64"": {
+    ""result"": {
+      ""winner"": ""Belgium"",
+      ""score"": ""1-5"",
+      ""scorers"": ""JUST ELIJAH, TROSSARD LEANDRO, TROSSARD LEANDRO, DE BRUYNE KEVIN, LUKAKU ROMELU, SAELEMAEKERS ALEXIS"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""1-2"",
+        ""scorers"": ""WOOD CHRIS, DOKU JEREMY, DE BRUYNE KEVIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""0-2"",
+        ""scorers"": ""TROSSARD LEANDRO, DOKU JEREMY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""0-3"",
+        ""scorers"": ""DE BRUYNE KEVIN, DOKU JEREMY, TIELEMANS YOURI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""0-2"",
+        ""scorers"": ""LUKAKU ROMELU, LUKAKU ROMELU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""0-2"",
+        ""scorers"": ""DE BRUYNE KEVIN, LUKAKU ROMELU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""1-3"",
+        ""scorers"": ""OWN GOAL, OWN GOAL, DE KETELAERE CHARLES, DOKU JEREMY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""0-1"",
+        ""scorers"": ""DE BRUYNE KEVIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""1-3"",
+        ""scorers"": ""WOOD CHRIS, DE BRUYNE KEVIN, DOKU JEREMY, LUKAKU ROMELU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""65"": {
+    ""result"": {
+      ""winner"": ""Draw"",
+      ""score"": ""0-0"",
+      ""scorers"": """",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Cape Verde"",
+        ""score"": ""2-1"",
+        ""scorers"": ""WILLY SEMEDO, DAILON LIVRAMENTO, FERAS ALBRIKAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Cape Verde"",
+        ""score"": ""2-0"",
+        ""scorers"": ""JAMIRO MONTEIRO, DAILON LIVRAMENTO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Cape Verde"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DAILON LIVRAMENTO, RYAN MENDES, SALEM ALDAWSARI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""RYAN MENDES, SALEM ALDAWSARI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Cape Verde"",
+        ""score"": ""1-0"",
+        ""scorers"": ""RYAN MENDES"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Cape Verde"",
+        ""score"": ""2-1"",
+        ""scorers"": ""OWN GOAL, KEVIN PINA, OWN GOAL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Cape Verde"",
+        ""score"": ""1-0"",
+        ""scorers"": ""HELIO VARELA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Cape Verde"",
+        ""score"": ""2-1"",
+        ""scorers"": ""RYAN MENDES, RYAN MENDES, NASSER ALDAWSARI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""66"": {
+    ""result"": {
+      ""winner"": ""Spain"",
+      ""score"": ""0-1"",
+      ""scorers"": ""BAENA ALEX"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-3"",
+        ""scorers"": ""NUNEZ DARWIN, YAMAL LAMINE, OYARZABAL MIKEL, YAMAL LAMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-4"",
+        ""scorers"": ""CANOBBIO AGUSTIN, OYARZABAL MIKEL, YAMAL LAMINE, YAMAL LAMINE, MERINO MIKEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Spain"",
+        ""score"": ""0-3"",
+        ""scorers"": ""YAMAL LAMINE, OYARZABAL MIKEL, CUCURELLA MARC"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Spain"",
+        ""score"": ""0-1"",
+        ""scorers"": ""PEDRI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Spain"",
+        ""score"": ""0-2"",
+        ""scorers"": ""YAMAL LAMINE, OYARZABAL MIKEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-3"",
+        ""scorers"": ""VINAS FEDERICO, YAMAL LAMINE, OYARZABAL MIKEL, PEDRI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-2"",
+        ""scorers"": ""CANOBBIO AGUSTIN, OYARZABAL MIKEL, YAMAL LAMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-2"",
+        ""scorers"": ""NUNEZ DARWIN, OYARZABAL MIKEL, OYARZABAL MIKEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""67"": {
+    ""result"": {
+      ""winner"": ""England"",
+      ""score"": ""0-2"",
+      ""scorers"": ""KANE HARRY, BELLINGHAM JUDE"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""England"",
+        ""score"": ""0-3"",
+        ""scorers"": ""KANE HARRY, RASHFORD MARCUS, ROGERS MORGAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""England"",
+        ""score"": ""0-2"",
+        ""scorers"": ""KANE HARRY, SAKA BUKAYO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""England"",
+        ""score"": ""0-5"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, OREILLY NICO, SAKA BUKAYO, RASHFORD MARCUS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""England"",
+        ""score"": ""0-2"",
+        ""scorers"": ""KANE HARRY, SAKA BUKAYO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""England"",
+        ""score"": ""0-4"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, RASHFORD MARCUS, ROGERS MORGAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""England"",
+        ""score"": ""0-4"",
+        ""scorers"": ""KANE HARRY, KANE HARRY, SAKA BUKAYO, BELLINGHAM JUDE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""England"",
+        ""score"": ""0-4"",
+        ""scorers"": ""KANE HARRY, RASHFORD MARCUS, BELLINGHAM JUDE, BELLINGHAM JUDE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""England"",
+        ""score"": ""0-2"",
+        ""scorers"": ""KANE HARRY, RASHFORD MARCUS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""68"": {
+    ""result"": {
+      ""winner"": ""Croatia"",
+      ""score"": ""2-1"",
+      ""scorers"": ""SUCIC PETAR, VLASIC NIKOLA, LUCKASSEN DERRICK"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BATURINA MARTIN, BUDIMIR ANTE, AYEW JORDAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""2-0"",
+        ""scorers"": ""BUDIMIR ANTE, SUCIC PETAR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BUDIMIR ANTE, VLASIC NIKOLA, SULEMANA KAMALDEEN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""2-0"",
+        ""scorers"": ""BUDIMIR ANTE, BATURINA MARTIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""1-0"",
+        ""scorers"": ""BUDIMIR ANTE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MUSA PETAR, YIRENKYI CALEB"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""1-0"",
+        ""scorers"": ""MUSA PETAR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""1-0"",
+        ""scorers"": ""KRAMARIC ANDREJ"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""69"": {
+    ""result"": {
+      ""winner"": ""Draw"",
+      ""score"": ""3-3"",
+      ""scorers"": ""BELGHALI RAFIK, MAHREZ RIYAD, MAHREZ RIYAD, ARNAUTOVIC MARKO, SABITZER MARCEL, KALAJDZIC SASA"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MAHREZ RIYAD, ARNAUTOVIC MARKO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""CHAIBI FARES, ARNAUTOVIC MARKO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Austria"",
+        ""score"": ""1-3"",
+        ""scorers"": ""GOUIRI AMINE, OWN GOAL, ARNAUTOVIC MARKO, ALABA DAVID"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MAHREZ RIYAD, LAIMER KONRAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Austria"",
+        ""score"": ""0-1"",
+        ""scorers"": ""ARNAUTOVIC MARKO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Austria"",
+        ""score"": ""0-2"",
+        ""scorers"": ""ARNAUTOVIC MARKO, SABITZER MARCEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Austria"",
+        ""score"": ""0-1"",
+        ""scorers"": ""SABITZER MARCEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Draw"",
+        ""score"": ""1-1"",
+        ""scorers"": ""AMOURA MOHAMED, ARNAUTOVIC MARKO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""70"": {
+    ""result"": {
+      ""winner"": ""Argentina"",
+      ""score"": ""1-3"",
+      ""scorers"": ""MOUSA ALTAMARI, MARTINEZ LAUTARO, LO CELSO GIOVANI, MESSI LIONEL"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-2"",
+        ""scorers"": ""MARTINEZ LAUTARO, ALVAREZ JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-3"",
+        ""scorers"": ""MARTINEZ LAUTARO, ALVAREZ JULIAN, MESSI LIONEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-3"",
+        ""scorers"": ""ALVAREZ JULIAN, MARTINEZ LAUTARO, LO CELSO GIOVANI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-3"",
+        ""scorers"": ""ALVAREZ JULIAN, DE PAUL RODRIGO, MARTINEZ LAUTARO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-3"",
+        ""scorers"": ""ALVAREZ JULIAN, MESSI LIONEL, MARTINEZ LAUTARO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-5"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, MESSI LIONEL, MARTINEZ LAUTARO, DE PAUL RODRIGO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-3"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, ALVAREZ JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""0-3"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, ALVAREZ JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""71"": {
+    ""result"": {
+      ""winner"": ""Draw"",
+      ""score"": ""0-0"",
+      ""scorers"": """",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""2-3"",
+        ""scorers"": ""DIAZ LUIS, CORDOBA JHON, CRISTIANO RONALDO, BRUNO FERNANDES, PEDRO NETO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""2-3"",
+        ""scorers"": ""CORDOBA JHON, DIAZ LUIS, CRISTIANO RONALDO, CRISTIANO RONALDO, BRUNO FERNANDES"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Draw"",
+        ""score"": ""2-2"",
+        ""scorers"": ""DIAZ LUIS, RODRIGUEZ JAMES, CRISTIANO RONALDO, FRANCISCO CONCEICAO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-2"",
+        ""scorers"": ""CORDOBA JHON, CRISTIANO RONALDO, CRISTIANO RONALDO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-2"",
+        ""scorers"": ""RODRIGUEZ JAMES, CRISTIANO RONALDO, CRISTIANO RONALDO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-3"",
+        ""scorers"": ""MUNOZ DANIEL, CRISTIANO RONALDO, BRUNO FERNANDES, NUNO MENDES"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-2"",
+        ""scorers"": ""RODRIGUEZ JAMES, CRISTIANO RONALDO, BERNARDO SILVA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-3"",
+        ""scorers"": ""DIAZ LUIS, CRISTIANO RONALDO, CRISTIANO RONALDO, BRUNO FERNANDES"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""72"": {
+    ""result"": {
+      ""winner"": ""Congo DR"",
+      ""score"": ""3-1"",
+      ""scorers"": ""WISSA YOANE, WISSA YOANE, MAYELE FISTON, SHOMURODOV ELDOR"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Congo DR"",
+        ""score"": ""1-0"",
+        ""scorers"": ""WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Congo DR"",
+        ""score"": ""2-0"",
+        ""scorers"": ""WISSA YOANE, BAKAMBU CEDRIC"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Congo DR"",
+        ""score"": ""2-1"",
+        ""scorers"": ""WISSA YOANE, BAKAMBU CEDRIC, SHOMURODOV ELDOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Congo DR"",
+        ""score"": ""1-0"",
+        ""scorers"": ""BAKAMBU CEDRIC"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Congo DR"",
+        ""score"": ""1-0"",
+        ""scorers"": ""WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Draw"",
+        ""score"": ""0-0"",
+        ""scorers"": """",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Congo DR"",
+        ""score"": ""1-0"",
+        ""scorers"": ""KAKUTA GAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Congo DR"",
+        ""score"": ""2-0"",
+        ""scorers"": ""BAKAMBU CEDRIC, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""73"": {
+    ""result"": {
+      ""winner"": ""Canada"",
+      ""score"": ""0-1"",
+      ""scorers"": ""EUSTAQUIO STEPHEN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Canada"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MAKGOPA EVIDENCE, DAVID JONATHAN"",
+        ""aetScore"": ""1-2"",
+        ""etScorers"": ""LARIN CYLE"",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Canada"",
+        ""score"": ""0-1"",
+        ""scorers"": ""LARIN CYLE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Canada"",
+        ""score"": ""0-0"",
+        ""scorers"": """",
+        ""aetScore"": """",
+        ""etScorers"": ""LARIN CYLE"",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Canada"",
+        ""score"": ""0-1"",
+        ""scorers"": ""LARIN CYLE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Canada"",
+        ""score"": ""1-2"",
+        ""scorers"": ""MAKGOPA EVIDENCE, OLUWASEYI TANI, DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Canada"",
+        ""score"": ""1-1"",
+        ""scorers"": ""OWN GOAL, OWN GOAL"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""2-3"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Canada"",
+        ""score"": ""0-2"",
+        ""scorers"": ""LARIN CYLE, DAVID JONATHAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""74"": {
+    ""result"": {
+      ""winner"": ""Paraguay"",
+      ""score"": ""1-1"",
+      ""scorers"": ""HAVERTZ KAI, ENCISO JULIO"",
+      ""aetScore"": ""1-1"",
+      ""etScorers"": """",
+      ""pensScore"": ""3-4""
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Germany"",
+        ""score"": ""2-0"",
+        ""scorers"": ""HAVERTZ KAI, UNDAV DENIZ"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Germany"",
+        ""score"": ""3-0"",
+        ""scorers"": ""HAVERTZ KAI, SANE LEROY, UNDAV DENIZ"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Germany"",
+        ""score"": ""3-0"",
+        ""scorers"": ""UNDAV DENIZ, NMECHA FELIX, HAVERTZ KAI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Germany"",
+        ""score"": ""3-0"",
+        ""scorers"": ""SANE LEROY, WIRTZ FLORIAN, HAVERTZ KAI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Germany"",
+        ""score"": ""2-0"",
+        ""scorers"": ""SANE LEROY, HAVERTZ KAI"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Germany"",
+        ""score"": ""2-0"",
+        ""scorers"": ""HAVERTZ KAI, UNDAV DENIZ"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Germany"",
+        ""score"": ""3-0"",
+        ""scorers"": ""HAVERTZ KAI, MUSIALA JAMAL, UNDAV DENIZ"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""75"": {
+    ""result"": {
+      ""winner"": ""Morocco"",
+      ""score"": ""1-1"",
+      ""scorers"": ""GAKPO CODY, DIOP ISSA"",
+      ""aetScore"": ""1-1"",
+      ""etScorers"": """",
+      ""pensScore"": ""2-3""
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BROBBEY BRIAN, GAKPO CODY, SAIBARI ISMAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""1-1"",
+        ""scorers"": ""BROBBEY BRIAN, SAIBARI ISMAEL"",
+        ""aetScore"": ""2-1"",
+        ""etScorers"": ""SUMMERVILLE CRYSENCIO"",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""2-2"",
+        ""scorers"": ""VAN DIJK VIRGIL, SUMMERVILLE CRYSENCIO, SAIBARI ISMAEL, DIAZ BRAHIM"",
+        ""aetScore"": ""3-2"",
+        ""etScorers"": ""WEGHORST WOUT"",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""1-1"",
+        ""scorers"": ""SUMMERVILLE CRYSENCIO, SAIBARI ISMAEL"",
+        ""aetScore"": ""1-2"",
+        ""etScorers"": ""DIAZ BRAHIM"",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""1-1"",
+        ""scorers"": ""GAKPO CODY, SAIBARI ISMAEL"",
+        ""aetScore"": ""2-1"",
+        ""etScorers"": ""VAN DIJK VIRGIL"",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""1-1"",
+        ""scorers"": ""GAKPO CODY, SAIBARI ISMAEL"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-5"",
+        ""points"": 17,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Netherlands"",
+        ""score"": ""1-0"",
+        ""scorers"": ""VAN DIJK VIRGIL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""1-1"",
+        ""scorers"": ""GAKPO CODY, SAIBARI ISMAEL"",
+        ""aetScore"": ""3-4"",
+        ""etScorers"": ""BROBBEY BRIAN, GAKPO CODY, HAKIMI ACHRAF, DIAZ BRAHIM, BOUNOU YASSINE"",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""76"": {
+    ""result"": {
+      ""winner"": ""Brazil"",
+      ""score"": ""2-1"",
+      ""scorers"": ""CASEMIRO, GABRIEL MAGALHAES, SANO KAISHU"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-1"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, UEDA AYASE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-1"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, MAEDA DAIZEN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""3-1"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, VINICIUS JUNIOR, MAEDA DAIZEN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-1"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, UEDA AYASE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-1"",
+        ""scorers"": ""NEYMAR JR, VINICIUS JUNIOR, UEDA AYASE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-0"",
+        ""scorers"": ""VINICIUS JUNIOR, VINICIUS JUNIOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-1"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, ITO JUNYA"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-1"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, UEDA AYASE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""77"": {
+    ""result"": {
+      ""winner"": ""France"",
+      ""score"": ""3-0"",
+      ""scorers"": ""MBAPPE KYLIAN, BARCOLA BRADLEY, MBAPPE KYLIAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""France"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MBAPPE KYLIAN, DEMBELE OUSMANE, MBAPPE KYLIAN, GYOKERES VIKTOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""France"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MBAPPE KYLIAN, DEMBELE OUSMANE, DEMBELE OUSMANE, ISAK ALEXANDER"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""France"",
+        ""score"": ""3-1"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, BARCOLA BRADLEY, ELANGA ANTHONY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""France"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, GYOKERES VIKTOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""France"",
+        ""score"": ""3-1"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, DOUE DESIRE, ISAK ALEXANDER"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""France"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, GYOKERES VIKTOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""France"",
+        ""score"": ""4-1"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, MBAPPE KYLIAN, MBAPPE KYLIAN, ELANGA ANTHONY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""France"",
+        ""score"": ""4-1"",
+        ""scorers"": ""DEMBELE OUSMANE, OLISE MICHAEL, MBAPPE KYLIAN, MBAPPE KYLIAN, GYOKERES VIKTOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""78"": {
+    ""result"": {
+      ""winner"": ""Norway"",
+      ""score"": ""1-2"",
+      ""scorers"": ""DIALLO AMAD, NUSA ANTONIO, HAALAND ERLING"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Norway"",
+        ""score"": ""1-2"",
+        ""scorers"": ""PEPE NICOLAS, HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Norway"",
+        ""score"": ""1-3"",
+        ""scorers"": ""PEPE NICOLAS, HAALAND ERLING, HAALAND ERLING, ODEGAARD MARTIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Norway"",
+        ""score"": ""1-1"",
+        ""scorers"": ""PEPE NICOLAS, HAALAND ERLING"",
+        ""aetScore"": ""1-3"",
+        ""etScorers"": ""HAALAND ERLING, STRAND LARSEN JORGEN"",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Norway"",
+        ""score"": ""1-2"",
+        ""scorers"": ""BONNY ANGE-YOAN, HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Norway"",
+        ""score"": ""0-2"",
+        ""scorers"": ""HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Norway"",
+        ""score"": ""2-2"",
+        ""scorers"": ""PEPE NICOLAS, DIALLO AMAD, HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": ""2-3"",
+        ""etScorers"": ""HAALAND ERLING"",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Norway"",
+        ""score"": ""1-2"",
+        ""scorers"": ""DIALLO AMAD, HAALAND ERLING, ODEGAARD MARTIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Norway"",
+        ""score"": ""2-3"",
+        ""scorers"": ""DIOMANDE YAN, PEPE NICOLAS, HAALAND ERLING, SORLOTH ALEXANDER, ODEGAARD MARTIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""79"": {
+    ""result"": {
+      ""winner"": ""Mexico"",
+      ""score"": ""2-0"",
+      ""scorers"": ""JIMENEZ RAUL, QUINONES JULIAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Ecuador"",
+        ""score"": ""1-1"",
+        ""scorers"": ""JIMENEZ RAUL, PLATA GONZALO"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""2-3"",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""0-0"",
+        ""scorers"": """",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-1"",
+        ""scorers"": ""JIMENEZ RAUL, ESTUPINAN PERVIS"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-2"",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-1"",
+        ""scorers"": ""JIMENEZ RAUL, VALENCIA ENNER"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""5-4"",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-1"",
+        ""scorers"": ""JIMENEZ RAUL, PLATA GONZALO"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""2-0"",
+        ""scorers"": ""ROMO LUIS, JIMENEZ RAUL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-0"",
+        ""scorers"": ""GIMENEZ SANTIAGO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""1-1"",
+        ""scorers"": ""JIMENEZ RAUL, VALENCIA ENNER"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""80"": {
+    ""result"": {
+      ""winner"": ""England"",
+      ""score"": ""2-1"",
+      ""scorers"": ""KANE HARRY, KANE HARRY, CIPENGA BRIAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""England"",
+        ""score"": ""2-1"",
+        ""scorers"": ""KANE HARRY, RASHFORD MARCUS, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""England"",
+        ""score"": ""2-0"",
+        ""scorers"": ""BELLINGHAM JUDE, SAKA BUKAYO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""England"",
+        ""score"": ""3-1"",
+        ""scorers"": ""BELLINGHAM JUDE, OREILLY NICO, KANE HARRY, WISSA YOANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""England"",
+        ""score"": ""2-0"",
+        ""scorers"": ""KANE HARRY, BELLINGHAM JUDE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""England"",
+        ""score"": ""1-1"",
+        ""scorers"": ""KANE HARRY, WISSA YOANE"",
+        ""aetScore"": ""2-1"",
+        ""etScorers"": ""BELLINGHAM JUDE"",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""England"",
+        ""score"": ""2-0"",
+        ""scorers"": ""BELLINGHAM JUDE, KANE HARRY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""England"",
+        ""score"": ""3-0"",
+        ""scorers"": ""BELLINGHAM JUDE, KANE HARRY, RASHFORD MARCUS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""England"",
+        ""score"": ""2-0"",
+        ""scorers"": ""KANE HARRY, BELLINGHAM JUDE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""81"": {
+    ""result"": {
+      ""winner"": ""United States"",
+      ""score"": ""2-0"",
+      ""scorers"": ""BALOGUN FOLARIN, TILLMAN MALIK"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""United States"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, DEMIROVIC ERMEDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""United States"",
+        ""score"": ""3-1"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, REYNA GIOVANNI, MAHMIC ERMIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""United States"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BALOGUN FOLARIN, REYNA GIOVANNI, DEMIROVIC ERMEDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""United States"",
+        ""score"": ""3-1"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, OWN GOAL, DEMIROVIC ERMEDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""United States"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, DEMIROVIC ERMEDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""United States"",
+        ""score"": ""2-2"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, DEMIROVIC ERMEDIN, DZEKO EDIN"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""United States"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BERHALTER SEBASTIAN, PEPI RICARDO, DEMIROVIC ERMEDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""United States"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, DZEKO EDIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""82"": {
+    ""result"": {
+      ""winner"": ""Belgium"",
+      ""score"": ""2-2"",
+      ""scorers"": ""LUKAKU ROMELU, TIELEMANS YOURI, DIARRA HABIB, SARR ISMAILA"",
+      ""aetScore"": ""3-2"",
+      ""etScorers"": ""TIELEMANS YOURI"",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DOKU JEREMY, SARR ISMAILA"",
+        ""aetScore"": ""2-1"",
+        ""etScorers"": ""LUKAKU ROMELU"",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""DOKU JEREMY, TROSSARD LEANDRO, SARR ISMAILA, MANE SADIO"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 12,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""TROSSARD LEANDRO, DE BRUYNE KEVIN, SARR ISMAILA, GUEYE PAPE"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-2"",
+        ""points"": 12,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""DE KETELAERE CHARLES, DOKU JEREMY, SARR ISMAILA, MANE SADIO"",
+        ""aetScore"": ""3-2"",
+        ""etScorers"": ""LUKAKU ROMELU"",
+        ""pensScore"": """",
+        ""points"": 15,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""DE BRUYNE KEVIN, LUKAKU ROMELU, SARR ISMAILA, MANE SADIO"",
+        ""aetScore"": ""3-2"",
+        ""etScorers"": ""DOKU JEREMY"",
+        ""pensScore"": """",
+        ""points"": 17,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Senegal"",
+        ""score"": ""0-0"",
+        ""scorers"": """",
+        ""aetScore"": """",
+        ""etScorers"": ""SARR ISMAILA"",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""3-0"",
+        ""scorers"": ""DE BRUYNE KEVIN, LUKAKU ROMELU, TROSSARD LEANDRO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DOKU JEREMY, MANE SADIO"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""83"": {
+    ""result"": {
+      ""winner"": ""Portugal"",
+      ""score"": ""2-1"",
+      ""scorers"": ""CRISTIANO RONALDO, GONCALO RAMOS, PERISIC IVAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""2-1"",
+        ""scorers"": ""BRUNO FERNANDES, CRISTIANO RONALDO, BATURINA MARTIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""2-1"",
+        ""scorers"": ""CRISTIANO RONALDO, BRUNO FERNANDES, BUDIMIR ANTE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Croatia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""BRUNO FERNANDES, VLASIC NIKOLA"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""2-1"",
+        ""scorers"": ""CRISTIANO RONALDO, PEDRO NETO, BUDIMIR ANTE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""3-2"",
+        ""scorers"": ""CRISTIANO RONALDO, JOAO FELIX, BRUNO FERNANDES, MODRIC LUKA, BUDIMIR ANTE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-1"",
+        ""scorers"": ""CRISTIANO RONALDO, BUDIMIR ANTE"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-0"",
+        ""scorers"": ""CRISTIANO RONALDO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Portugal"",
+        ""score"": ""1-1"",
+        ""scorers"": ""CRISTIANO RONALDO, KRAMARIC ANDREJ"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""84"": {
+    ""result"": {
+      ""winner"": ""Spain"",
+      ""score"": ""3-0"",
+      ""scorers"": ""OYARZABAL MIKEL, PORRO PEDRO, OYARZABAL MIKEL"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Spain"",
+        ""score"": ""2-0"",
+        ""scorers"": ""OYARZABAL MIKEL, YAMAL LAMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Spain"",
+        ""score"": ""3-0"",
+        ""scorers"": ""YAMAL LAMINE, OLMO DANI, MERINO MIKEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Spain"",
+        ""score"": ""3-0"",
+        ""scorers"": ""OYARZABAL MIKEL, OLMO DANI, YAMAL LAMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Spain"",
+        ""score"": ""2-0"",
+        ""scorers"": ""OYARZABAL MIKEL, YAMAL LAMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Spain"",
+        ""score"": ""2-1"",
+        ""scorers"": ""OYARZABAL MIKEL, YAMAL LAMINE, ARNAUTOVIC MARKO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Spain"",
+        ""score"": ""3-0"",
+        ""scorers"": ""OYARZABAL MIKEL, YAMAL LAMINE, YAMAL LAMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Spain"",
+        ""score"": ""2-0"",
+        ""scorers"": ""YAMAL LAMINE, BAENA ALEX"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Spain"",
+        ""score"": ""3-1"",
+        ""scorers"": ""OYARZABAL MIKEL, RODRI, YAMAL LAMINE, ARNAUTOVIC MARKO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""85"": {
+    ""result"": {
+      ""winner"": ""Switzerland"",
+      ""score"": ""2-0"",
+      ""scorers"": ""EMBOLO BREEL, NDOYE DAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MANZAMBI JOHAN, MAHREZ RIYAD"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-2"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MANZAMBI JOHAN, MANZAMBI JOHAN, EMBOLO BREEL, MAHREZ RIYAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MANZAMBI JOHAN, VARGAS RUBEN, MAHREZ RIYAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-1"",
+        ""scorers"": ""EMBOLO BREEL, MANZAMBI JOHAN, MAHREZ RIYAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-1"",
+        ""scorers"": ""EMBOLO BREEL, MANZAMBI JOHAN, MAHREZ RIYAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""3-1"",
+        ""scorers"": ""EMBOLO BREEL, NDOYE DAN, EMBOLO BREEL, MAHREZ RIYAD"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-1"",
+        ""scorers"": ""NDOYE DAN, EMBOLO BREEL, AMOURA MOHAMED"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""86"": {
+    ""result"": {
+      ""winner"": ""Argentina"",
+      ""score"": ""1-1"",
+      ""scorers"": ""MESSI LIONEL, DEROY DUARTE"",
+      ""aetScore"": ""3-2"",
+      ""etScorers"": ""MARTINEZ LISANDRO, OWN GOAL, SIDNY LOPES CABRAL"",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, MARTINEZ LAUTARO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, ALMADA THIAGO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MESSI LIONEL, MARTINEZ LAUTARO, MESSI LIONEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""4-0"",
+        ""scorers"": ""MARTINEZ LAUTARO, MESSI LIONEL, MESSI LIONEL, ALVAREZ JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-0"",
+        ""scorers"": ""MESSI LIONEL, ALVAREZ JULIAN, MESSI LIONEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""4-0"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, MARTINEZ LAUTARO, ALVAREZ JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""4-0"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, MARTINEZ LAUTARO, ALVAREZ JULIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""87"": {
+    ""result"": {
+      ""winner"": ""Colombia"",
+      ""score"": ""1-0"",
+      ""scorers"": ""ARIAS JHON"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""2-0"",
+        ""scorers"": ""DIAZ LUIS, MUNOZ DANIEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DIAZ LUIS, AYEW JORDAN"",
+        ""aetScore"": ""2-1"",
+        ""etScorers"": ""MUNOZ DANIEL"",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-0"",
+        ""scorers"": ""DIAZ LUIS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""2-1"",
+        ""scorers"": ""DIAZ LUIS, RODRIGUEZ JAMES, SEMENYO ANTOINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DIAZ LUIS, WILLIAMS INAKI"",
+        ""aetScore"": ""2-1"",
+        ""etScorers"": ""RODRIGUEZ JAMES"",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MUNOZ DANIEL, OWN GOAL"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-2"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DIAZ LUIS, SEMENYO ANTOINE"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": ""MUNOZ DANIEL, SEMENYO ANTOINE"",
+        ""pensScore"": ""3-2"",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""88"": {
+    ""result"": {
+      ""winner"": ""Egypt"",
+      ""score"": ""1-1"",
+      ""scorers"": ""OWN GOAL, EMAM ASHOUR"",
+      ""aetScore"": ""1-1"",
+      ""etScorers"": """",
+      ""pensScore"": ""2-4""
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""0-1"",
+        ""scorers"": ""MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""1-1"",
+        ""scorers"": ""SOUTTAR HARRY, OMAR MARMOUSH"",
+        ""aetScore"": ""1-2"",
+        ""etScorers"": ""MOSTAFA ZICO"",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""1-2"",
+        ""scorers"": ""IRANKUNDA NESTORY, MOHAMED SALAH, TREZEGUET"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""1-1"",
+        ""scorers"": ""IRANKUNDA NESTORY, OMAR MARMOUSH"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 15,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""1-1"",
+        ""scorers"": ""OWN GOAL, MOHAMED SALAH"",
+        ""aetScore"": ""1-2"",
+        ""etScorers"": ""OMAR MARMOUSH"",
+        ""pensScore"": """",
+        ""points"": 12,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""1-2"",
+        ""scorers"": ""IRANKUNDA NESTORY, MOHAMED SALAH, OWN GOAL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Egypt"",
+        ""score"": ""1-2"",
+        ""scorers"": ""IRANKUNDA NESTORY, MOHAMED SALAH, OMAR MARMOUSH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""89"": {
+    ""result"": {
+      ""winner"": ""France"",
+      ""score"": ""0-1"",
+      ""scorers"": ""MBAPPE KYLIAN"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""France"",
+        ""score"": ""0-4"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, MBAPPE KYLIAN, BARCOLA BRADLEY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""France"",
+        ""score"": ""1-4"",
+        ""scorers"": ""ENCISO JULIO, DEMBELE OUSMANE, BARCOLA BRADLEY, OLISE MICHAEL, MBAPPE KYLIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""France"",
+        ""score"": ""0-3"",
+        ""scorers"": ""MBAPPE KYLIAN, DEMBELE OUSMANE, OLISE MICHAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""France"",
+        ""score"": ""0-4"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, MBAPPE KYLIAN, OLISE MICHAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""France"",
+        ""score"": ""1-2"",
+        ""scorers"": ""ENCISO JULIO, MBAPPE KYLIAN, OLISE MICHAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""France"",
+        ""score"": ""0-3"",
+        ""scorers"": ""MBAPPE KYLIAN, MBAPPE KYLIAN, DEMBELE OUSMANE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""France"",
+        ""score"": ""0-3"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN, MBAPPE KYLIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""France"",
+        ""score"": ""0-2"",
+        ""scorers"": ""DEMBELE OUSMANE, MBAPPE KYLIAN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""90"": {
+    ""result"": {
+      ""winner"": ""Morocco"",
+      ""score"": ""0-3"",
+      ""scorers"": ""OUNAHI AZZEDINE, OUNAHI AZZEDINE, RAHIMI SOUFIANE"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""0-2"",
+        ""scorers"": ""SAIBARI ISMAEL, OUNAHI AZZEDINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""0-2"",
+        ""scorers"": ""SAIBARI ISMAEL, DIAZ BRAHIM"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""0-1"",
+        ""scorers"": ""SAIBARI ISMAEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""0-2"",
+        ""scorers"": ""SAIBARI ISMAEL, DIAZ BRAHIM"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""2-2"",
+        ""scorers"": ""DAVID JONATHAN, DAVIES ALPHONSO, DIAZ BRAHIM, SAIBARI ISMAEL"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DAVID JONATHAN, SAIBARI ISMAEL"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""2-3"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Morocco"",
+        ""score"": ""1-1"",
+        ""scorers"": ""DAVID JONATHAN, SAIBARI ISMAEL"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""91"": {
+    ""result"": {
+      ""winner"": ""Norway"",
+      ""score"": ""1-2"",
+      ""scorers"": ""NEYMAR JR, HAALAND ERLING, HAALAND ERLING"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-2"",
+        ""scorers"": ""MATHEUS CUNHA, VINICIUS JUNIOR, HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": ""3-2"",
+        ""etScorers"": ""VINICIUS JUNIOR"",
+        ""pensScore"": """",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-2"",
+        ""scorers"": ""VINICIUS JUNIOR, GABRIEL MARTINELLI, HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": ""3-3"",
+        ""etScorers"": ""GABRIEL MAGALHAES, HAALAND ERLING"",
+        ""pensScore"": ""4-2"",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-2"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, HAALAND ERLING, ODEGAARD MARTIN"",
+        ""aetScore"": ""4-2"",
+        ""etScorers"": ""RAPHINHA, ENDRICK"",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-2"",
+        ""scorers"": ""MATHEUS CUNHA, VINICIUS JUNIOR, HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""5-4"",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""2-2"",
+        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, HAALAND ERLING, HAALAND ERLING"",
+        ""aetScore"": ""3-2"",
+        ""etScorers"": ""NEYMAR JR"",
+        ""pensScore"": """",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""1-1"",
+        ""scorers"": ""VINICIUS JUNIOR, HAALAND ERLING"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-2"",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""1-0"",
+        ""scorers"": ""VINICIUS JUNIOR"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Brazil"",
+        ""score"": ""3-2"",
+        ""scorers"": ""MATHEUS CUNHA, VINICIUS JUNIOR, CASEMIRO, HAALAND ERLING, ODEGAARD MARTIN"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""92"": {
+    ""result"": {
+      ""winner"": ""England"",
+      ""score"": ""2-3"",
+      ""scorers"": ""QUINONES JULIAN, JIMENEZ RAUL, BELLINGHAM JUDE, BELLINGHAM JUDE, KANE HARRY"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""England"",
+        ""score"": ""2-2"",
+        ""scorers"": ""JIMENEZ RAUL, QUINONES JULIAN, BELLINGHAM JUDE, KANE HARRY"",
+        ""aetScore"": ""2-3"",
+        ""etScorers"": ""RASHFORD MARCUS"",
+        ""pensScore"": """",
+        ""points"": 11,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""England"",
+        ""score"": ""3-3"",
+        ""scorers"": ""QUINONES JULIAN, JIMENEZ RAUL, GIMENEZ SANTIAGO, KANE HARRY, OREILLY NICO, SAKA BUKAYO"",
+        ""aetScore"": ""3-4"",
+        ""etScorers"": ""EZE EBERECHI"",
+        ""pensScore"": """",
+        ""points"": 9,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""England"",
+        ""score"": ""1-1"",
+        ""scorers"": ""QUINONES JULIAN, KANE HARRY"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""2-2"",
+        ""scorers"": ""QUINONES JULIAN, JIMENEZ RAUL, KANE HARRY, SAKA BUKAYO"",
+        ""aetScore"": ""3-3"",
+        ""etScorers"": ""JIMENEZ RAUL, KANE HARRY"",
+        ""pensScore"": ""4-3"",
+        ""points"": 6,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""England"",
+        ""score"": ""1-1"",
+        ""scorers"": ""JIMENEZ RAUL, KANE HARRY"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": ""GIMENEZ SANTIAGO, RASHFORD MARCUS"",
+        ""pensScore"": ""3-4"",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Mexico"",
+        ""score"": ""2-2"",
+        ""scorers"": ""JIMENEZ RAUL, QUINONES JULIAN, KANE HARRY, BELLINGHAM JUDE"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""5-4"",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""England"",
+        ""score"": ""1-2"",
+        ""scorers"": ""CHAVEZ LUIS, RASHFORD MARCUS, KANE HARRY"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""England"",
+        ""score"": ""1-1"",
+        ""scorers"": ""JIMENEZ RAUL, KANE HARRY"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 7,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""93"": {
+    ""result"": {
+      ""winner"": ""Spain"",
+      ""score"": ""0-1"",
+      ""scorers"": ""MERINO MIKEL"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Spain"",
+        ""score"": ""2-2"",
+        ""scorers"": ""CRISTIANO RONALDO, NUNO MENDES, YAMAL LAMINE, OYARZABAL MIKEL"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-1"",
+        ""scorers"": ""CRISTIANO RONALDO, OYARZABAL MIKEL"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": ""NUNO MENDES, MERINO MIKEL"",
+        ""pensScore"": ""2-4"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-3"",
+        ""scorers"": ""CRISTIANO RONALDO, OYARZABAL MIKEL, OYARZABAL MIKEL, CUCURELLA MARC"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-3"",
+        ""scorers"": ""CRISTIANO RONALDO, OYARZABAL MIKEL, YAMAL LAMINE, YAMAL LAMINE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-1"",
+        ""scorers"": ""CRISTIANO RONALDO, OYARZABAL MIKEL"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": ""CRISTIANO RONALDO, TORRES FERRAN"",
+        ""pensScore"": ""3-4"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-1"",
+        ""scorers"": ""NUNO MENDES, OYARZABAL MIKEL"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": ""RUBEN NEVES, YAMAL LAMINE"",
+        ""pensScore"": ""4-5"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-1"",
+        ""scorers"": ""CRISTIANO RONALDO, YAMAL LAMINE"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Spain"",
+        ""score"": ""1-3"",
+        ""scorers"": ""CRISTIANO RONALDO, OYARZABAL MIKEL, YAMAL LAMINE, OYARZABAL MIKEL"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 3,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""94"": {
+    ""result"": {
+      ""winner"": ""Belgium"",
+      ""score"": ""1-4"",
+      ""scorers"": ""TILLMAN MALIK, DE KETELAERE CHARLES, DE KETELAERE CHARLES, VANAKEN HANS, LUKAKU ROMELU"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""United States"",
+        ""score"": ""3-2"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, DEST SERGINO, DE KETELAERE CHARLES, TROSSARD LEANDRO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""BALOGUN FOLARIN, PULISIC CHRISTIAN, LUKEBAKIO DODI, TROSSARD LEANDRO"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""BALOGUN FOLARIN, MCKENNIE WESTON, LUKEBAKIO DODI, LUKAKU ROMELU"",
+        ""aetScore"": ""2-4"",
+        ""etScorers"": ""DE BRUYNE KEVIN, LUKAKU ROMELU"",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""BALOGUN FOLARIN, BALOGUN FOLARIN, DOKU JEREMY, TIELEMANS YOURI"",
+        ""aetScore"": ""3-3"",
+        ""etScorers"": ""PULISIC CHRISTIAN, LUKAKU ROMELU"",
+        ""pensScore"": ""3-4"",
+        ""points"": 3,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""2-2"",
+        ""scorers"": ""PEPI RICARDO, PULISIC CHRISTIAN, LUKAKU ROMELU, TROSSARD LEANDRO"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""United States"",
+        ""score"": ""1-1"",
+        ""scorers"": ""BALOGUN FOLARIN, LUKAKU ROMELU"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""5-4"",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Belgium"",
+        ""score"": ""1-2"",
+        ""scorers"": ""PULISIC CHRISTIAN, DE BRUYNE KEVIN, LUKAKU ROMELU"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""United States"",
+        ""score"": ""1-1"",
+        ""scorers"": ""BALOGUN FOLARIN, DE BRUYNE KEVIN"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-3"",
+        ""points"": 0,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""95"": {
+    ""result"": {
+      ""winner"": ""Argentina"",
+      ""score"": ""3-2"",
+      ""scorers"": ""ROMERO CRISTIAN, MESSI LIONEL, FERNANDEZ ENZO, YASSER IBRAHIM, MOSTAFA ZICO"",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": """"
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, ALVAREZ JULIAN, MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, PAZ NICO, MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, ALVAREZ JULIAN, MOSTAFA ZICO"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, ALVAREZ JULIAN, MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-1"",
+        ""scorers"": ""MARTINEZ LAUTARO, MESSI LIONEL, MESSI LIONEL, MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""1-1"",
+        ""scorers"": ""MESSI LIONEL, MOHAMED SALAH"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""5-4"",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Sagar"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""2-1"",
+        ""scorers"": ""MESSI LIONEL, ALVAREZ JULIAN, MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 5,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Argentina"",
+        ""score"": ""3-2"",
+        ""scorers"": ""MESSI LIONEL, MESSI LIONEL, MESSI LIONEL, EMAM ASHOUR, MOHAMED SALAH"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 10,
+        ""ppTier"": """"
+      }
+    }
+  },
+  ""96"": {
+    ""result"": {
+      ""winner"": ""Switzerland"",
+      ""score"": ""0-0"",
+      ""scorers"": """",
+      ""aetScore"": """",
+      ""etScorers"": """",
+      ""pensScore"": ""4-3""
+    },
+    ""players"": {
+      ""Chaitanya P"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-2"",
+        ""scorers"": ""EMBOLO BREEL, DIAZ LUIS, SUAREZ LUIS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Aditya"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""2-2"",
+        ""scorers"": ""NDOYE DAN, EMBOLO BREEL, DIAZ LUIS, DIAZ LUIS"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""2-4"",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Mystery Player"": {
+        ""winner"": ""Switzerland"",
+        ""score"": ""2-2"",
+        ""scorers"": ""EMBOLO BREEL, VARGAS RUBEN, DIAZ LUIS, MUNOZ DANIEL"",
+        ""aetScore"": ""2-2"",
+        ""etScorers"": """",
+        ""pensScore"": ""5-4"",
+        ""points"": 7,
+        ""ppTier"": """"
+      },
+      ""Tejasva"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-2"",
+        ""scorers"": ""EMBOLO BREEL, DIAZ LUIS, SUAREZ LUIS"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 0,
+        ""ppTier"": """"
+      },
+      ""Varun"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""EMBOLO BREEL, DIAZ LUIS"",
+        ""aetScore"": ""1-2"",
+        ""etScorers"": ""CORDOBA JHON"",
+        ""pensScore"": """",
+        ""points"": 2,
+        ""ppTier"": """"
+      },
+      ""Joker"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""EMBOLO BREEL, MUNOZ DANIEL"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""4-5"",
+        ""points"": 4,
+        ""ppTier"": """"
+      },
+      ""Chaitanya M"": {
+        ""winner"": ""Colombia"",
+        ""score"": ""1-1"",
+        ""scorers"": ""EMBOLO BREEL, DIAZ LUIS"",
+        ""aetScore"": ""1-1"",
+        ""etScorers"": """",
+        ""pensScore"": ""3-4"",
+        ""points"": 4,
         ""ppTier"": """"
       }
     }
