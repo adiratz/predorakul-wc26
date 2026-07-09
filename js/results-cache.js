@@ -6636,46 +6636,46 @@ const RESULTS_CACHE = {
       ""pensScore"": """"
     },
     ""players"": {
-      ""Chaitanya P"": {
-        ""winner"": ""Canada"",
-        ""score"": ""1-1"",
-        ""scorers"": ""MAKGOPA EVIDENCE, DAVID JONATHAN"",
-        ""aetScore"": ""1-2"",
-        ""etScorers"": ""LARIN CYLE"",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
-      },
-      ""Aditya"": {
-        ""winner"": ""Canada"",
-        ""score"": ""0-1"",
-        ""scorers"": ""LARIN CYLE"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 8,
-        ""ppTier"": """"
-      },
-      ""Mystery Player"": {
-        ""winner"": ""Canada"",
-        ""score"": ""0-0"",
-        ""scorers"": """",
-        ""aetScore"": """",
-        ""etScorers"": ""LARIN CYLE"",
-        ""pensScore"": """",
-        ""points"": 3,
-        ""ppTier"": """"
-      },
-      ""Tejasva"": {
-        ""winner"": ""Canada"",
-        ""score"": ""0-1"",
-        ""scorers"": ""LARIN CYLE"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 8,
-        ""ppTier"": """"
-      },
+      // ""Chaitanya P"": {
+      //   ""winner"": ""Canada"",
+      //   ""score"": ""1-1"",
+      //   ""scorers"": ""MAKGOPA EVIDENCE, DAVID JONATHAN"",
+      //   ""aetScore"": ""1-2"",
+      //   ""etScorers"": ""LARIN CYLE"",
+      //   ""pensScore"": """",
+      //   ""points"": 3,
+      //   ""ppTier"": """"
+      // },
+      // ""Aditya"": {
+      //   ""winner"": ""Canada"",
+      //   ""score"": ""0-1"",
+      //   ""scorers"": ""LARIN CYLE"",
+      //   ""aetScore"": """",
+      //   ""etScorers"": """",
+      //   ""pensScore"": """",
+      //   ""points"": 8,
+      //   ""ppTier"": """"
+      // },
+      // ""Mystery Player"": {
+      //   ""winner"": ""Canada"",
+      //   ""score"": ""0-0"",
+      //   ""scorers"": """",
+      //   ""aetScore"": """",
+      //   ""etScorers"": ""LARIN CYLE"",
+      //   ""pensScore"": """",
+      //   ""points"": 3,
+      //   ""ppTier"": """"
+      // },
+      // ""Tejasva"": {
+      //   ""winner"": ""Canada"",
+      //   ""score"": ""0-1"",
+      //   ""scorers"": ""LARIN CYLE"",
+      //   ""aetScore"": """",
+      //   ""etScorers"": """",
+      //   ""pensScore"": """",
+      //   ""points"": 8,
+      //   ""ppTier"": """"
+      // },
       ""Varun"": {
         ""winner"": ""Canada"",
         ""score"": ""1-2"",
