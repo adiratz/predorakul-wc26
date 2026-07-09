@@ -8243,16 +8243,16 @@ const RESULTS_CACHE = {
         ""points"": 4,
         ""ppTier"": """"
       },
-      ""Mystery Player"": {
-        ""winner"": ""Brazil"",
-        ""score"": ""2-2"",
-        ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, HAALAND ERLING, ODEGAARD MARTIN"",
-        ""aetScore"": ""4-2"",
-        ""etScorers"": ""RAPHINHA, ENDRICK"",
-        ""pensScore"": """",
-        ""points"": 2,
-        ""ppTier"": """"
-      },
+      // ""Mystery Player"": {
+      //   ""winner"": ""Brazil"",
+      //   ""score"": ""2-2"",
+      //   ""scorers"": ""VINICIUS JUNIOR, MATHEUS CUNHA, HAALAND ERLING, ODEGAARD MARTIN"",
+      //   ""aetScore"": ""4-2"",
+      //   ""etScorers"": ""RAPHINHA, ENDRICK"",
+      //   ""pensScore"": """",
+      //   ""points"": 2,
+      //   ""ppTier"": """"
+      // },
       ""Tejasva"": {
         ""winner"": ""Brazil"",
         ""score"": ""2-2"",
