@@ -7145,17 +7145,18 @@ const RESULTS_CACHE = {
         ""pensScore"": """",
         ""points"": 12,
         ""ppTier"": """"
-      },
-      ""Chaitanya M"": {
-        ""winner"": ""Norway"",
-        ""score"": ""2-3"",
-        ""scorers"": ""DIOMANDE YAN, PEPE NICOLAS, HAALAND ERLING, SORLOTH ALEXANDER, ODEGAARD MARTIN"",
-        ""aetScore"": """",
-        ""etScorers"": """",
-        ""pensScore"": """",
-        ""points"": 5,
-        ""ppTier"": """"
       }
+// ,
+//       ""Chaitanya M"": {
+//         ""winner"": ""Norway"",
+//         ""score"": ""2-3"",
+//         ""scorers"": ""DIOMANDE YAN, PEPE NICOLAS, HAALAND ERLING, SORLOTH ALEXANDER, ODEGAARD MARTIN"",
+//         ""aetScore"": """",
+//         ""etScorers"": """",
+//         ""pensScore"": """",
+//         ""points"": 5,
+//         ""ppTier"": """"
+//       }
     }
   },
   ""79"": {
