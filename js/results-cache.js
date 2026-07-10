@@ -6666,16 +6666,16 @@ const RESULTS_CACHE = {
       //   ""points"": 3,
       //   ""ppTier"": """"
       // },
-      // ""Tejasva"": {
-      //   ""winner"": ""Canada"",
-      //   ""score"": ""0-1"",
-      //   ""scorers"": ""LARIN CYLE"",
-      //   ""aetScore"": """",
-      //   ""etScorers"": """",
-      //   ""pensScore"": """",
-      //   ""points"": 8,
-      //   ""ppTier"": """"
-      // },
+      ""Tejasva"": {
+        ""winner"": ""Canada"",
+        ""score"": ""0-1"",
+        ""scorers"": ""LARIN CYLE"",
+        ""aetScore"": """",
+        ""etScorers"": """",
+        ""pensScore"": """",
+        ""points"": 8,
+        ""ppTier"": """"
+      },
       ""Varun"": {
         ""winner"": ""Canada"",
         ""score"": ""1-2"",
