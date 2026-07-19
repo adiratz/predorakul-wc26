@@ -16,7 +16,7 @@ const ANNOUNCE_CONFIG = {
   // ── 1. MYSTERY PLAYER + JOKER REVEAL ──────────────────────
   // Flip active to true once ready to reveal. Fill in both names.
   mpJokerReveal: {
-    active: true,                 // ← set to true when ready
+    active: false,                 // ← set to true when ready
     mpName: 'TBA',                    // e.g. 'Rohit'
     jokerName: 'Yash (YK)',                 // e.g. 'Chaitanya M'
     jokerWasAI: false,             // true if Joker turns out to be AI-assisted
@@ -25,7 +25,7 @@ const ANNOUNCE_CONFIG = {
   // ── 2. TOURNAMENT WINNER DECLARATION ──────────────────────
   // Flip active to true once the Final is scored and confirmed.
   winnerDeclared: {
-    active: true,                 // ← set to true when ready
+    active: false,                 // ← set to true when ready
     winnerName: 'Tejasva',                // e.g. 'Mystery Player'
     winnerScore: '470',                // e.g. '187'
   },
@@ -224,7 +224,7 @@ const ANNOUNCE_CONFIG = {
 
     const el = document.createElement('div');
     el.className = 'poc-banner poc-banner--reveal';
-    const jokerSuffix = cfg.jokerWasAI ? ' 🤖' : ' 🧑';
+    const jokerSuffix = cfg.jokerWasAI ? ' 🤖' : ' 🃏';
     el.innerHTML = `
       <span class="poc-banner-icon">🎭</span>
       <span class="poc-banner-text">
