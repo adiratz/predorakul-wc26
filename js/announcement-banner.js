@@ -16,8 +16,8 @@ const ANNOUNCE_CONFIG = {
   // ── 1. MYSTERY PLAYER + JOKER REVEAL ──────────────────────
   // Flip active to true once ready to reveal. Fill in both names.
   mpJokerReveal: {
-    active: false,                 // ← set to true when ready
-    mpName: 'TBA',                    // e.g. 'Rohit'
+    active: true,                 // ← set to true when ready
+    mpName: 'Kshitij (KJ)',                    // e.g. 'Rohit'
     jokerName: 'Yash (YK)',                 // e.g. 'Chaitanya M'
     jokerWasAI: false,             // true if Joker turns out to be AI-assisted
   },
@@ -25,9 +25,9 @@ const ANNOUNCE_CONFIG = {
   // ── 2. TOURNAMENT WINNER DECLARATION ──────────────────────
   // Flip active to true once the Final is scored and confirmed.
   winnerDeclared: {
-    active: false,                 // ← set to true when ready
-    winnerName: 'Tejasva',                // e.g. 'Mystery Player'
-    winnerScore: '470',                // e.g. '187'
+    active: true,                 // ← set to true when ready
+    winnerName: 'Tejasva (TT)',                // e.g. 'Mystery Player'
+    winnerScore: '464',                // e.g. '187'
   },
 
 };
