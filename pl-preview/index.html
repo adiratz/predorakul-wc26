@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PredOrakul PL — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --board: #1C2024;
+    --board-dark: #131619;
+    --board-raised: #23282D;
+    --chalk: #EDEFEC;
+    --chalk-dim: #9BA3A6;
+    --claret: #9A3548;
+    --claret-light: #C15468;
+    --claret-dark: #6E2635;
+    --alert: #D97706;
+    --chalk-yellow: #E8D45C;
+    --line: rgba(237,239,236,0.09);
+    --success: #4CAF7D;
+    --error-red: #D94C4C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--board);
+    color: var(--chalk);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 360px;
+    height: 360px;
+    border: 1px dashed rgba(237,239,236,0.07);
+    border-radius: 50%;
+  }
+  body::after {
+    content: '';
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 360px;
+    background: rgba(237,239,236,0.06);
+  }
+  .wrap { width: 100%; max-width: 460px; position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--claret-light);
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .wordmark {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
+    font-size: 3.8rem;
+    letter-spacing: -0.01em;
+    text-align: center;
+    line-height: 0.85;
+    color: var(--chalk);
+    text-transform: uppercase;
+  }
+  .wordmark span { color: var(--claret-light); }
+
+  .tagline {
+    text-align: center;
+    color: var(--chalk-dim);
+    font-size: 0.92rem;
+    margin: 10px 0 40px;
+  }
+
+  .card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px 28px;
+  }
+
+  .card h2 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .card p.sub {
+    color: var(--chalk-dim);
+    font-size: 0.85rem;
+    margin-bottom: 22px;
+    line-height: 1.5;
+  }
+
+  label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    margin-bottom: 8px;
+  }
+  input[type="email"], input[type="text"] {
+    width: 100%;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 13px 14px;
+    color: var(--chalk);
+    font-size: 0.95rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin-bottom: 18px;
+  }
+  input::placeholder { color: rgba(237,239,236,0.28); }
+  input:focus {
+    outline: none;
+    border-color: var(--claret-light);
+  }
+
+  .btn {
+    width: 100%;
+    background: var(--claret);
+    color: var(--chalk);
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--claret-dark); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .status-msg {
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .status-msg.success { background: rgba(76,175,125,0.12); color: var(--success); }
+  .status-msg.error { background: rgba(217,76,76,0.12); color: var(--error-red); }
+
+  .hidden { display: none !important; }
+
+  .dugout-section {
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+  }
+  .dugout-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .dugout-title {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
+    font-size: 1.7rem;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--chalk);
+    position: relative;
+    display: inline-block;
+  }
+  .dugout-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 100%;
+    height: 7px;
+    background: var(--claret);
+    z-index: -1;
+    opacity: 0.9;
+  }
+  .marker-text {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.82rem;
+    color: var(--chalk-yellow);
+    transform: rotate(-4deg);
+    display: inline-block;
+    opacity: 0.9;
+  }
+  .dugout-sub {
+    font-size: 0.82rem;
+    color: var(--chalk-dim);
+    margin-bottom: 20px;
+  }
+  .card-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px 6px;
+  }
+  .tactic-token { width: 30%; text-align: center; }
+  .tactic-token .badge {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 7px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(154,53,72,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(154,53,72,0.10) 0%, transparent 70%);
+  }
+  .tactic-token.risk .badge {
+    border-color: rgba(217,119,6,0.6);
+    background: radial-gradient(circle, rgba(217,119,6,0.10) 0%, transparent 70%);
+  }
+  .tactic-token .badge svg { width: 21px; height: 21px; stroke: var(--claret-light); }
+  .tactic-token.risk .badge svg { stroke: var(--alert); }
+  .tactic-token .name {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--chalk);
+    margin-bottom: 3px;
+  }
+  .tactic-token .desc { font-size: 0.65rem; color: var(--chalk-dim); line-height: 1.3; }
+
+  .footer-note {
+    text-align: center;
+    color: var(--chalk-dim);
+    font-size: 0.78rem;
+    margin-top: 24px;
+  }
+  .footer-note a { color: var(--claret-light); text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Premier League &middot; 2026/27 Season</div>
+    <div class="wordmark">PRED<span>ORAKUL</span></div>
+    <p class="tagline">Predict every fixture. Become the PredOrakul of your group.</p>
+
+    <div class="card">
+
+      <!-- ═══ STATE 1: Enter email ═══ -->
+      <div id="state-enter-email">
+        <h2>Get in the dugout</h2>
+        <p class="sub">Enter your email — we'll send a one-click link, no password needed.</p>
+
+        <div id="status-area"></div>
+
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com">
+
+        <button class="btn" id="send-link-btn" onclick="sendMagicLink()">Send my link</button>
+      </div>
+
+      <!-- ═══ STATE 2: Check your email (after link sent) ═══ -->
+      <div id="state-check-email" class="hidden">
+        <h2>Check your inbox</h2>
+        <p class="sub">We've sent a sign-in link to <strong id="sent-to-email"></strong>. Click it to get into the dugout — you can close this tab.</p>
+        <button class="btn" onclick="resetToEmailEntry()" style="background:var(--board-dark);color:var(--chalk-dim);">Use a different email</button>
+      </div>
+
+      <!-- ═══ STATE 3: Logged in, needs a display name (first login only) ═══ -->
+      <div id="state-set-name" class="hidden">
+        <h2>Welcome to the dugout</h2>
+        <p class="sub">One last thing — what should we call you on the leaderboard?</p>
+
+        <label for="display-name">Display name</label>
+        <input type="text" id="display-name" placeholder="e.g. Sam T.">
+
+        <button class="btn" onclick="saveDisplayName()">Save and continue</button>
+      </div>
+
+      <!-- ═══ STATE 4: Fully logged in ═══ -->
+      <div id="state-logged-in" class="hidden">
+        <h2>You're in, <span id="welcome-name"></span></h2>
+        <p class="sub">The Predict page is being built next — check back soon to make your first gameweek picks.</p>
+        <button class="btn" onclick="signOut()" style="background:var(--board-dark);color:var(--chalk-dim);">Log out</button>
+      </div>
+
+      <div class="dugout-section">
+        <div class="dugout-header">
+          <span class="dugout-title">The Dugout</span>
+          <span class="marker-text">your call, gaffer</span>
+        </div>
+        <p class="dugout-sub">Five tactical plays. One per fixture.</p>
+
+        <div class="card-row">
+          <div class="tactic-token">
+            <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+            <div class="name">Banker</div>
+            <div class="desc">Safe hands<br>on the result</div>
+          </div>
+          <div class="tactic-token">
+            <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/><path d="M6 20l6-6 6 6"/></svg></div>
+            <div class="name">Double Down</div>
+            <div class="desc">Press the<br>advantage</div>
+          </div>
+          <div class="tactic-token risk">
+            <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+            <div class="name">All In</div>
+            <div class="desc">Backs it<br>fully</div>
+          </div>
+          <div class="tactic-token">
+            <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 17.5L17.5 6.5M6.5 6.5l3 3M14.5 14.5l3 3M4 20l3.5-1 8-8-2.5-2.5-8 8L4 20zM14 4l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" stroke-linejoin="round"/></svg></div>
+            <div class="name">Rivalry Boost</div>
+            <div class="desc">Doubles the<br>derby stakes</div>
+          </div>
+          <div class="tactic-token">
+            <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></div>
+            <div class="name">Assistant Manager</div>
+            <div class="desc">Nails the<br>exact tally</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="footer-note">Following along without an account? <a href="#">View the live table &rarr;</a></p>
+  </div>
+
+<script>
+  // ══════════════════════════════════════════════════════════
+  // SUPABASE CONFIG — fill in your two values here
+  // Both come from: Supabase Dashboard → Settings → API
+  // Safe to keep these visible in this file — the anon key is
+  // designed to be public, it's gated by RLS on the backend.
+  // ══════════════════════════════════════════════════════════
+  const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
+
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  function showState(stateId) {
+    ['state-enter-email','state-check-email','state-set-name','state-logged-in']
+      .forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById(stateId).classList.remove('hidden');
+  }
+
+  function showStatus(message, type) {
+    const area = document.getElementById('status-area');
+    area.innerHTML = `<div class="status-msg ${type}">${message}</div>`;
+  }
+
+  async function sendMagicLink() {
+    const email = document.getElementById('email').value.trim();
+    if (!email || !email.includes('@')) {
+      showStatus('Please enter a valid email address.', 'error');
+      return;
+    }
+
+    const btn = document.getElementById('send-link-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    const { error } = await sb.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: window.location.href.split('?')[0] // back to this same page
+      }
+    });
+
+    btn.disabled = false;
+    btn.textContent = 'Send my link';
+
+    if (error) {
+      showStatus('Something went wrong: ' + error.message, 'error');
+      return;
+    }
+
+    document.getElementById('sent-to-email').textContent = email;
+    showState('state-check-email');
+  }
+
+  function resetToEmailEntry() {
+    showState('state-enter-email');
+    document.getElementById('status-area').innerHTML = '';
+  }
+
+  async function saveDisplayName() {
+    const name = document.getElementById('display-name').value.trim();
+    if (!name) return;
+
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) return;
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ display_name: name })
+      .eq('user_id', user.id);
+
+    if (error) {
+      alert('Could not save your name — please try again.');
+      return;
+    }
+
+    document.getElementById('welcome-name').textContent = name;
+    showState('state-logged-in');
+  }
+
+  async function signOut() {
+    await sb.auth.signOut();
+    showState('state-enter-email');
+    document.getElementById('email').value = '';
+  }
+
+  // ── On page load: check if we're already logged in ─────────
+  // (handles both: returning visitor with an active session,
+  //  and someone who just clicked their magic link)
+  async function checkSession() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      showState('state-enter-email');
+      return;
+    }
+
+    const user = session.user;
+    const { data: profile } = await sb
+      .from('profiles')
+      .select('display_name')
+      .eq('user_id', user.id)
+      .single();
+
+    // display_name defaults to the email prefix on signup (see DB trigger).
+    // If it still looks like that default, ask them to set a real one.
+    const emailPrefix = user.email.split('@')[0];
+    if (!profile || profile.display_name === emailPrefix) {
+      showState('state-set-name');
+    } else {
+      document.getElementById('welcome-name').textContent = profile.display_name;
+      showState('state-logged-in');
+    }
+  }
+
+  checkSession();
+</script>
+</body>
+</html>
