@@ -381,7 +381,9 @@
     const { error } = await sb.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: window.location.href.split('?')[0] // back to this same page
+        // Hardcoded, not derived from window.location — guarantees Supabase
+        // always redirects to exactly this page, no ambiguity.
+        emailRedirectTo: 'https://predorakul.com/pl-preview/'
       }
     });
 
