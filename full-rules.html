@@ -78,12 +78,8 @@
       <a href="how-to-play.html" class="active">Rules</a>
       <a href="about.html">About</a>
     </div>
-    <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">?</button>
-    <div id="account-menu" class="hidden" style="position:absolute;top:56px;right:20px;background:var(--board-raised);border:1px solid var(--line);border-radius:10px;padding:8px;min-width:160px;z-index:150;">
-      <a href="#" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--chalk-dim);text-decoration:none;">My Cards</a>
-      <a href="#" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--chalk-dim);text-decoration:none;">Profile</a>
-      <a href="#" onclick="signOut(); return false;" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--claret-light);text-decoration:none;">Log Out</a>
-    </div>
+    <div class="nav-avatar" id="nav-avatar" style="cursor:default;">?</div>
+    <!-- Profile menu deferred for now — avatar is purely visual -->
   </nav>
 
   <div class="page-wrap">
@@ -148,7 +144,7 @@
       <p>Draws work a little differently, since there's no "winning margin" to read. Instead, you're rewarded for correctly calling how high-scoring the draw was:</p>
       <table class="data-table">
         <tr><th>You correctly predict</th><th>Points</th></tr>
-        <tr><td>That it's a draw, but not the exact score</td><td>+2</td></tr>
+        <tr><td>That it's a draw, but not the exact score</td><td>+1</td></tr>
         <tr><td>The exact score is 0–0 or 1–1</td><td>+2</td></tr>
         <tr><td>The exact score is 2–2</td><td>+3</td></tr>
         <tr><td>The exact score is 3–3 or higher</td><td>+4</td></tr>
@@ -170,7 +166,7 @@
       <table class="data-table">
         <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
         <tr><td>Chelsea 2–2</td><td>16 pts</td><td>Right winner (3) + exact 2–2 draw (3) + exact scoreline (5) + Perfect Prediction (5)</td></tr>
-        <tr><td>Draw 1–1</td><td>5 pts</td><td>Right that it's a draw (3), not the exact score (+2 baseline)</td></tr>
+        <tr><td>Draw 1–1</td><td>4 pts</td><td>Right that it's a draw (3), not the exact score (+1 baseline)</td></tr>
       </table>
     </div>
 
@@ -266,9 +262,6 @@
     }
   }
 
-  function toggleAccountMenu() {
-    document.getElementById('account-menu').classList.toggle('hidden');
-  }
   async function signOut() {
     await sb.auth.signOut();
     window.location.href = 'index.html';
