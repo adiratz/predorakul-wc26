@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predict — PredOrakul PL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="css/pl-theme.css">
+<style>
+  .matchweek-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .matchweek-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+  }
+  .mw-btn {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    color: var(--chalk-dim);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .mw-btn:hover { color: var(--chalk); }
+  .mw-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .progress-bar-track {
+    background: var(--board-dark);
+    border-radius: 20px;
+    height: 6px;
+    overflow: hidden;
+    margin: 12px 0 20px;
+  }
+  .progress-bar-fill {
+    background: var(--claret);
+    height: 100%;
+    transition: width 0.3s;
+  }
+  .progress-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--chalk-dim);
+    margin-bottom: 4px;
+  }
+
+  .submit-bar {
+    position: sticky;
+    bottom: 0;
+    background: var(--board);
+    padding: 16px 0;
+    margin-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Card selection popup */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    padding: 20px;
+  }
+  .modal {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+    max-width: 360px;
+    width: 100%;
+  }
+  .modal h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .modal-card-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 6px;
+  }
+  .modal-card-option:hover { background: var(--board-dark); }
+  .modal-card-option.disabled { opacity: 0.35; cursor: not-allowed; }
+  .modal-card-option .tactic-token { width: 40px; flex-shrink: 0; }
+  .modal-card-option .tactic-token .badge { width: 40px; height: 40px; }
+  .modal-card-option .tactic-token .badge svg { width: 18px; height: 18px; }
+  .modal-card-info { flex: 1; }
+  .modal-card-info .name { font-size: 0.85rem; font-weight: 600; color: var(--chalk); }
+  .modal-card-info .count { font-family: var(--font-mono); font-size: 0.7rem; color: var(--chalk-dim); }
+  .modal-close-row { display: flex; gap: 8px; margin-top: 16px; }
+</style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-logo">PRED<span>ORAKUL</span></div>
+    <div class="nav-links">
+      <a href="predict.html" class="active">Predict</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="how-to-play.html">Rules</a>
+      <a href="about.html">About</a>
+    </div>
+    <button class="nav-avatar" id="nav-avatar">?</button>
+  </nav>
+
+  <div class="page-wrap">
+
+    <div id="loading-state">
+      <p class="sub" style="text-align:center;padding:40px 0;">Loading fixtures&hellip;</p>
+    </div>
+
+    <div id="not-logged-in-state" class="hidden">
+      <div class="card">
+        <h2>Sign in first</h2>
+        <p class="sub">You need to be logged in to make predictions.</p>
+        <a href="index.html" class="btn" style="display:inline-block;margin-top:14px;">Go to sign in &rarr;</a>
+      </div>
+    </div>
+
+    <div id="main-state" class="hidden">
+
+      <div class="winner-pick-banner" id="winner-pick-banner">
+        <!-- Populated by JS: editable form before deadline, locked display after -->
+      </div>
+
+      <div class="matchweek-nav">
+        <button class="mw-btn" id="prev-mw-btn" onclick="changeMatchweek(-1)">&larr; Prev</button>
+        <div class="matchweek-title" id="mw-title">Matchweek —</div>
+        <button class="mw-btn" id="next-mw-btn" onclick="changeMatchweek(1)">Next &rarr;</button>
+      </div>
+
+      <div class="progress-label" id="progress-label">0 of 0 predicted</div>
+      <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill" style="width:0%;"></div></div>
+
+      <div id="fixtures-list"></div>
+
+      <div class="submit-bar">
+        <button class="btn" style="width:100%;" onclick="submitAll()">Submit Predictions</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Card selection modal -->
+  <div class="modal-backdrop hidden" id="card-modal">
+    <div class="modal">
+      <h3>Play a Dugout Card</h3>
+      <div id="modal-card-list"></div>
+      <div class="modal-close-row">
+        <button class="btn secondary" style="flex:1;" onclick="closeCardModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ══════════════════════════════════════════════════════════
+  // Same two values as index.html — fill in once, keep in sync
+  // ══════════════════════════════════════════════════════════
+  const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
+
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const CARD_META = {
+    banker:            { name: 'Banker',            icon: '<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/>' },
+    double_down:        { name: 'Double Down',        icon: '<path d="M6 15l6-6 6 6"/><path d="M6 20l6-6 6 6"/>' },
+    all_in:              { name: 'All In', risk: true, icon: '<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>' },
+    rivalry_boost:      { name: 'Rivalry Boost',      icon: '<path d="M6.5 17.5L17.5 6.5M6.5 6.5l3 3M14.5 14.5l3 3M4 20l3.5-1 8-8-2.5-2.5-8 8L4 20zM14 4l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" stroke-linejoin="round"/>' },
+    assistant_manager:  { name: 'Assistant Manager',  icon: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>' },
+  };
+
+  let currentUser = null;
+  let currentMatchweek = 1;
+  let allMatchweeks = [];
+  let fixtures = [];
+  let existingPredictions = {};   // match_id -> {home_score, away_score}
+  let existingCardPlays = {};     // match_id -> card_type
+  let cardInventory = {};         // card_type -> charges_remaining
+  let activeCardModalMatchId = null;
+
+  async function init() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      document.getElementById('loading-state').classList.add('hidden');
+      document.getElementById('not-logged-in-state').classList.remove('hidden');
+      return;
+    }
+    currentUser = session.user;
+
+    // Figure out which matchweeks exist, default to the earliest
+    // upcoming one (first matchweek with any fixture not yet kicked off)
+    const { data: mwData } = await sb
+      .from('matches')
+      .select('gameweek, kickoff_utc')
+      .order('gameweek', { ascending: true });
+
+    if (!mwData || mwData.length === 0) {
+      document.getElementById('loading-state').innerHTML = '<p class="sub">No fixtures loaded yet.</p>';
+      return;
+    }
+
+    allMatchweeks = [...new Set(mwData.map(m => m.gameweek))].sort((a,b) => a-b);
+
+    const now = new Date();
+    const upcoming = mwData.find(m => new Date(m.kickoff_utc) > now);
+    currentMatchweek = upcoming ? upcoming.gameweek : allMatchweeks[allMatchweeks.length - 1];
+
+    await loadCardInventory();
+    await loadMatchweek(currentMatchweek);
+    await loadWinnerPick();
+
+    document.getElementById('loading-state').classList.add('hidden');
+    document.getElementById('main-state').classList.remove('hidden');
+  }
+
+  // ── Winner Pick ──────────────────────────────────────────
+  async function loadWinnerPick() {
+    const banner = document.getElementById('winner-pick-banner');
+
+    // Is the season deadline (GW1 - 1hr) still in the future?
+    const { data: gw1Data } = await sb
+      .from('matches')
+      .select('kickoff_utc')
+      .eq('gameweek', 1)
+      .order('kickoff_utc', { ascending: true })
+      .limit(1);
+
+    const gw1Kickoff = gw1Data && gw1Data[0] ? new Date(gw1Data[0].kickoff_utc) : null;
+    const deadline = gw1Kickoff ? new Date(gw1Kickoff.getTime() - 60 * 60 * 1000) : null;
+    const isOpen = deadline ? (new Date() < deadline) : false;
+
+    // Existing pick, if any
+    const { data: pickData } = await sb
+      .from('winner_picks')
+      .select('team_id, teams(name)')
+      .eq('user_id', currentUser.id)
+      .maybeSingle();
+
+    if (isOpen) {
+      // Editable state — fetch full team list for the dropdown
+      const { data: teams } = await sb.from('teams').select('id, name').order('name');
+
+      const options = (teams || [])
+        .map(t => `<option value="${t.id}" ${pickData && pickData.team_id === t.id ? 'selected' : ''}>${t.name}</option>`)
+        .join('');
+
+      banner.innerHTML = `
+        <h3>🏆 Pick the <span>Champion</span></h3>
+        <p class="sub">Who wins the league outright? +12 pts if you're right. Editable until Gameweek 1 kicks off — one pick, no card needed.</p>
+        <div class="winner-pick-row">
+          <select id="winner-pick-select">
+            <option value="">— Select a team —</option>
+            ${options}
+          </select>
+          <button class="btn small" onclick="saveWinnerPick()">Save</button>
+        </div>
+      `;
+    } else if (pickData) {
+      banner.innerHTML = `
+        <h3>🏆 Champion <span>Pick</span></h3>
+        <div class="winner-pick-locked">
+          Locked in: <strong>${pickData.teams.name}</strong>
+        </div>
+      `;
+    } else {
+      banner.innerHTML = `
+        <h3>🏆 Champion <span>Pick</span></h3>
+        <div class="winner-pick-locked">No pick was made before Gameweek 1 — sits out this season.</div>
+      `;
+    }
+  }
+
+  async function saveWinnerPick() {
+    const teamId = document.getElementById('winner-pick-select').value;
+    if (!teamId) { alert('Select a team first.'); return; }
+
+    const { error } = await sb
+      .from('winner_picks')
+      .upsert({ user_id: currentUser.id, team_id: parseInt(teamId), updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+
+    if (error) {
+      alert('Could not save your pick: ' + error.message);
+      return;
+    }
+    loadWinnerPick();
+  }
+
+  async function loadCardInventory() {
+    const { data } = await sb
+      .from('card_inventory')
+      .select('card_type, charges_remaining')
+      .eq('user_id', currentUser.id);
+    cardInventory = {};
+    (data || []).forEach(row => cardInventory[row.card_type] = row.charges_remaining);
+  }
+
+  async function loadMatchweek(mw) {
+    currentMatchweek = mw;
+    document.getElementById('mw-title').textContent = `Matchweek ${mw}`;
+    document.getElementById('prev-mw-btn').disabled = (mw <= allMatchweeks[0]);
+    document.getElementById('next-mw-btn').disabled = (mw >= allMatchweeks[allMatchweeks.length-1]);
+
+    const { data: matchData } = await sb
+      .from('matches')
+      .select('id, home_team_id, away_team_id, kickoff_utc, is_rivalry, teams_home:home_team_id(name, difficulty_rating), teams_away:away_team_id(name, difficulty_rating)')
+      .eq('gameweek', mw)
+      .order('kickoff_utc', { ascending: true });
+
+    fixtures = matchData || [];
+
+    const matchIds = fixtures.map(f => f.id);
+
+    const { data: predData } = await sb
+      .from('predictions')
+      .select('match_id, home_score, away_score')
+      .eq('user_id', currentUser.id)
+      .in('match_id', matchIds);
+
+    existingPredictions = {};
+    (predData || []).forEach(p => existingPredictions[p.match_id] = p);
+
+    const { data: cardData } = await sb
+      .from('card_usage')
+      .select('match_id, card_type')
+      .eq('user_id', currentUser.id)
+      .in('match_id', matchIds);
+
+    existingCardPlays = {};
+    (cardData || []).forEach(c => existingCardPlays[c.match_id] = c.card_type);
+
+    renderFixtures();
+  }
+
+  function changeMatchweek(delta) {
+    const idx = allMatchweeks.indexOf(currentMatchweek);
+    const newIdx = idx + delta;
+    if (newIdx < 0 || newIdx >= allMatchweeks.length) return;
+    loadMatchweek(allMatchweeks[newIdx]);
+  }
+
+  function isLocked(kickoffUtc) {
+    const deadline = new Date(new Date(kickoffUtc).getTime() - 60 * 60 * 1000); // 1hr before
+    return new Date() > deadline;
+  }
+
+  function renderFixtures() {
+    const container = document.getElementById('fixtures-list');
+    container.innerHTML = '';
+    let predictedCount = 0;
+
+    fixtures.forEach(f => {
+      const locked = isLocked(f.kickoff_utc);
+      const existing = existingPredictions[f.id];
+      if (existing) predictedCount++;
+      const cardPlayed = existingCardPlays[f.id];
+
+      const row = document.createElement('div');
+      row.className = 'fixture-row' + (locked ? ' locked' : '');
+
+      const kickoffStr = new Date(f.kickoff_utc).toLocaleString('en-GB', {
+        weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+      });
+
+      row.innerHTML = `
+        <div class="fixture-teams">
+          <div>
+            <div class="fixture-team-name">${f.teams_home.name}</div>
+            <div class="fixture-difficulty">Difficulty ${f.teams_home.difficulty_rating}</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="fixture-team-name">${f.teams_away.name}</div>
+            <div class="fixture-difficulty">Difficulty ${f.teams_away.difficulty_rating}</div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:0.7rem;color:var(--chalk-dim);font-family:var(--font-mono);margin-bottom:8px;">
+          ${kickoffStr}${f.is_rivalry ? ' &middot; <span style="color:var(--chalk-yellow);">RIVALRY</span>' : ''}
+          ${locked ? ' &middot; LOCKED' : ''}
+        </div>
+        <div class="fixture-score-inputs">
+          <input type="number" min="0" max="20" id="home-${f.id}" value="${existing ? existing.home_score : ''}" ${locked ? 'disabled' : ''}>
+          <span class="dash">–</span>
+          <input type="number" min="0" max="20" id="away-${f.id}" value="${existing ? existing.away_score : ''}" ${locked ? 'disabled' : ''}>
+        </div>
+        <button class="fixture-card-btn ${cardPlayed ? 'card-played' : ''}" ${locked ? 'disabled' : ''} onclick="openCardModal(${f.id})">
+          ${cardPlayed ? '&#9917; ' + CARD_META[cardPlayed].name + ' played' : '&#127183; Play a card'}
+        </button>
+      `;
+      container.appendChild(row);
+    });
+
+    document.getElementById('progress-label').textContent = `${predictedCount} of ${fixtures.length} predicted`;
+    document.getElementById('progress-fill').style.width = fixtures.length ? `${(predictedCount/fixtures.length)*100}%` : '0%';
+  }
+
+  async function submitAll() {
+    const rows = [];
+    fixtures.forEach(f => {
+      if (isLocked(f.kickoff_utc)) return;
+      const homeEl = document.getElementById(`home-${f.id}`);
+      const awayEl = document.getElementById(`away-${f.id}`);
+      const homeVal = homeEl.value;
+      const awayVal = awayEl.value;
+      if (homeVal === '' || awayVal === '') return;
+      rows.push({
+        user_id: currentUser.id,
+        match_id: f.id,
+        home_score: parseInt(homeVal),
+        away_score: parseInt(awayVal),
+        updated_at: new Date().toISOString()
+      });
+    });
+
+    if (rows.length === 0) {
+      alert('Enter at least one scoreline before submitting.');
+      return;
+    }
+
+    const { error } = await sb
+      .from('predictions')
+      .upsert(rows, { onConflict: 'user_id,match_id' });
+
+    if (error) {
+      alert('Something went wrong saving your predictions: ' + error.message);
+      return;
+    }
+
+    alert('Predictions saved!');
+    loadMatchweek(currentMatchweek);
+  }
+
+  // ── Card modal ───────────────────────────────────────────
+  function openCardModal(matchId) {
+    activeCardModalMatchId = matchId;
+    const fixture = fixtures.find(f => f.id === matchId);
+    const alreadyPlayed = existingCardPlays[matchId];
+
+    const list = document.getElementById('modal-card-list');
+    list.innerHTML = '';
+
+    Object.keys(CARD_META).forEach(cardType => {
+      const meta = CARD_META[cardType];
+      const charges = cardInventory[cardType] || 0;
+      const isRivalryOnly = cardType === 'rivalry_boost';
+      const eligible = charges > 0 && !alreadyPlayed && (!isRivalryOnly || fixture.is_rivalry);
+
+      const opt = document.createElement('div');
+      opt.className = 'modal-card-option' + (eligible ? '' : ' disabled');
+      opt.innerHTML = `
+        <div class="tactic-token${meta.risk ? ' risk' : ''}"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${meta.icon}</svg></div></div>
+        <div class="modal-card-info">
+          <div class="name">${meta.name}</div>
+          <div class="count">${charges} remaining${isRivalryOnly && !fixture.is_rivalry ? ' &middot; rivalry fixtures only' : ''}</div>
+        </div>
+      `;
+      if (eligible) opt.onclick = () => playCard(cardType);
+      list.appendChild(opt);
+    });
+
+    document.getElementById('card-modal').classList.remove('hidden');
+  }
+
+  async function playCard(cardType) {
+    const { error } = await sb
+      .from('card_usage')
+      .insert({ user_id: currentUser.id, match_id: activeCardModalMatchId, card_type: cardType });
+
+    if (error) {
+      alert('Could not play that card: ' + error.message);
+      return;
+    }
+
+    await loadCardInventory();
+    existingCardPlays[activeCardModalMatchId] = cardType;
+    closeCardModal();
+    renderFixtures();
+  }
+
+  function closeCardModal() {
+    document.getElementById('card-modal').classList.add('hidden');
+    activeCardModalMatchId = null;
+  }
+
+  init();
+</script>
+</body>
+</html>

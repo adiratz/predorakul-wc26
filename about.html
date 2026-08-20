@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — PredOrakul PL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/pl-theme.css">
+<style>
+  .about-hero {
+    text-align: center;
+    padding: 8px 0 30px;
+  }
+  .about-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--claret-light);
+    margin-bottom: 10px;
+  }
+  .about-headline {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 2.2rem;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+  .about-headline span { color: var(--claret-light); }
+
+  .about-section { margin-bottom: 24px; }
+  .about-section h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  .about-section p {
+    color: var(--chalk-dim);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+  .about-section p strong { color: var(--chalk); }
+  .about-section a { color: var(--claret-light); }
+
+  .wc-callout {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-top: 16px;
+    text-decoration: none;
+  }
+  .wc-callout-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .wc-callout-text {
+    flex: 1;
+  }
+  .wc-callout-text .title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: var(--chalk);
+    margin-bottom: 2px;
+  }
+  .wc-callout-text .sub {
+    font-size: 0.8rem;
+    color: var(--chalk-dim);
+  }
+  .wc-callout-arrow { color: var(--claret-light); font-size: 1.2rem; flex-shrink: 0; }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .feature-item {
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .feature-item .name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--chalk);
+    margin-bottom: 3px;
+  }
+  .feature-item .desc {
+    font-size: 0.78rem;
+    color: var(--chalk-dim);
+    line-height: 1.4;
+  }
+
+  .coming-soon-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--chalk-yellow);
+    border: 1px solid rgba(232,212,92,0.4);
+    border-radius: 10px;
+    padding: 2px 8px;
+    margin-left: 6px;
+  }
+
+  @media (max-width: 480px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .about-headline { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-logo">PRED<span>ORAKUL</span></div>
+    <div class="nav-links">
+      <a href="predict.html">Predict</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="how-to-play.html">Rules</a>
+      <a href="about.html" class="active">About</a>
+    </div>
+    <button class="nav-avatar">?</button>
+  </nav>
+
+  <div class="page-wrap" style="max-width:640px;">
+
+    <div class="about-hero">
+      <div class="about-eyebrow">Premier League &middot; 2026/27 Season</div>
+      <div class="about-headline">FROM THE WORLD CUP<br>TO EVERY <span>SATURDAY</span></div>
+    </div>
+
+    <div class="card about-section">
+      <h2>Where this started</h2>
+      <p>PredOrakul began as a World Cup prediction league between a small group of friends — nine predictors, 104 matches, way too much banter about who actually knew football and who was just guessing.</p>
+      <p>That version is still live, and it's the reason this one exists at all.</p>
+      <a href="WC26/about.html" class="wc-callout">
+        <span class="wc-callout-icon">🏆</span>
+        <span class="wc-callout-text">
+          <span class="title">PredOrakul WC2026</span>
+          <span class="sub">Where it all started — the original tournament edition</span>
+        </span>
+        <span class="wc-callout-arrow">&rarr;</span>
+      </a>
+    </div>
+
+    <div class="card about-section">
+      <h2>Now, for every Premier League weekend</h2>
+      <p>The World Cup only comes around once every four years. Football doesn't. So PredOrakul is back for the 2026/27 Premier League season — same obsession with getting predictions exactly right, but built out properly this time, with a deeper scoring system and a genuine strategic layer we never had in the World Cup version.</p>
+    </div>
+
+    <div class="card about-section">
+      <h2>What's different this time</h2>
+      <p>Every scoreline you predict can score in <strong>five different ways at once</strong> — get the winner right, the exact score, the margin, an upset, or nail everything simultaneously for the biggest bonus in the game. It's not one prediction, one outcome — it's five chances to be right, stacked on top of each other.</p>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="name">The Dugout</div>
+          <div class="desc">Five tactical cards, one per fixture — from playing it safe to going all-in on a result you're sure about.</div>
+        </div>
+        <div class="feature-item">
+          <div class="name">Upset Bonus</div>
+          <div class="desc">Automatic points for correctly calling a genuine underdog win — no card needed, just a sharp eye.</div>
+        </div>
+        <div class="feature-item">
+          <div class="name">Champion Pick</div>
+          <div class="desc">One pick before Gameweek 1 — who lifts the title in May? Locked in early, resolved at the very end.</div>
+        </div>
+        <div class="feature-item">
+          <div class="name">Shadow Table <span class="coming-soon-tag">Coming soon</span></div>
+          <div class="desc">Your predictions quietly build a full personalized league table all season — a byproduct of picks you're already making.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card about-section" style="margin-bottom:0;">
+      <h2>Same spirit, sharper game</h2>
+      <p>It's still built for banter first, bragging rights second. Just with a scoring system that finally rewards reading a match properly — not just picking a winner and hoping.</p>
+      <a href="predict.html" class="btn" style="display:inline-block;margin-top:6px;">Start predicting &rarr;</a>
+    </div>
+
+  </div>
+</body>
+</html>

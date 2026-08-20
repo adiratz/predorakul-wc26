@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard — PredOrakul PL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="css/pl-theme.css">
+<style>
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    background: var(--board-dark);
+    border-radius: 10px;
+    padding: 4px;
+  }
+  .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--chalk-dim);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .tab-btn.active { background: var(--claret); color: var(--chalk); }
+
+  .lb-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-row.own-row {
+    background: rgba(154,53,72,0.14);
+    border-radius: 8px;
+    border-bottom-color: transparent;
+  }
+  .lb-rank {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--claret-light);
+    width: 42px;
+    flex-shrink: 0;
+  }
+  .lb-name { flex: 1; font-weight: 500; }
+  .lb-pts { font-family: var(--font-mono); font-weight: 600; width: 70px; text-align: right; }
+  .lb-delta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--success);
+    width: 60px;
+    text-align: right;
+  }
+  .lb-header-row {
+    display: flex;
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--chalk-dim);
+  }
+  .lb-header-row .lb-rank { width: 42px; }
+  .lb-header-row .lb-name { flex: 1; }
+  .lb-header-row .lb-pts { width: 70px; text-align: right; }
+  .lb-header-row .lb-delta { width: 60px; text-align: right; }
+
+  /* My Points */
+  .mp-gw-block { margin-bottom: 22px; }
+  .mp-gw-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .mp-gw-title .gw-total { color: var(--claret-light); }
+  .mp-match-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.85rem;
+  }
+  .mp-match-row:last-child { border-bottom: none; }
+  .mp-match-desc { color: var(--chalk-dim); }
+  .mp-match-desc strong { color: var(--chalk); }
+  .mp-match-pts { font-family: var(--font-mono); font-weight: 600; flex-shrink: 0; margin-left: 12px; }
+  .perfect-badge {
+    display: inline-block;
+    background: var(--chalk-yellow);
+    color: var(--board-dark);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-left: 6px;
+  }
+</style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-logo">PRED<span>ORAKUL</span></div>
+    <div class="nav-links">
+      <a href="predict.html">Predict</a>
+      <a href="leaderboard.html" class="active">Leaderboard</a>
+      <a href="how-to-play.html">Rules</a>
+      <a href="about.html">About</a>
+    </div>
+    <button class="nav-avatar">?</button>
+  </nav>
+
+  <div class="page-wrap">
+    <div id="loading-state"><p class="sub" style="text-align:center;padding:40px 0;">Loading&hellip;</p></div>
+    <div id="not-logged-in-state" class="hidden">
+      <div class="card">
+        <h2>Sign in first</h2>
+        <p class="sub">You need to be logged in to view the leaderboard.</p>
+        <a href="index.html" class="btn" style="display:inline-block;margin-top:14px;">Go to sign in &rarr;</a>
+      </div>
+    </div>
+
+    <div id="main-state" class="hidden">
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-leaderboard-btn" onclick="switchTab('leaderboard')">Leaderboard</button>
+        <button class="tab-btn" id="tab-mypoints-btn" onclick="switchTab('mypoints')">My Points</button>
+      </div>
+
+      <div id="tab-leaderboard" class="card">
+        <div class="lb-header-row">
+          <div class="lb-rank">Rank</div>
+          <div class="lb-name">Player</div>
+          <div class="lb-pts">Pts</div>
+          <div class="lb-delta">This week</div>
+        </div>
+        <div id="leaderboard-rows"></div>
+      </div>
+
+      <div id="tab-mypoints" class="card hidden">
+        <div id="mypoints-content"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let currentUser = null;
+
+  async function init() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      document.getElementById('loading-state').classList.add('hidden');
+      document.getElementById('not-logged-in-state').classList.remove('hidden');
+      return;
+    }
+    currentUser = session.user;
+
+    await loadLeaderboard();
+
+    document.getElementById('loading-state').classList.add('hidden');
+    document.getElementById('main-state').classList.remove('hidden');
+  }
+
+  function switchTab(tab) {
+    document.getElementById('tab-leaderboard').classList.toggle('hidden', tab !== 'leaderboard');
+    document.getElementById('tab-mypoints').classList.toggle('hidden', tab !== 'mypoints');
+    document.getElementById('tab-leaderboard-btn').classList.toggle('active', tab === 'leaderboard');
+    document.getElementById('tab-mypoints-btn').classList.toggle('active', tab === 'mypoints');
+    if (tab === 'mypoints') loadMyPoints();
+  }
+
+  // ── Leaderboard tab ──────────────────────────────────────
+  async function loadLeaderboard() {
+    const { data: rows } = await sb.from('leaderboard').select('*');
+
+    // Most recently scored gameweek, for the "this week" column
+    const { data: gwRow } = await sb
+      .from('results')
+      .select('matches(gameweek)')
+      .order('entered_at', { ascending: false })
+      .limit(1);
+    const recentGw = gwRow && gwRow[0] ? gwRow[0].matches.gameweek : null;
+
+    let deltas = {};
+    if (recentGw) {
+      const { data: deltaRows } = await sb
+        .from('prediction_scores')
+        .select('user_id, final_total, matches!inner(gameweek)')
+        .eq('matches.gameweek', recentGw);
+      (deltaRows || []).forEach(r => {
+        deltas[r.user_id] = (deltas[r.user_id] || 0) + r.final_total;
+      });
+    }
+
+    const container = document.getElementById('leaderboard-rows');
+    container.innerHTML = '';
+
+    if (!rows || rows.length === 0) {
+      container.innerHTML = '<p class="sub" style="padding:20px;text-align:center;">No scores yet — check back after the first results are in.</p>';
+      return;
+    }
+
+    rows.forEach(r => {
+      const isOwn = r.user_id === currentUser.id;
+      const delta = deltas[r.user_id];
+      const row = document.createElement('div');
+      row.className = 'lb-row' + (isOwn ? ' own-row' : '');
+      row.innerHTML = `
+        <div class="lb-rank">${r.rank}</div>
+        <div class="lb-name">${r.display_name}${isOwn ? ' (you)' : ''}</div>
+        <div class="lb-pts">${r.total_points}</div>
+        <div class="lb-delta">${delta !== undefined ? '+' + delta : ''}</div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  // ── My Points tab ────────────────────────────────────────
+  function describeScore(row) {
+    if (row.pp_pts > 0) return 'Perfect prediction!';
+    const bits = [];
+    if (row.outcome_pts > 0) bits.push('right winner');
+    if (row.scoreline_pts > 0) bits.push('exact score');
+    if (row.mirror_pts > 0) bits.push('right score, wrong side');
+    if (row.gd_pts > 0) bits.push('right margin');
+    if (row.underdog_pts > 0) bits.push('upset bonus');
+    if (bits.length === 0) return 'no points this match';
+    return bits.join(' + ');
+  }
+
+  async function loadMyPoints() {
+    const container = document.getElementById('mypoints-content');
+    container.innerHTML = '<p class="sub">Loading&hellip;</p>';
+
+    const { data: rows } = await sb
+      .from('prediction_scores')
+      .select('*, matches(gameweek, home_team_id, away_team_id, teams_home:home_team_id(name), teams_away:away_team_id(name))')
+      .eq('user_id', currentUser.id)
+      .order('match_id', { ascending: false });
+
+    if (!rows || rows.length === 0) {
+      container.innerHTML = '<p class="sub">No scored predictions yet.</p>';
+      return;
+    }
+
+    // Group by gameweek
+    const byGw = {};
+    rows.forEach(r => {
+      const gw = r.matches.gameweek;
+      if (!byGw[gw]) byGw[gw] = [];
+      byGw[gw].push(r);
+    });
+
+    const gws = Object.keys(byGw).map(Number).sort((a,b) => b - a);
+
+    container.innerHTML = gws.map(gw => {
+      const matches = byGw[gw];
+      const gwTotal = matches.reduce((sum, m) => sum + m.final_total, 0);
+      const matchRows = matches.map(m => `
+        <div class="mp-match-row">
+          <div class="mp-match-desc">
+            <strong>${m.matches.teams_home.name} vs ${m.matches.teams_away.name}</strong><br>
+            ${describeScore(m)}${m.pp_pts > 0 ? '<span class="perfect-badge">PERFECT</span>' : ''}
+            ${m.card_type ? `<br><span style="color:var(--chalk-yellow);">${m.card_type.replace('_',' ')} played</span>` : ''}
+          </div>
+          <div class="mp-match-pts">${m.final_total} pts</div>
+        </div>
+      `).join('');
+
+      return `
+        <div class="mp-gw-block">
+          <div class="mp-gw-title">
+            <span>Matchweek ${gw}</span>
+            <span class="gw-total">${gwTotal} pts</span>
+          </div>
+          ${matchRows}
+        </div>
+      `;
+    }).join('');
+  }
+
+  init();
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Play — PredOrakul PL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/pl-theme.css">
+<style>
+  .step-row {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 22px;
+    align-items: flex-start;
+  }
+  .step-num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: var(--claret-light);
+    width: 40px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .step-body h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+  .step-body p { color: var(--chalk-dim); font-size: 0.9rem; line-height: 1.55; }
+
+  .scoring-list li {
+    color: var(--chalk-dim);
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    padding-left: 4px;
+  }
+  .scoring-list li strong { color: var(--chalk); }
+  .scoring-list { list-style: none; margin: 14px 0 20px; }
+  .scoring-list li::before { content: '→ '; color: var(--claret-light); }
+</style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-logo">PRED<span>ORAKUL</span></div>
+    <div class="nav-links">
+      <a href="predict.html">Predict</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="how-to-play.html" class="active">Rules</a>
+      <a href="about.html">About</a>
+    </div>
+    <button class="nav-avatar">?</button>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="card" style="margin-bottom:20px;">
+      <h2>How to Play</h2>
+      <p class="sub">Three steps, every matchweek. Read this once — you won't need to think about the mechanics again.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Enter a scoreline for each match</h3>
+          <p>That's genuinely all you do — type in a score, like 2–1. You don't separately pick a winner, or say how big the margin is, or call a draw. Everything else is worked out automatically from the score you enter.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Play a Dugout Card, if you want one</h3>
+          <p>Before a match locks, you can optionally play one of five cards to boost your points on that fixture. Totally optional — see below for what each one does.</p>
+        </div>
+      </div>
+      <div class="step-row" style="margin-bottom:0;">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Submit before the deadline</h3>
+          <p>Predictions lock 1 hour before kickoff. You can change your mind and update a prediction as many times as you like right up until then.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <h2 style="font-size:1.2rem;">How your scoreline earns points</h2>
+      <p class="sub" style="margin-bottom:0;">One scoreline can score in several different ways at once — you're not choosing between them, they all stack:</p>
+      <ul class="scoring-list">
+        <li>Get the <strong>winner</strong> right &rarr; points</li>
+        <li>Get the <strong>exact score</strong> right &rarr; more points</li>
+        <li>Get the <strong>margin</strong> right, even if the exact score is off &rarr; more points</li>
+        <li>Correctly call an <strong>upset</strong> &rarr; automatic bonus</li>
+        <li>Nail <strong>everything at once</strong> &rarr; biggest bonus of all</li>
+      </ul>
+      <p class="sub">You don't need to think about any of this while predicting — just enter the score you genuinely believe. The scoring engine does the rest.</p>
+      <a href="full-rules.html" class="btn small" style="display:inline-block;margin-top:16px;">See exactly how points are calculated &rarr;</a>
+    </div>
+
+    <div class="card">
+      <div class="section-title" style="font-size:1.3rem;">The Dugout, in one line</div>
+      <p class="sub" style="margin-top:10px;">Five one-time cards per season, one per fixture, each rewarding a different kind of confident call — from playing it safe to going all-in on a result you're sure about.</p>
+      <a href="full-rules.html#the-dugout" class="btn small" style="display:inline-block;margin-top:16px;">Full card descriptions &rarr;</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Rules — PredOrakul PL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/pl-theme.css">
+<style>
+  .rules-section { margin-bottom: 30px; }
+  .rules-section h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+    padding-top: 4px;
+  }
+  .rules-section h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--claret-light);
+    margin: 18px 0 6px;
+  }
+  .rules-section p { color: var(--chalk-dim); font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px; }
+  .rules-section p strong { color: var(--chalk); }
+
+  .toc { margin-bottom: 30px; }
+  .toc a {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--chalk-dim);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .toc a:hover { color: var(--claret-light); text-decoration: none; }
+
+  .card-detail-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .card-detail-row:last-child { border-bottom: none; }
+  .card-detail-row .tactic-token { width: 56px; flex-shrink: 0; }
+  .card-detail-body h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .card-detail-body p { font-size: 0.85rem; color: var(--chalk-dim); margin-bottom: 4px; }
+  .card-detail-uses {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--chalk-yellow);
+  }
+
+  .faq-item { margin-bottom: 16px; }
+  .faq-item .q { font-weight: 600; color: var(--chalk); font-size: 0.9rem; margin-bottom: 4px; }
+  .faq-item .a { color: var(--chalk-dim); font-size: 0.87rem; line-height: 1.55; }
+</style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-logo">PRED<span>ORAKUL</span></div>
+    <div class="nav-links">
+      <a href="predict.html">Predict</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="how-to-play.html" class="active">Rules</a>
+      <a href="about.html">About</a>
+    </div>
+    <button class="nav-avatar">?</button>
+  </nav>
+
+  <div class="page-wrap">
+    <a href="how-to-play.html" style="font-size:0.85rem;">&larr; Back to summary</a>
+
+    <div class="card" style="margin:18px 0 24px;">
+      <h2>Full Rules</h2>
+      <p class="sub">Every point, every card, every edge case — the complete picture.</p>
+    </div>
+
+    <div class="card toc">
+      <a href="#how-points-work">How Points Work</a>
+      <a href="#scoring-detail">Scoring in Detail</a>
+      <a href="#draws">Draws — Special Rules</a>
+      <a href="#worked-examples">Worked Examples</a>
+      <a href="#the-dugout">The Dugout — Bonus Cards</a>
+      <a href="#rivalry">Rivalry Fixtures</a>
+      <a href="#faq" style="border-bottom:none;">FAQ</a>
+    </div>
+
+    <div class="card rules-section" id="how-points-work">
+      <h2>How Points Work</h2>
+      <p>Every match, you predict a scoreline — say, <strong>2–1</strong>. That's it — you don't separately pick a winner or a margin, they're worked out automatically from the score you enter. You can score points in five different ways on the same match, and they all add up:</p>
+      <table class="data-table">
+        <tr><th>#</th><th>You get this right</th><th>Points</th></tr>
+        <tr><td>1</td><td>The winner (or a draw)</td><td>3 pts</td></tr>
+        <tr><td>2</td><td>The exact scoreline, right team winning</td><td>+5 pts</td></tr>
+        <tr><td>3</td><td>The exact scoreline, wrong team winning</td><td>+2 pts</td></tr>
+        <tr><td>4</td><td>How close the game was (goal difference)</td><td>up to +4 pts</td></tr>
+        <tr><td>5</td><td>Correctly calling an upset</td><td>+4 pts</td></tr>
+        <tr><td>6</td><td>Everything at once</td><td>+5 pts extra</td></tr>
+      </table>
+      <p>You don't need to choose between these — if your prediction qualifies for several, you get all of them added together.</p>
+    </div>
+
+    <div class="card rules-section" id="scoring-detail">
+      <h2>Scoring in Detail</h2>
+      <h3>Winner (3 pts)</h3>
+      <p>Simplest way to score. Predict Home Win, Away Win, or Draw correctly and you're on the board.</p>
+      <h3>Exact Scoreline (+5 pts)</h3>
+      <p>Predict the final score exactly, with the correct team winning — e.g. you called 2–1 to Arsenal, and that's exactly what happened.</p>
+      <h3>Wrong Side, Right Score (+2 pts)</h3>
+      <p>Sometimes you call the right shape of the game but back the wrong team — e.g. you predicted 2–1 to Man City, but Arsenal actually won 2–1. You still read the game well, so you get a smaller reward for that.</p>
+      <h3>Margin Points (up to +4 pts)</h3>
+      <p>Even without nailing the exact score, you get credit for correctly reading how tight or one-sided the match would be:</p>
+      <table class="data-table">
+        <tr><th>Actual winning margin</th><th>Points</th></tr>
+        <tr><td>Won by 1 goal</td><td>+1</td></tr>
+        <tr><td>Won by 2 goals</td><td>+2</td></tr>
+        <tr><td>Won by 3 goals</td><td>+3</td></tr>
+        <tr><td>Won by 4 or more goals</td><td>+4 (capped)</td></tr>
+      </table>
+      <p>This applies whether or not you backed the right team to win.</p>
+      <h3>Upset Bonus (+4 pts)</h3>
+      <p>Every team has a Difficulty Rating (you'll see this next to each fixture). If you correctly predict a clear underdog to win — a team rated at least 2 points weaker than their opponent — you get an automatic +4 bonus on top of everything else. No card needed; it just happens whenever you call it right.</p>
+      <h3>Perfect Prediction (+5 pts)</h3>
+      <p>If you nail the winner, the margin, and the exact scoreline all in one go, you get an extra +5 on top of everything else you've already earned for that match. This is the biggest single reward in the game — precision pays.</p>
+    </div>
+
+    <div class="card rules-section" id="draws">
+      <h2>Draws</h2>
+      <p>Draws work a little differently, since there's no "winning margin" to read. Instead, you're rewarded for correctly calling how high-scoring the draw was:</p>
+      <table class="data-table">
+        <tr><th>You correctly predict</th><th>Points</th></tr>
+        <tr><td>That it's a draw, but not the exact score</td><td>+2</td></tr>
+        <tr><td>The exact score is 0–0 or 1–1</td><td>+2</td></tr>
+        <tr><td>The exact score is 2–2</td><td>+3</td></tr>
+        <tr><td>The exact score is 3–3 or higher</td><td>+4</td></tr>
+      </table>
+      <p>A 2–2 or 3–3 draw is much rarer than a 0–0 or 1–1, so calling it exactly is worth more.</p>
+    </div>
+
+    <div class="card rules-section" id="worked-examples">
+      <h2>Worked Examples</h2>
+      <p><strong>Result: Arsenal 2–1 Man City</strong></p>
+      <table class="data-table">
+        <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
+        <tr><td>Arsenal 1–0</td><td>4 pts</td><td>Right winner (3) + right margin, 1 goal (1)</td></tr>
+        <tr><td>Man City 2–1</td><td>3 pts</td><td>Wrong winner, exact scoreline reversed (2) + right margin (1)</td></tr>
+        <tr><td>Arsenal 4–1</td><td>3 pts</td><td>Right winner (3), margin off by 2</td></tr>
+        <tr><td>Draw 1–1</td><td>0 pts</td><td>Wrong on everything</td></tr>
+      </table>
+      <p><strong>Result: Chelsea 2–2 Spurs</strong></p>
+      <table class="data-table">
+        <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
+        <tr><td>Chelsea 2–2</td><td>16 pts</td><td>Right winner (3) + exact 2–2 draw (3) + exact scoreline (5) + Perfect Prediction (5)</td></tr>
+        <tr><td>Draw 1–1</td><td>5 pts</td><td>Right that it's a draw (3), not the exact score (+2 baseline)</td></tr>
+      </table>
+    </div>
+
+    <div class="card rules-section" id="the-dugout">
+      <h2>The Dugout — Bonus Cards</h2>
+      <p>Alongside normal scoring, you'll receive a set of Dugout Cards each season — one-time boosts you play on a specific match before kickoff. Once played, a card is locked in and can't be swapped or reversed once the match starts. <strong>You can play one card per match, maximum.</strong></p>
+
+      <div class="card-detail-row">
+        <div class="tactic-token"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div></div>
+        <div class="card-detail-body">
+          <h4>Banker</h4>
+          <p>Doubles the points you earn just for calling the winner correctly (3 → 6 pts). No downside if you're wrong.</p>
+          <span class="card-detail-uses">5 uses this season</span>
+        </div>
+      </div>
+      <div class="card-detail-row">
+        <div class="tactic-token"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/><path d="M6 20l6-6 6 6"/></svg></div></div>
+        <div class="card-detail-body">
+          <h4>Double Down</h4>
+          <p>Doubles everything you earn on that match.</p>
+          <span class="card-detail-uses">4 uses this season</span>
+        </div>
+      </div>
+      <div class="card-detail-row">
+        <div class="tactic-token risk"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div></div>
+        <div class="card-detail-body">
+          <h4>All In</h4>
+          <p>If you call the winner correctly, triple everything you earn on that match. If you call the winner wrong, you lose 3 points instead.</p>
+          <span class="card-detail-uses">2 uses this season</span>
+        </div>
+      </div>
+      <div class="card-detail-row">
+        <div class="tactic-token"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 17.5L17.5 6.5M6.5 6.5l3 3M14.5 14.5l3 3M4 20l3.5-1 8-8-2.5-2.5-8 8L4 20zM14 4l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" stroke-linejoin="round"/></svg></div></div>
+        <div class="card-detail-body">
+          <h4>Rivalry Boost</h4>
+          <p>Doubles everything you earn — but only playable on fixtures marked as rivalry games.</p>
+          <span class="card-detail-uses">8 uses this season</span>
+        </div>
+      </div>
+      <div class="card-detail-row">
+        <div class="tactic-token"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></div></div>
+        <div class="card-detail-body">
+          <h4>Assistant Manager</h4>
+          <p>+2 bonus if you correctly predict the winning team's exact goal count — even if you get the losing team's score wrong. (For draws, the full exact score needs to match.)</p>
+          <span class="card-detail-uses">4 uses this season</span>
+        </div>
+      </div>
+
+      <p style="margin-top:16px;"><strong>Worth knowing:</strong> cards refill each new season — unused cards don't carry over. All In is the highest-risk, highest-reward card in the game; save it for matches you're genuinely confident about.</p>
+    </div>
+
+    <div class="card rules-section" id="rivalry">
+      <h2>Rivalry Fixtures</h2>
+      <p>Certain fixtures are marked as Rivalry Games — derbies and historic big-club matchups where Rivalry Boost becomes available. These are flagged clearly on the fixture list and prediction screen. A Rivalry Boost can only be played on one of these matches.</p>
+    </div>
+
+    <div class="card rules-section" id="faq" style="margin-bottom:0;">
+      <h2>FAQ</h2>
+      <div class="faq-item">
+        <div class="q">Can I use more than one card on the same match?</div>
+        <div class="a">No — one Dugout Card per fixture, maximum.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">What happens if I don't use all my cards?</div>
+        <div class="a">They expire at the end of the season. There's no penalty for not using them, but unused cards don't carry forward either.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">Can I change my prediction after I submit it?</div>
+        <div class="a">You can update your prediction any time up until 1 hour before kickoff. Once that window closes, it's locked in — same deadline applies to playing a Dugout Card.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">Do I need to use a card to get the Upset Bonus?</div>
+        <div class="a">No — the Upset Bonus is automatic. It applies any time you correctly predict a big underdog win, with no card required.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,329 @@
+/* ============================================================
+   PREDORAKUL PL — SHARED THEME
+   "The Dugout" — charcoal tactics-board palette
+   Used across every page. Edit here, not per-page, to keep
+   the whole site visually consistent.
+   ============================================================ */
+
+:root {
+  --board: #1C2024;
+  --board-dark: #131619;
+  --board-raised: #23282D;
+  --chalk: #EDEFEC;
+  --chalk-dim: #9BA3A6;
+  --claret: #9A3548;
+  --claret-light: #C15468;
+  --claret-dark: #6E2635;
+  --alert: #D97706;
+  --chalk-yellow: #E8D45C;
+  --line: rgba(237,239,236,0.09);
+  --success: #4CAF7D;
+  --error-red: #D94C4C;
+
+  --font-display: 'Big Shoulders Display', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-marker: 'Permanent Marker', cursive;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--board);
+  color: var(--chalk);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+a { color: var(--claret-light); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Wordmark (used on auth page + nav logo) ─────────────── */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: var(--chalk);
+  text-transform: uppercase;
+}
+.wordmark span { color: var(--claret-light); }
+
+/* ── Top navigation bar (shown once logged in) ───────────── */
+.nav-bar {
+  background: var(--board-raised);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.nav-logo span { color: var(--claret-light); }
+.nav-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+.nav-links a {
+  color: var(--chalk-dim);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--chalk);
+  border-bottom-color: var(--claret);
+}
+.nav-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--claret);
+  color: var(--chalk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+}
+.nav-mobile-toggle { display: none; }
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .nav-mobile-toggle {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--chalk);
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+}
+
+/* ── Page container ──────────────────────────────────────── */
+.page-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+/* ── Cards / panels ───────────────────────────────────────── */
+.card {
+  background: var(--board-raised);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 28px 26px;
+}
+
+.card h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.card p.sub { color: var(--chalk-dim); font-size: 0.85rem; line-height: 1.5; }
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.btn {
+  background: var(--claret);
+  color: var(--chalk);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn:hover { background: var(--claret-dark); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.secondary { background: var(--board-dark); color: var(--chalk-dim); }
+.btn.small { padding: 8px 14px; font-size: 0.82rem; }
+
+/* ── Form fields ──────────────────────────────────────────── */
+label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+  margin-bottom: 8px;
+}
+input[type="email"], input[type="text"], input[type="number"] {
+  background: var(--board-dark);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 13px;
+  color: var(--chalk);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+}
+input::placeholder { color: rgba(237,239,236,0.28); }
+input:focus { outline: none; border-color: var(--claret-light); }
+input:disabled { opacity: 0.4; }
+
+/* ── Status messages ──────────────────────────────────────── */
+.status-msg {
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+.status-msg.success { background: rgba(76,175,125,0.12); color: var(--success); }
+.status-msg.error { background: rgba(217,76,76,0.12); color: var(--error-red); }
+
+.hidden { display: none !important; }
+
+/* ── Section headers (Dugout-style underline treatment) ──── */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.7rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--chalk);
+  position: relative;
+  display: inline-block;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 2px;
+  width: 100%; height: 7px;
+  background: var(--claret);
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.marker-text {
+  font-family: var(--font-marker);
+  color: var(--chalk-yellow);
+  transform: rotate(-4deg);
+  display: inline-block;
+  opacity: 0.9;
+}
+
+/* ── Dugout card tokens (reused wherever cards are shown) ─── */
+.tactic-token { text-align: center; }
+.tactic-token .badge {
+  width: 48px; height: 48px;
+  margin: 0 auto 7px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(154,53,72,0.55);
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle, rgba(154,53,72,0.10) 0%, transparent 70%);
+}
+.tactic-token.risk .badge {
+  border-color: rgba(217,119,6,0.6);
+  background: radial-gradient(circle, rgba(217,119,6,0.10) 0%, transparent 70%);
+}
+.tactic-token .badge svg { width: 21px; height: 21px; stroke: var(--claret-light); }
+.tactic-token.risk .badge svg { stroke: var(--alert); }
+.tactic-token .name {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--chalk); margin-bottom: 3px;
+}
+.tactic-token .desc { font-size: 0.65rem; color: var(--chalk-dim); line-height: 1.3; }
+
+/* ── Data tables (rules pages, points breakdowns) ────────── */
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-size: 0.88rem;
+}
+table.data-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+table.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--chalk);
+}
+table.data-table tr:last-child td { border-bottom: none; }
+
+/* ── Fixture row (Predict page) ──────────────────────────── */
+.fixture-row {
+  background: var(--board-raised);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.fixture-row.locked { opacity: 0.55; }
+.fixture-teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.fixture-team-name { font-weight: 600; font-size: 0.95rem; }
+.fixture-difficulty {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--chalk-dim);
+}
+.fixture-score-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin: 12px 0;
+}
+.fixture-score-inputs input {
+  width: 56px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.fixture-score-inputs .dash { color: var(--chalk-dim); font-size: 1.2rem; }
+.fixture-card-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--board-dark);
+  border: 1px solid var(--line);
+  color: var(--chalk-dim);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  margin: 0 auto;
+}
+.fixture-card-btn.card-played {
+  background: rgba(154,53,72,0.15);
+  border-color: var(--claret);
+  color: var(--claret-light);
+}
