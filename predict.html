@@ -95,13 +95,178 @@
   }
   .modal-card-option:hover { background: var(--board-dark); }
   .modal-card-option.disabled { opacity: 0.35; cursor: not-allowed; }
-  .modal-card-option .tactic-token { width: 40px; flex-shrink: 0; }
-  .modal-card-option .tactic-token .badge { width: 40px; height: 40px; }
-  .modal-card-option .tactic-token .badge svg { width: 18px; height: 18px; }
+  .modal-card-option .card-icon-badge { width: 40px; flex-shrink: 0; }
   .modal-card-info { flex: 1; }
   .modal-card-info .name { font-size: 0.85rem; font-weight: 600; color: var(--chalk); }
   .modal-card-info .count { font-family: var(--font-mono); font-size: 0.7rem; color: var(--chalk-dim); }
   .modal-close-row { display: flex; gap: 8px; margin-top: 16px; }
+
+  /* Card icon badge — reused in modal, footer buttons */
+  .card-icon-badge {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px dashed;
+    flex-shrink: 0;
+  }
+  .card-icon-badge svg { width: 18px; height: 18px; }
+  .card-icon-badge.small { width: 22px; height: 22px; }
+  .card-icon-badge.small svg { width: 12px; height: 12px; }
+
+  /* Winner Pick banner */
+  .winner-pick-banner {
+    background: linear-gradient(135deg, rgba(154,53,72,0.15) 0%, var(--board-raised) 60%);
+    border: 1px solid var(--claret);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+  }
+  .winner-pick-banner h3 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .winner-pick-banner h3 span { color: var(--chalk-yellow); }
+  .winner-pick-banner p.sub {
+    color: var(--chalk-dim);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .winner-pick-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .winner-pick-row select {
+    flex: 1;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 36px 12px 13px;
+    color: var(--chalk);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C15468' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+  }
+  .winner-pick-row select:focus { outline: none; border-color: var(--claret-light); }
+  .winner-pick-row select option { background: var(--board-dark); color: var(--chalk); }
+  .winner-pick-locked {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--chalk-dim);
+  }
+  .winner-pick-locked strong { color: var(--chalk-yellow); font-family: var(--font-display); font-size: 1.1rem; }
+  .winner-pick-status { font-size: 0.82rem; color: var(--success); margin-top: 10px; }
+
+  /* ── Redesigned fixture row — denser, single-row layout ─── */
+  .fixture-row {
+    background: var(--board-raised);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.15s;
+  }
+  .fixture-row.locked { opacity: 0.55; }
+  .fixture-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .fx-team {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .fx-team.away { flex-direction: row-reverse; text-align: right; }
+  .fx-team-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .fx-dots {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+    position: relative;
+    cursor: help;
+  }
+  .fx-dots .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--line); }
+  .fx-dots .dot.filled { background: var(--claret-light); }
+  .fx-dots:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    font-size: 0.66rem;
+    padding: 5px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 10;
+  }
+
+  .fx-score { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .fx-score input {
+    width: 38px; height: 38px;
+    text-align: center;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--chalk);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .fx-score input:focus { outline: none; border-color: var(--claret-light); }
+  .fx-score input:disabled { opacity: 0.4; }
+  .fx-score .dash { color: var(--chalk-dim); font-size: 0.9rem; }
+
+  .fixture-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .fx-kickoff { font-family: var(--font-mono); font-size: 0.66rem; color: var(--chalk-dim); }
+  .fx-kickoff .rivalry-tag { color: var(--chalk-yellow); }
+  .fx-kickoff .locked-tag { color: var(--chalk-dim); }
+
+  .fx-card-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--chalk-dim);
+    font-size: 0.74rem;
+    cursor: pointer;
+    padding: 2px 4px;
+  }
+  .fx-card-btn:hover { color: var(--claret-light); }
+  .fx-card-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .fx-card-btn svg { width: 15px; height: 15px; stroke: currentColor; }
 </style>
 </head>
 <body>
@@ -113,7 +278,12 @@
       <a href="how-to-play.html">Rules</a>
       <a href="about.html">About</a>
     </div>
-    <button class="nav-avatar" id="nav-avatar">?</button>
+    <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">?</button>
+    <div id="account-menu" class="hidden" style="position:absolute;top:56px;right:20px;background:var(--board-raised);border:1px solid var(--line);border-radius:10px;padding:8px;min-width:160px;z-index:150;">
+      <a href="#" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--chalk-dim);text-decoration:none;">My Cards</a>
+      <a href="#" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--chalk-dim);text-decoration:none;">Profile</a>
+      <a href="#" onclick="signOut(); return false;" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--claret-light);text-decoration:none;">Log Out</a>
+    </div>
   </nav>
 
   <div class="page-wrap">
@@ -132,9 +302,7 @@
 
     <div id="main-state" class="hidden">
 
-      <div class="winner-pick-banner" id="winner-pick-banner">
-        <!-- Populated by JS: editable form before deadline, locked display after -->
-      </div>
+      <div class="winner-pick-banner" id="winner-pick-banner"></div>
 
       <div class="matchweek-nav">
         <button class="mw-btn" id="prev-mw-btn" onclick="changeMatchweek(-1)">&larr; Prev</button>
@@ -166,30 +334,52 @@
   </div>
 
 <script>
-  // ══════════════════════════════════════════════════════════
-  // Same two values as index.html — fill in once, keep in sync
-  // ══════════════════════════════════════════════════════════
   const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
 
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // Each card has its own icon AND its own color — used for the modal,
+  // the "played" footer button, and the fixture box border when active.
   const CARD_META = {
-    banker:            { name: 'Banker',            icon: '<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/>' },
-    double_down:        { name: 'Double Down',        icon: '<path d="M6 15l6-6 6 6"/><path d="M6 20l6-6 6 6"/>' },
-    all_in:              { name: 'All In', risk: true, icon: '<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>' },
-    rivalry_boost:      { name: 'Rivalry Boost',      icon: '<path d="M6.5 17.5L17.5 6.5M6.5 6.5l3 3M14.5 14.5l3 3M4 20l3.5-1 8-8-2.5-2.5-8 8L4 20zM14 4l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" stroke-linejoin="round"/>' },
-    assistant_manager:  { name: 'Assistant Manager',  icon: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>' },
+    banker: {
+      name: 'Banker', color: '#4A9B7F',
+      icon: '<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/>'
+    },
+    double_down: {
+      name: 'Double Down', color: '#9A3548',
+      icon: '<path d="M6 15l6-6 6 6"/><path d="M6 20l6-6 6 6"/>'
+    },
+    all_in: {
+      name: 'All In', color: '#D97706', risk: true,
+      icon: '<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>'
+    },
+    rivalry_boost: {
+      name: 'Rivalry Boost', color: '#E8D45C',
+      icon: '<path d="M6.5 17.5L17.5 6.5M6.5 6.5l3 3M14.5 14.5l3 3M4 20l3.5-1 8-8-2.5-2.5-8 8L4 20zM14 4l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" stroke-linejoin="round"/>'
+    },
+    assistant_manager: {
+      name: 'Assistant Manager', color: '#5B84B1',
+      icon: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>'
+    },
   };
+
+  function cardBadgeHtml(cardType, size) {
+    const meta = CARD_META[cardType];
+    const sizeClass = size === 'small' ? 'small' : '';
+    return `<div class="card-icon-badge ${sizeClass}" style="border-color:${meta.color}66;background:radial-gradient(circle, ${meta.color}22 0%, transparent 70%);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="${meta.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${meta.icon}</svg>
+    </div>`;
+  }
 
   let currentUser = null;
   let currentMatchweek = 1;
   let allMatchweeks = [];
   let fixtures = [];
-  let existingPredictions = {};   // match_id -> {home_score, away_score}
-  let existingCardPlays = {};     // match_id -> card_type
-  let cardInventory = {};         // card_type -> charges_remaining
+  let existingPredictions = {};
+  let existingCardPlays = {};
+  let cardInventory = {};
   let activeCardModalMatchId = null;
 
   async function init() {
@@ -201,8 +391,6 @@
     }
     currentUser = session.user;
 
-    // Figure out which matchweeks exist, default to the earliest
-    // upcoming one (first matchweek with any fixture not yet kicked off)
     const { data: mwData } = await sb
       .from('matches')
       .select('gameweek, kickoff_utc')
@@ -231,7 +419,6 @@
   async function loadWinnerPick() {
     const banner = document.getElementById('winner-pick-banner');
 
-    // Is the season deadline (GW1 - 1hr) still in the future?
     const { data: gw1Data } = await sb
       .from('matches')
       .select('kickoff_utc')
@@ -243,7 +430,6 @@
     const deadline = gw1Kickoff ? new Date(gw1Kickoff.getTime() - 60 * 60 * 1000) : null;
     const isOpen = deadline ? (new Date() < deadline) : false;
 
-    // Existing pick, if any
     const { data: pickData } = await sb
       .from('winner_picks')
       .select('team_id, teams(name)')
@@ -251,9 +437,7 @@
       .maybeSingle();
 
     if (isOpen) {
-      // Editable state — fetch full team list for the dropdown
       const { data: teams } = await sb.from('teams').select('id, name').order('name');
-
       const options = (teams || [])
         .map(t => `<option value="${t.id}" ${pickData && pickData.team_id === t.id ? 'selected' : ''}>${t.name}</option>`)
         .join('');
@@ -272,9 +456,7 @@
     } else if (pickData) {
       banner.innerHTML = `
         <h3>🏆 Champion <span>Pick</span></h3>
-        <div class="winner-pick-locked">
-          Locked in: <strong>${pickData.teams.name}</strong>
-        </div>
+        <div class="winner-pick-locked">Locked in: <strong>${pickData.teams.name}</strong></div>
       `;
     } else {
       banner.innerHTML = `
@@ -296,7 +478,13 @@
       alert('Could not save your pick: ' + error.message);
       return;
     }
-    loadWinnerPick();
+    await loadWinnerPick();
+    const banner = document.getElementById('winner-pick-banner');
+    banner.insertAdjacentHTML('beforeend', '<div class="winner-pick-status">✓ Pick saved!</div>');
+    setTimeout(() => {
+      const msg = banner.querySelector('.winner-pick-status');
+      if (msg) msg.remove();
+    }, 2500);
   }
 
   async function loadCardInventory() {
@@ -321,7 +509,6 @@
       .order('kickoff_utc', { ascending: true });
 
     fixtures = matchData || [];
-
     const matchIds = fixtures.map(f => f.id);
 
     const { data: predData } = await sb
@@ -329,7 +516,6 @@
       .select('match_id, home_score, away_score')
       .eq('user_id', currentUser.id)
       .in('match_id', matchIds);
-
     existingPredictions = {};
     (predData || []).forEach(p => existingPredictions[p.match_id] = p);
 
@@ -338,7 +524,6 @@
       .select('match_id, card_type')
       .eq('user_id', currentUser.id)
       .in('match_id', matchIds);
-
     existingCardPlays = {};
     (cardData || []).forEach(c => existingCardPlays[c.match_id] = c.card_type);
 
@@ -353,8 +538,16 @@
   }
 
   function isLocked(kickoffUtc) {
-    const deadline = new Date(new Date(kickoffUtc).getTime() - 60 * 60 * 1000); // 1hr before
+    const deadline = new Date(new Date(kickoffUtc).getTime() - 60 * 60 * 1000);
     return new Date() > deadline;
+  }
+
+  function difficultyDots(rating) {
+    let dots = '';
+    for (let i = 1; i <= 5; i++) {
+      dots += `<span class="dot ${i <= rating ? 'filled' : ''}"></span>`;
+    }
+    return dots;
   }
 
   function renderFixtures() {
@@ -367,37 +560,47 @@
       const existing = existingPredictions[f.id];
       if (existing) predictedCount++;
       const cardPlayed = existingCardPlays[f.id];
+      const cardMeta = cardPlayed ? CARD_META[cardPlayed] : null;
 
       const row = document.createElement('div');
       row.className = 'fixture-row' + (locked ? ' locked' : '');
+      if (cardMeta) {
+        row.style.borderColor = cardMeta.color;
+      }
 
       const kickoffStr = new Date(f.kickoff_utc).toLocaleString('en-GB', {
         weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
       });
 
+      const cardFooterBtn = cardMeta
+        ? `<button class="fx-card-btn" style="color:${cardMeta.color};" ${locked ? 'disabled' : ''} onclick="handleCardBtnClick(${f.id})">
+             ${cardBadgeHtml(cardPlayed, 'small')} ${cardMeta.name} played
+           </button>`
+        : `<button class="fx-card-btn" ${locked ? 'disabled' : ''} onclick="handleCardBtnClick(${f.id})">
+             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+             Play a Dugout Card
+           </button>`;
+
       row.innerHTML = `
-        <div class="fixture-teams">
-          <div>
-            <div class="fixture-team-name">${f.teams_home.name}</div>
-            <div class="fixture-difficulty">Difficulty ${f.teams_home.difficulty_rating}</div>
+        <div class="fixture-top">
+          <div class="fx-team">
+            <span class="fx-team-name">${f.teams_home.name}</span>
+            <span class="fx-dots" data-tooltip="Team Difficulty: ${f.teams_home.difficulty_rating} of 5">${difficultyDots(f.teams_home.difficulty_rating)}</span>
           </div>
-          <div style="text-align:right;">
-            <div class="fixture-team-name">${f.teams_away.name}</div>
-            <div class="fixture-difficulty">Difficulty ${f.teams_away.difficulty_rating}</div>
+          <div class="fx-score">
+            <input type="number" min="0" max="20" id="home-${f.id}" value="${existing ? existing.home_score : ''}" ${locked ? 'disabled' : ''}>
+            <span class="dash">–</span>
+            <input type="number" min="0" max="20" id="away-${f.id}" value="${existing ? existing.away_score : ''}" ${locked ? 'disabled' : ''}>
+          </div>
+          <div class="fx-team away">
+            <span class="fx-team-name">${f.teams_away.name}</span>
+            <span class="fx-dots" data-tooltip="Team Difficulty: ${f.teams_away.difficulty_rating} of 5">${difficultyDots(f.teams_away.difficulty_rating)}</span>
           </div>
         </div>
-        <div style="text-align:center;font-size:0.7rem;color:var(--chalk-dim);font-family:var(--font-mono);margin-bottom:8px;">
-          ${kickoffStr}${f.is_rivalry ? ' &middot; <span style="color:var(--chalk-yellow);">RIVALRY</span>' : ''}
-          ${locked ? ' &middot; LOCKED' : ''}
+        <div class="fixture-bottom">
+          <span class="fx-kickoff">${kickoffStr}${f.is_rivalry ? ' &middot; <span class="rivalry-tag">RIVALRY</span>' : ''}${locked ? ' &middot; <span class="locked-tag">LOCKED</span>' : ''}</span>
+          ${cardFooterBtn}
         </div>
-        <div class="fixture-score-inputs">
-          <input type="number" min="0" max="20" id="home-${f.id}" value="${existing ? existing.home_score : ''}" ${locked ? 'disabled' : ''}>
-          <span class="dash">–</span>
-          <input type="number" min="0" max="20" id="away-${f.id}" value="${existing ? existing.away_score : ''}" ${locked ? 'disabled' : ''}>
-        </div>
-        <button class="fixture-card-btn ${cardPlayed ? 'card-played' : ''}" ${locked ? 'disabled' : ''} onclick="openCardModal(${f.id})">
-          ${cardPlayed ? '&#9917; ' + CARD_META[cardPlayed].name + ' played' : '&#127183; Play a card'}
-        </button>
       `;
       container.appendChild(row);
     });
@@ -442,11 +645,40 @@
     loadMatchweek(currentMatchweek);
   }
 
-  // ── Card modal ───────────────────────────────────────────
+  // ── Card play / unplay ───────────────────────────────────
+  function handleCardBtnClick(matchId) {
+    const played = existingCardPlays[matchId];
+    if (played) {
+      confirmUnplay(matchId, played);
+    } else {
+      openCardModal(matchId);
+    }
+  }
+
+  async function confirmUnplay(matchId, cardType) {
+    const meta = CARD_META[cardType];
+    const ok = confirm(`Remove ${meta.name} from this fixture? You'll get the charge back and can play a different card.`);
+    if (!ok) return;
+
+    const { error } = await sb
+      .from('card_usage')
+      .delete()
+      .eq('user_id', currentUser.id)
+      .eq('match_id', matchId);
+
+    if (error) {
+      alert('Could not unplay that card: ' + error.message);
+      return;
+    }
+
+    await loadCardInventory();
+    delete existingCardPlays[matchId];
+    renderFixtures();
+  }
+
   function openCardModal(matchId) {
     activeCardModalMatchId = matchId;
     const fixture = fixtures.find(f => f.id === matchId);
-    const alreadyPlayed = existingCardPlays[matchId];
 
     const list = document.getElementById('modal-card-list');
     list.innerHTML = '';
@@ -455,12 +687,12 @@
       const meta = CARD_META[cardType];
       const charges = cardInventory[cardType] || 0;
       const isRivalryOnly = cardType === 'rivalry_boost';
-      const eligible = charges > 0 && !alreadyPlayed && (!isRivalryOnly || fixture.is_rivalry);
+      const eligible = charges > 0 && (!isRivalryOnly || fixture.is_rivalry);
 
       const opt = document.createElement('div');
       opt.className = 'modal-card-option' + (eligible ? '' : ' disabled');
       opt.innerHTML = `
-        <div class="tactic-token${meta.risk ? ' risk' : ''}"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${meta.icon}</svg></div></div>
+        ${cardBadgeHtml(cardType)}
         <div class="modal-card-info">
           <div class="name">${meta.name}</div>
           <div class="count">${charges} remaining${isRivalryOnly && !fixture.is_rivalry ? ' &middot; rivalry fixtures only' : ''}</div>
@@ -492,6 +724,15 @@
   function closeCardModal() {
     document.getElementById('card-modal').classList.add('hidden');
     activeCardModalMatchId = null;
+  }
+
+  // ── Account menu ─────────────────────────────────────────
+  function toggleAccountMenu() {
+    document.getElementById('account-menu').classList.toggle('hidden');
+  }
+  async function signOut() {
+    await sb.auth.signOut();
+    window.location.href = 'index.html';
   }
 
   init();
