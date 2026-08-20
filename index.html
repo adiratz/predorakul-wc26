@@ -421,8 +421,8 @@
       return;
     }
 
-    document.getElementById('welcome-name').textContent = name;
-    showState('state-logged-in');
+    // Name saved — go straight into Predict, no interstitial screen.
+    window.location.href = 'predict.html';
   }
 
   async function signOut() {
@@ -454,8 +454,8 @@
     if (!profile || profile.display_name === emailPrefix) {
       showState('state-set-name');
     } else {
-      document.getElementById('welcome-name').textContent = profile.display_name;
-      showState('state-logged-in');
+      // Already fully set up — skip straight to Predict, no interstitial screen.
+      window.location.href = 'predict.html';
     }
   }
 
