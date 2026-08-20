@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supabase-Connected Fixture Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --board: #1C2024;
+    --board-dark: #131619;
+    --board-raised: #23282D;
+    --chalk: #EDEFEC;
+    --chalk-dim: #9BA3A6;
+    --claret: #9A3548;
+    --claret-light: #C15468;
+    --line: rgba(237,239,236,0.09);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--board);
+    color: var(--chalk);
+    font-family: 'IBM Plex Sans', sans-serif;
+    padding: 40px 20px;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; }
+  .fixture-row {
+    background: var(--board-raised);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .fixture-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .fx-team { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .fx-team.away { flex-direction: row-reverse; text-align: right; }
+  .fx-team-name { font-weight: 600; font-size: 0.9rem; }
+  .fx-score { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .fx-score input {
+    width: 38px; height: 38px;
+    text-align: center;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--chalk);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .fx-score input:focus { outline: none; border-color: var(--claret-light); }
+  .fx-score .dash { color: var(--chalk-dim); font-size: 0.9rem; }
+  .readout {
+    margin-top: 20px;
+    padding: 14px;
+    background: var(--board-raised);
+    border-radius: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h2 style="font-family:'Big Shoulders Display'; margin-bottom:16px;">SUPABASE-CONNECTED TEST</h2>
+    <p style="color:var(--chalk-dim); margin-bottom:16px; font-size:0.85rem;">Same styling as the test that worked — but now fetching one real fixture from your actual Supabase project.</p>
+
+    <div id="status" class="readout">Loading...</div>
+    <div id="fixtures-list"></div>
+    <div class="readout" id="readout" style="display:none;"></div>
+  </div>
+
+<script>
+  const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function run() {
+    const statusEl = document.getElementById('status');
+
+    // Step 1: check session (same as real page)
+    const { data: { session }, error: sessErr } = await sb.auth.getSession();
+    statusEl.textContent = 'Session check: ' + (session ? 'logged in as ' + session.user.email : 'NOT logged in') + (sessErr ? ' | ERROR: ' + sessErr.message : '');
+
+    if (!session) {
+      statusEl.textContent += '\n\n⚠️ Not logged in — sign in on the real site first, then reopen this test file (same browser, so the session carries over).';
+      return;
+    }
+
+    // Step 2: fetch one real fixture, same query shape as the real page
+    const { data: matchData, error: matchErr } = await sb
+      .from('matches')
+      .select('id, home_team_id, away_team_id, kickoff_utc, teams_home:home_team_id(name), teams_away:away_team_id(name)')
+      .eq('gameweek', 1)
+      .order('kickoff_utc', { ascending: true })
+      .limit(1);
+
+    if (matchErr) {
+      statusEl.textContent += '\n\nQuery ERROR: ' + matchErr.message;
+      return;
+    }
+
+    if (!matchData || matchData.length === 0) {
+      statusEl.textContent += '\n\nNo fixtures found.';
+      return;
+    }
+
+    const f = matchData[0];
+    statusEl.textContent += '\n\nFixture loaded: ' + f.teams_home.name + ' vs ' + f.teams_away.name;
+
+    // Step 3: render it with the exact same pattern as the real page
+    const container = document.getElementById('fixtures-list');
+    container.innerHTML = `
+      <div class="fixture-row">
+        <div class="fixture-top">
+          <div class="fx-team"><span class="fx-team-name">${f.teams_home.name}</span></div>
+          <div class="fx-score">
+            <input type="number" min="0" max="20" id="home-${f.id}">
+            <span class="dash">–</span>
+            <input type="number" min="0" max="20" id="away-${f.id}">
+          </div>
+          <div class="fx-team away"><span class="fx-team-name">${f.teams_away.name}</span></div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('readout').style.display = 'block';
+    document.getElementById(`home-${f.id}`).addEventListener('input', () => updateReadout(f.id));
+    document.getElementById(`away-${f.id}`).addEventListener('input', () => updateReadout(f.id));
+  }
+
+  function updateReadout(matchId) {
+    const h = document.getElementById(`home-${matchId}`).value;
+    const a = document.getElementById(`away-${matchId}`).value;
+    document.getElementById('readout').textContent = `Detected: home=${h || '(empty)'}, away=${a || '(empty)'}`;
+  }
+
+  run();
+</script>
+</body>
+</html>
