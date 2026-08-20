@@ -391,6 +391,16 @@
     }
     currentUser = session.user;
 
+    // Show the player's initial instead of a generic "?"
+    const { data: profileData } = await sb
+      .from('profiles')
+      .select('display_name')
+      .eq('user_id', currentUser.id)
+      .single();
+    if (profileData && profileData.display_name) {
+      document.getElementById('nav-avatar').textContent = profileData.display_name.charAt(0).toUpperCase();
+    }
+
     const { data: mwData } = await sb
       .from('matches')
       .select('gameweek, kickoff_utc')

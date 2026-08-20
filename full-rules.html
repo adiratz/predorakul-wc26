@@ -6,6 +6,7 @@
 <title>Full Rules — PredOrakul PL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="css/pl-theme.css">
 <style>
   .rules-section { margin-bottom: 30px; }
@@ -77,7 +78,12 @@
       <a href="how-to-play.html" class="active">Rules</a>
       <a href="about.html">About</a>
     </div>
-    <button class="nav-avatar">?</button>
+    <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">?</button>
+    <div id="account-menu" class="hidden" style="position:absolute;top:56px;right:20px;background:var(--board-raised);border:1px solid var(--line);border-radius:10px;padding:8px;min-width:160px;z-index:150;">
+      <a href="#" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--chalk-dim);text-decoration:none;">My Cards</a>
+      <a href="#" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--chalk-dim);text-decoration:none;">Profile</a>
+      <a href="#" onclick="signOut(); return false;" style="display:block;padding:8px 10px;font-size:0.85rem;color:var(--claret-light);text-decoration:none;">Log Out</a>
+    </div>
   </nav>
 
   <div class="page-wrap">
@@ -241,5 +247,34 @@
       </div>
     </div>
   </div>
+<script>
+  const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function initAvatar() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return;
+    const { data: profileData } = await sb
+      .from('profiles')
+      .select('display_name')
+      .eq('user_id', session.user.id)
+      .single();
+    if (profileData && profileData.display_name) {
+      document.getElementById('nav-avatar').textContent = profileData.display_name.charAt(0).toUpperCase();
+    }
+  }
+
+  function toggleAccountMenu() {
+    document.getElementById('account-menu').classList.toggle('hidden');
+  }
+  async function signOut() {
+    await sb.auth.signOut();
+    window.location.href = 'index.html';
+  }
+
+  initAvatar();
+</script>
 </body>
 </html>
