@@ -5,17 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leaderboard: PredOrakul PL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="css/pl-theme.css">
 <style>
+  /* ── Hero Banner ── */
+  .lb-hero {
+    text-align: center;
+    padding: 8px 0 24px;
+    position: relative;
+  }
+  .lb-badge {
+    display: inline-block;
+    background: rgba(154,53,72,0.18);
+    border: 1px solid rgba(193,84,104,0.35);
+    color: var(--claret-light);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .lb-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 2.6rem;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin-bottom: 8px;
+  }
+  .lb-title span { color: var(--claret-light); }
+  .lb-subtitle {
+    color: var(--chalk-dim);
+    font-size: 0.92rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── Main Tab Navigation ── */
   .tabs {
     display: flex;
-    gap: 4px;
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 24px;
     background: var(--board-dark);
-    border-radius: 10px;
-    padding: 4px;
+    border-radius: 12px;
+    padding: 5px;
+    border: 1px solid var(--line);
   }
   .tab-btn {
     flex: 1;
@@ -24,97 +63,498 @@
     color: var(--chalk-dim);
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    padding: 10px;
+    letter-spacing: 0.04em;
+    padding: 11px 12px;
     border-radius: 8px;
     cursor: pointer;
-  }
-  .tab-btn.active { background: var(--claret); color: var(--chalk); }
-
-  .lb-row {
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 12px 16px;
+    justify-content: center;
+    gap: 6px;
+  }
+  .tab-btn.active {
+    background: var(--claret);
+    color: var(--chalk);
+    box-shadow: 0 2px 10px rgba(154,53,72,0.3);
+  }
+  .tab-btn:hover:not(.active) {
+    color: var(--chalk);
+    background: rgba(237,239,236,0.05);
+  }
+
+  /* ── Top 3 Podium ── */
+  .podium-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding: 10px 4px 0;
+  }
+  .podium-slot {
+    flex: 1;
+    max-width: 170px;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .podium-slot.first { order: 2; }
+  .podium-slot.second { order: 1; }
+  .podium-slot.third { order: 3; }
+
+  .podium-avatar {
+    margin-bottom: 8px;
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  }
+  .podium-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--chalk);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    margin-bottom: 2px;
+  }
+  .podium-team {
+    font-size: 0.72rem;
+    color: var(--chalk-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .podium-block {
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    box-sizing: border-box;
+    position: relative;
+    border-top: 2px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+  }
+  .first .podium-block {
+    height: 135px;
+    background: linear-gradient(180deg, rgba(232,212,92,0.18) 0%, rgba(232,212,92,0.04) 100%);
+    border-color: var(--chalk-yellow);
+  }
+  .second .podium-block {
+    height: 110px;
+    background: linear-gradient(180deg, rgba(193,84,104,0.18) 0%, rgba(193,84,104,0.04) 100%);
+    border-color: var(--claret-light);
+  }
+  .third .podium-block {
+    height: 90px;
+    background: linear-gradient(180deg, rgba(155,163,166,0.14) 0%, rgba(155,163,166,0.03) 100%);
+    border-color: var(--chalk-dim);
+  }
+  .podium-slot.is-you .podium-block {
+    box-shadow: 0 0 16px rgba(193,84,104,0.4);
+  }
+  .podium-pts {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .first .podium-pts { color: var(--chalk-yellow); }
+  .second .podium-pts { color: var(--claret-light); }
+  .third .podium-pts { color: var(--chalk); }
+
+  .podium-rank-tag {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+  }
+
+  /* ── Standings Table Card ── */
+  .standings-card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .standings-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--chalk-dim);
+    background: var(--board-dark);
+    border-bottom: 1px solid var(--line);
+  }
+  .col-rank { width: 36px; flex-shrink: 0; }
+  .col-name { flex: 1; }
+  .col-bar { width: 120px; }
+  .col-delta { width: 75px; text-align: right; }
+  .col-pts { width: 75px; text-align: right; }
+
+  .standings-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
     border-bottom: 1px solid var(--line);
     font-size: 0.9rem;
+    transition: background 0.12s;
   }
-  .lb-row:last-child { border-bottom: none; }
-  .lb-row.own-row {
-    background: rgba(154,53,72,0.14);
-    border-radius: 8px;
-    border-bottom-color: transparent;
+  .standings-row:last-child { border-bottom: none; }
+  .standings-row:hover { background: rgba(237,239,236,0.03); }
+  .standings-row.own-row {
+    background: rgba(154,53,72,0.16);
+    border-left: 3px solid var(--claret-light);
   }
-  .lb-rank {
+
+  .st-rank {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 1.1rem;
-    color: var(--claret-light);
-    width: 42px;
+    font-size: 1.15rem;
+    color: var(--chalk-dim);
+    width: 36px;
     flex-shrink: 0;
   }
-  .lb-name { flex: 1; font-weight: 500; }
-  .lb-team { color: var(--chalk-dim); font-weight: 500; }
-  .lb-pts { font-family: var(--font-mono); font-weight: 600; width: 70px; text-align: right; }
-  .lb-delta {
+  .st-rank.top1 { color: var(--chalk-yellow); }
+  .st-rank.top2 { color: var(--claret-light); }
+  .st-rank.top3 { color: var(--chalk); }
+
+  .st-name-wrap {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .st-name {
+    font-weight: 600;
+    color: var(--chalk);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .st-team {
+    font-size: 0.75rem;
+    color: var(--chalk-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .st-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: var(--board-dark);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .st-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--claret), var(--claret-light));
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .st-delta {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     color: var(--success);
-    width: 60px;
+    width: 75px;
     text-align: right;
   }
-  .lb-header-row {
+  .st-delta.neg { color: var(--claret-light); }
+  .st-pts {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--chalk);
+    width: 75px;
+    text-align: right;
+  }
+
+  /* ── Match Centre ── */
+  .mc-controls {
     display: flex;
-    gap: 14px;
-    padding: 8px 16px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .mc-gw-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mc-nav-btn {
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .mc-nav-btn:hover:not(:disabled) {
+    background: var(--claret);
+    border-color: var(--claret-light);
+  }
+  .mc-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .mc-gw-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    color: var(--chalk);
+    min-width: 140px;
+    text-align: center;
+  }
+
+  .mc-match-card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .mc-match-card:hover { border-color: rgba(237,239,236,0.18); }
+  .mc-match-card.has-rivalry { border-left: 3px solid var(--alert); }
+
+  .mc-card-header {
+    background: var(--board-dark);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .mc-card-header:hover { background: rgba(19,22,25,0.7); }
+
+  .mc-teams {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    color: var(--chalk);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .mc-teams .vs {
+    font-size: 0.8rem;
+    color: var(--chalk-dim);
+    font-weight: 400;
+  }
+  .rivalry-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: rgba(217,119,6,0.18);
+    border: 1px solid rgba(217,119,6,0.4);
+    color: var(--alert);
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .mc-score-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .mc-result-pill {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: var(--board);
+    border: 1px solid var(--line);
+    padding: 4px 12px;
+    border-radius: 6px;
+    color: var(--chalk-yellow);
+    letter-spacing: 0.05em;
+  }
+  .mc-chevron {
+    color: var(--chalk-dim);
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+  .mc-match-card.open .mc-chevron { transform: rotate(180deg); }
+
+  .mc-card-body {
+    display: none;
+    padding: 16px 18px;
+    border-top: 1px solid var(--line);
+  }
+  .mc-match-card.open .mc-card-body { display: block; }
+
+  .mc-pred-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+  }
+  .mc-pred-table th {
     font-family: var(--font-mono);
     font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--chalk-dim);
-  }
-  .lb-header-row .lb-rank { width: 42px; }
-  .lb-header-row .lb-name { flex: 1; }
-  .lb-header-row .lb-pts { width: 70px; text-align: right; }
-  .lb-header-row .lb-delta { width: 60px; text-align: right; }
-
-  /* My Points */
-  .mp-gw-block { margin-bottom: 22px; }
-  .mp-gw-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1rem;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .mp-gw-title .gw-total { color: var(--claret-light); }
-  .mp-match-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
+    text-align: left;
+    padding: 8px 10px;
     border-bottom: 1px solid var(--line);
-    font-size: 0.85rem;
   }
-  .mp-match-row:last-child { border-bottom: none; }
-  .mp-match-desc { color: var(--chalk-dim); }
-  .mp-match-desc strong { color: var(--chalk); }
-  .mp-tier-breakdown { font-size: 0.78rem; color: var(--chalk-dim); }
-  .mp-card-desc { font-size: 0.78rem; color: var(--chalk-yellow); }
-  .mp-match-pts { font-family: var(--font-mono); font-weight: 600; flex-shrink: 0; margin-left: 12px; }
+  .mc-pred-table th.right { text-align: right; }
+  .mc-pred-table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  .mc-pred-table tr:last-child td { border-bottom: none; }
+  .mc-pred-table tr.own-pred-row {
+    background: rgba(154,53,72,0.12);
+  }
+
+  .pred-pill {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--board-dark);
+    display: inline-block;
+  }
+  .pred-pill.exact {
+    background: rgba(76,175,125,0.18);
+    border: 1px solid rgba(76,175,125,0.4);
+    color: var(--success);
+  }
+  .pred-pill.outcome {
+    background: rgba(232,212,92,0.14);
+    border: 1px solid rgba(232,212,92,0.3);
+    color: var(--chalk-yellow);
+  }
+  .pred-pill.wrong {
+    color: var(--chalk-dim);
+    border: 1px solid var(--line);
+  }
+
+  .chip-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .chip-banker { background: rgba(76,175,125,0.18); color: var(--success); border: 1px solid rgba(76,175,125,0.3); }
+  .chip-double_down { background: rgba(193,84,104,0.18); color: var(--claret-light); border: 1px solid rgba(193,84,104,0.3); }
+  .chip-all_in { background: rgba(217,76,76,0.18); color: var(--error-red); border: 1px solid rgba(217,76,76,0.3); }
+  .chip-rivalry_boost { background: rgba(217,119,6,0.18); color: var(--alert); border: 1px solid rgba(217,119,6,0.3); }
+  .chip-assistant_manager { background: rgba(0,229,255,0.15); color: #7fe4ff; border: 1px solid rgba(0,229,255,0.3); }
+
   .perfect-badge {
     display: inline-block;
     background: var(--chalk-yellow);
     color: var(--board-dark);
     font-size: 0.65rem;
-    font-weight: 700;
-    padding: 1px 7px;
-    border-radius: 10px;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 4px;
     margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.04em;
+  }
+
+  .mc-pts-scored {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: right;
+  }
+  .mc-pts-scored.pos { color: var(--success); }
+  .mc-pts-scored.zero { color: var(--chalk-dim); }
+  .mc-pts-scored.neg { color: var(--claret-light); }
+
+  /* ── My Points ── */
+  .mp-card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 20px;
+  }
+  .mp-gw-block { margin-bottom: 26px; }
+  .mp-gw-block:last-child { margin-bottom: 0; }
+  .mp-gw-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+  }
+  .mp-gw-title .gw-total {
+    font-family: var(--font-mono);
+    color: var(--claret-light);
+    font-size: 1rem;
+  }
+  .mp-match-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(237,239,236,0.06);
+    font-size: 0.88rem;
+  }
+  .mp-match-row:last-child { border-bottom: none; }
+  .mp-match-desc { color: var(--chalk-dim); line-height: 1.45; }
+  .mp-match-desc strong { color: var(--chalk); font-size: 0.95rem; }
+  .mp-tier-breakdown { font-size: 0.78rem; color: var(--chalk-dim); margin-top: 2px; }
+  .mp-card-desc { font-size: 0.78rem; color: var(--chalk-yellow); margin-top: 2px; }
+  .mp-match-pts { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; flex-shrink: 0; margin-left: 14px; }
+
+  @media (max-width: 640px) {
+    .lb-title { font-size: 2.1rem; }
+    .col-bar { display: none; }
+    .podium-container { gap: 6px; }
+    .podium-slot { min-width: 80px; }
+    .podium-pts { font-size: 1.15rem; }
+    .podium-name { font-size: 0.78rem; }
+    .standings-header, .standings-row { padding: 10px 12px; }
+    .mc-pred-table th.hide-mobile, .mc-pred-table td.hide-mobile { display: none; }
   }
 </style>
 </head>
@@ -137,6 +577,7 @@
 
   <div class="page-wrap">
     <div id="loading-state"><p class="sub" style="text-align:center;padding:40px 0;">Loading&hellip;</p></div>
+    
     <div id="not-logged-in-state" class="hidden">
       <div class="card">
         <h2>Sign in first</h2>
@@ -149,24 +590,62 @@
     </div>
 
     <div id="main-state" class="hidden">
+      
+      <!-- Hero Banner -->
+      <div class="lb-hero">
+        <div class="lb-badge">Premier League 2026/27 &nbsp;&middot;&nbsp; Standings & Results</div>
+        <h1 class="lb-title">THE <span>DUGOUT</span> TABLE</h1>
+        <p class="lb-subtitle">Live table standings, matchday breakdown, and your personal point scoring record.</p>
+      </div>
+
+      <!-- Main Tabs -->
       <div class="tabs">
-        <button class="tab-btn active" id="tab-leaderboard-btn" onclick="switchTab('leaderboard')">Leaderboard</button>
-        <button class="tab-btn" id="tab-mypoints-btn" onclick="switchTab('mypoints')">My Points</button>
+        <button class="tab-btn active" id="tab-leaderboard-btn" onclick="switchTab('leaderboard')">
+          🏆 Leaderboard
+        </button>
+        <button class="tab-btn" id="tab-matches-btn" onclick="switchTab('matches')">
+          📊 Match Centre
+        </button>
+        <button class="tab-btn" id="tab-mypoints-btn" onclick="switchTab('mypoints')">
+          🎯 My Points
+        </button>
       </div>
 
-      <div id="tab-leaderboard" class="card">
-        <div class="lb-header-row">
-          <div class="lb-rank">Rank</div>
-          <div class="lb-name">Player</div>
-          <div class="lb-pts">Total Pts</div>
-          <div class="lb-delta">This week</div>
+      <!-- Tab 1: Leaderboard -->
+      <div id="tab-leaderboard">
+        <div id="podium-area" class="podium-container"></div>
+        <div class="standings-card">
+          <div class="standings-header">
+            <div class="col-rank">#</div>
+            <div class="col-name">Player / Team</div>
+            <div class="col-bar">Points</div>
+            <div class="col-delta">This Wk</div>
+            <div class="col-pts">Total</div>
+          </div>
+          <div id="leaderboard-rows"></div>
         </div>
-        <div id="leaderboard-rows"></div>
       </div>
 
-      <div id="tab-mypoints" class="card hidden">
+      <!-- Tab 2: Match Centre -->
+      <div id="tab-matches" class="hidden">
+        <div class="mc-controls">
+          <div class="mc-gw-nav">
+            <button class="mc-nav-btn" id="mc-prev-btn" onclick="navGw(-1)">&larr; Prev</button>
+            <div class="mc-gw-title" id="mc-gw-title">Matchweek 1</div>
+            <button class="mc-nav-btn" id="mc-next-btn" onclick="navGw(1)">Next &rarr;</button>
+          </div>
+          <div style="font-size:0.8rem; color:var(--chalk-dim);" id="mc-match-count">
+            Showing fixtures
+          </div>
+        </div>
+        <div id="mc-fixtures-container"></div>
+      </div>
+
+      <!-- Tab 3: My Points -->
+      <div id="tab-mypoints" class="mp-card hidden">
         <div id="mypoints-content"></div>
       </div>
+
     </div>
   </div>
 
@@ -177,6 +656,20 @@
   const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let currentUser = null;
+  let currentTab = 'leaderboard';
+  let leaderboardData = [];
+  let weeklyDeltas = {};
+  let maxPoints = 1;
+  let allGameweeks = [];
+  let currentGw = 1;
+
+  const CARD_NAMES = {
+    banker: { label: 'Banker', icon: '🛡️', cls: 'chip-banker' },
+    double_down: { label: 'Double Down', icon: '⚡', cls: 'chip-double_down' },
+    all_in: { label: 'All In', icon: '💥', cls: 'chip-all_in' },
+    rivalry_boost: { label: 'Rivalry Boost', icon: '⚔️', cls: 'chip-rivalry_boost' },
+    assistant_manager: { label: 'Ass\'t Manager', icon: '🎯', cls: 'chip-assistant_manager' }
+  };
 
   async function init() {
     const { data: { session } } = await sb.auth.getSession();
@@ -196,7 +689,7 @@
       document.getElementById('nav-username').textContent = profileData.display_name;
     }
 
-    await loadLeaderboard();
+    await Promise.all([loadLeaderboard(), initGameweeks()]);
 
     document.getElementById('loading-state').classList.add('hidden');
     document.getElementById('main-state').classList.remove('hidden');
@@ -223,6 +716,7 @@
 
     document.getElementById('nav-username').textContent = newName.trim();
     document.getElementById('account-menu').classList.add('hidden');
+    loadLeaderboard();
   }
 
   async function changeTeam() {
@@ -240,6 +734,7 @@
     }
 
     document.getElementById('account-menu').classList.add('hidden');
+    loadLeaderboard();
   }
 
   async function signOut() {
@@ -248,16 +743,23 @@
   }
 
   function switchTab(tab) {
+    currentTab = tab;
     document.getElementById('tab-leaderboard').classList.toggle('hidden', tab !== 'leaderboard');
+    document.getElementById('tab-matches').classList.toggle('hidden', tab !== 'matches');
     document.getElementById('tab-mypoints').classList.toggle('hidden', tab !== 'mypoints');
+
     document.getElementById('tab-leaderboard-btn').classList.toggle('active', tab === 'leaderboard');
+    document.getElementById('tab-matches-btn').classList.toggle('active', tab === 'matches');
     document.getElementById('tab-mypoints-btn').classList.toggle('active', tab === 'mypoints');
+
+    if (tab === 'matches') loadGameweekMatches(currentGw);
     if (tab === 'mypoints') loadMyPoints();
   }
 
-  // ── Leaderboard tab ──────────────────────────────────────
+  // ── Leaderboard & Podium ────────────────────────────────
   async function loadLeaderboard() {
     const { data: rows } = await sb.from('leaderboard').select('*');
+    leaderboardData = rows || [];
 
     // Most recently scored gameweek, for the "this week" column
     const { data: gwRow } = await sb
@@ -265,48 +767,307 @@
       .select('matches(gameweek)')
       .order('entered_at', { ascending: false })
       .limit(1);
-    const recentGw = gwRow && gwRow[0] ? gwRow[0].matches.gameweek : null;
+    const recentGw = gwRow && gwRow[0] && gwRow[0].matches ? gwRow[0].matches.gameweek : null;
 
-    let deltas = {};
+    weeklyDeltas = {};
     if (recentGw) {
       const { data: deltaRows } = await sb
         .from('prediction_scores')
         .select('user_id, final_total, matches!inner(gameweek)')
         .eq('matches.gameweek', recentGw);
       (deltaRows || []).forEach(r => {
-        deltas[r.user_id] = (deltas[r.user_id] || 0) + r.final_total;
+        weeklyDeltas[r.user_id] = (weeklyDeltas[r.user_id] || 0) + r.final_total;
       });
     }
 
+    renderPodium();
+    renderStandings();
+  }
+
+  function renderPodium() {
+    const podiumEl = document.getElementById('podium-area');
+    if (!leaderboardData || leaderboardData.length === 0) {
+      podiumEl.innerHTML = '';
+      return;
+    }
+
+    const first = leaderboardData[0];
+    const second = leaderboardData[1];
+    const third = leaderboardData[2];
+
+    if (!first) {
+      podiumEl.innerHTML = '';
+      return;
+    }
+
+    const isFirstYou = first?.user_id === currentUser.id;
+    const isSecondYou = second?.user_id === currentUser.id;
+    const isThirdYou = third?.user_id === currentUser.id;
+
+    podiumEl.innerHTML = `
+      ${second ? `
+        <div class="podium-slot second ${isSecondYou ? 'is-you' : ''}">
+          <div class="podium-avatar">🥈</div>
+          <div class="podium-name">${escapeHtml(second.display_name)}${isSecondYou ? ' (you)' : ''}</div>
+          <div class="podium-team">${escapeHtml(second.custom_team_name || 'FC Orakul')}</div>
+          <div class="podium-block">
+            <div class="podium-pts">${second.total_points}</div>
+            <div class="podium-rank-tag">2nd Place</div>
+          </div>
+        </div>
+      ` : ''}
+
+      <div class="podium-slot first ${isFirstYou ? 'is-you' : ''}">
+        <div class="podium-avatar">🥇</div>
+        <div class="podium-name" style="font-weight:700;">${escapeHtml(first.display_name)}${isFirstYou ? ' (you)' : ''}</div>
+        <div class="podium-team">${escapeHtml(first.custom_team_name || 'FC Orakul')}</div>
+        <div class="podium-block">
+          <div class="podium-pts">${first.total_points}</div>
+          <div class="podium-rank-tag">1st Place</div>
+        </div>
+      </div>
+
+      ${third ? `
+        <div class="podium-slot third ${isThirdYou ? 'is-you' : ''}">
+          <div class="podium-avatar">🥉</div>
+          <div class="podium-name">${escapeHtml(third.display_name)}${isThirdYou ? ' (you)' : ''}</div>
+          <div class="podium-team">${escapeHtml(third.custom_team_name || 'FC Orakul')}</div>
+          <div class="podium-block">
+            <div class="podium-pts">${third.total_points}</div>
+            <div class="podium-rank-tag">3rd Place</div>
+          </div>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  function renderStandings() {
     const container = document.getElementById('leaderboard-rows');
     container.innerHTML = '';
 
-    if (!rows || rows.length === 0) {
+    if (!leaderboardData || leaderboardData.length === 0) {
       container.innerHTML = '<p class="sub" style="padding:20px;text-align:center;">No scores yet. Check back after the first results are in.</p>';
       return;
     }
 
-    rows.forEach(r => {
+    maxPoints = Math.max(1, ...leaderboardData.map(r => r.total_points));
+
+    leaderboardData.forEach(r => {
       const isOwn = r.user_id === currentUser.id;
-      const delta = deltas[r.user_id];
+      const delta = weeklyDeltas[r.user_id];
+      const fillPct = Math.max(4, Math.round((r.total_points / maxPoints) * 100));
+      const rankClass = r.rank === 1 ? 'top1' : (r.rank === 2 ? 'top2' : (r.rank === 3 ? 'top3' : ''));
+
+      let deltaHtml = '';
+      if (delta !== undefined) {
+        if (delta > 0) deltaHtml = `+${delta}`;
+        else if (delta < 0) deltaHtml = `<span class="neg">${delta}</span>`;
+        else deltaHtml = '0';
+      }
+
       const row = document.createElement('div');
-      row.className = 'lb-row' + (isOwn ? ' own-row' : '');
+      row.className = 'standings-row' + (isOwn ? ' own-row' : '');
       row.innerHTML = `
-        <div class="lb-rank">${r.rank}</div>
-        <div class="lb-name">${r.custom_team_name ? `<span class="lb-team">${r.custom_team_name}</span> &middot; ` : ''}${r.display_name}${isOwn ? ' (you)' : ''}</div>
-        <div class="lb-pts">${r.total_points}</div>
-        <div class="lb-delta" style="${delta !== undefined && delta < 0 ? 'color:var(--claret-light);' : ''}">${delta !== undefined ? (delta >= 0 ? '+' + delta : delta) : ''}</div>
+        <div class="st-rank ${rankClass}">${r.rank}</div>
+        <div class="st-name-wrap">
+          <div class="st-name">${escapeHtml(r.display_name)}${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;font-weight:700;">(you)</span>' : ''}</div>
+          <div class="st-team">${escapeHtml(r.custom_team_name || 'FC Orakul')}</div>
+        </div>
+        <div class="col-bar">
+          <div class="st-bar-bg">
+            <div class="st-bar-fill" style="width: ${fillPct}%;"></div>
+          </div>
+        </div>
+        <div class="st-delta">${deltaHtml}</div>
+        <div class="st-pts">${r.total_points} <span style="font-size:0.75rem;font-weight:400;color:var(--chalk-dim)">pts</span></div>
       `;
       container.appendChild(row);
     });
   }
 
-  // ── My Points tab ────────────────────────────────────────
-  const CARD_DISPLAY_NAMES = {
-    banker: 'Banker', double_down: 'Double Down', all_in: 'All In',
-    rivalry_boost: 'Rivalry Boost', assistant_manager: 'Assistant Manager',
-  };
+  // ── Match Centre ─────────────────────────────────────────
+  async function initGameweeks() {
+    const { data: mwData } = await sb.from('matches').select('gameweek, kickoff_utc').order('gameweek');
+    allGameweeks = [...new Set((mwData || []).map(m => m.gameweek))].sort((a,b) => a - b);
+    if (allGameweeks.length === 0) allGameweeks = [1];
 
+    const now = new Date();
+    const upcoming = (mwData || []).find(m => new Date(m.kickoff_utc) > now);
+    currentGw = upcoming ? upcoming.gameweek : allGameweeks[0];
+  }
+
+  function updateGwNavButtons() {
+    const idx = allGameweeks.indexOf(currentGw);
+    document.getElementById('mc-prev-btn').disabled = idx <= 0;
+    document.getElementById('mc-next-btn').disabled = idx >= allGameweeks.length - 1;
+    document.getElementById('mc-gw-title').textContent = `Matchweek ${currentGw}`;
+  }
+
+  function navGw(delta) {
+    const idx = allGameweeks.indexOf(currentGw);
+    const nextIdx = idx + delta;
+    if (nextIdx >= 0 && nextIdx < allGameweeks.length) {
+      currentGw = allGameweeks[nextIdx];
+      loadGameweekMatches(currentGw);
+    }
+  }
+
+  async function loadGameweekMatches(gw) {
+    updateGwNavButtons();
+    const container = document.getElementById('mc-fixtures-container');
+    container.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--chalk-dim);">Loading Matchweek ${gw} fixtures...</div>`;
+
+    const { data: matches } = await sb
+      .from('matches')
+      .select('id, gameweek, kickoff_utc, is_rivalry, teams_home:home_team_id(name, short_name), teams_away:away_team_id(name, short_name)')
+      .eq('gameweek', gw)
+      .order('kickoff_utc');
+
+    if (!matches || matches.length === 0) {
+      container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--chalk-dim);">No fixtures found for Matchweek ${gw}.</div>`;
+      return;
+    }
+
+    const matchIds = matches.map(m => m.id);
+
+    const { data: results } = await sb
+      .from('results')
+      .select('match_id, home_score, away_score')
+      .in('match_id', matchIds);
+
+    const resultMap = {};
+    (results || []).forEach(r => resultMap[r.match_id] = r);
+
+    const [{ data: predictions }, { data: scores }] = await Promise.all([
+      sb.from('predictions')
+        .select('user_id, match_id, home_score, away_score, profiles:user_id(display_name, custom_team_name)')
+        .in('match_id', matchIds),
+      sb.from('prediction_scores')
+        .select('user_id, match_id, base_total, final_total, pp_pts, card_type')
+        .in('match_id', matchIds)
+    ]);
+
+    const predsByMatch = {};
+    (predictions || []).forEach(p => {
+      if (!predsByMatch[p.match_id]) predsByMatch[p.match_id] = [];
+      predsByMatch[p.match_id].push(p);
+    });
+
+    const scoreMap = {};
+    (scores || []).forEach(s => {
+      scoreMap[`${s.user_id}_${s.match_id}`] = s;
+    });
+
+    document.getElementById('mc-match-count').textContent = `${matches.length} fixtures in Matchweek ${gw}`;
+    container.innerHTML = '';
+
+    matches.forEach(m => {
+      const result = resultMap[m.id];
+      const hasResult = result !== undefined;
+      const matchPreds = predsByMatch[m.id] || [];
+
+      matchPreds.sort((a, b) => {
+        const scA = scoreMap[`${a.user_id}_${m.id}`]?.final_total ?? 0;
+        const scB = scoreMap[`${b.user_id}_${m.id}`]?.final_total ?? 0;
+        return scB - scA;
+      });
+
+      const card = document.createElement('div');
+      card.className = 'mc-match-card' + (m.is_rivalry ? ' has-rivalry' : '') + (hasResult ? ' open' : '');
+
+      let scoreDisplay = hasResult
+        ? `<div class="mc-result-pill">${result.home_score} - ${result.away_score}</div>`
+        : `<div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--chalk-dim);">${formatKickoff(m.kickoff_utc)}</div>`;
+
+      let predRowsHtml = '';
+      if (matchPreds.length === 0) {
+        predRowsHtml = `<tr><td colspan="4" style="text-align:center;color:var(--chalk-dim);padding:18px;">No predictions submitted for this match yet.</td></tr>`;
+      } else {
+        predRowsHtml = matchPreds.map(p => {
+          const profile = p.profiles || {};
+          const isOwn = p.user_id === currentUser.id;
+          const scoreInfo = scoreMap[`${p.user_id}_${m.id}`];
+          const cardType = scoreInfo?.card_type;
+          const chip = cardType && CARD_NAMES[cardType] ? CARD_NAMES[cardType] : null;
+          const isPerfect = (scoreInfo?.pp_pts || 0) > 0;
+
+          let predPillClass = 'wrong';
+          if (hasResult) {
+            const actualHome = result.home_score;
+            const actualAway = result.away_score;
+            if (p.home_score === actualHome && p.away_score === actualAway) {
+              predPillClass = 'exact';
+            } else {
+              const actualDiff = actualHome - actualAway;
+              const predDiff = p.home_score - p.away_score;
+              const sameOutcome = (actualDiff > 0 && predDiff > 0) || (actualDiff < 0 && predDiff < 0) || (actualDiff === 0 && predDiff === 0);
+              if (sameOutcome) predPillClass = 'outcome';
+            }
+          }
+
+          let ptsHtml = '<span style="color:var(--chalk-dim);font-size:0.8rem;">—</span>';
+          if (scoreInfo) {
+            const val = scoreInfo.final_total;
+            const cls = val > 0 ? 'pos' : (val < 0 ? 'neg' : 'zero');
+            ptsHtml = `<span class="mc-pts-scored ${cls}">${val > 0 ? '+' : ''}${val} pts</span>`;
+          }
+
+          return `
+            <tr class="${isOwn ? 'own-pred-row' : ''}">
+              <td>
+                <div style="font-weight:600;color:var(--chalk);">${escapeHtml(profile.display_name || 'Player')}${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;">(you)</span>' : ''}</div>
+                <div style="font-size:0.75rem;color:var(--chalk-dim);">${escapeHtml(profile.custom_team_name || '')}</div>
+              </td>
+              <td>
+                <span class="pred-pill ${predPillClass}">${p.home_score} - ${p.away_score}</span>
+              </td>
+              <td class="hide-mobile">
+                ${chip ? `<span class="chip-tag ${chip.cls}">${chip.icon} ${chip.label}</span>` : ''}
+                ${isPerfect ? `<span class="perfect-badge">PERFECT</span>` : ''}
+              </td>
+              <td style="text-align:right;">
+                ${ptsHtml}
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      card.innerHTML = `
+        <div class="mc-card-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="mc-teams">
+            <span>${escapeHtml(m.teams_home?.name || 'Home')}</span>
+            <span class="vs">vs</span>
+            <span>${escapeHtml(m.teams_away?.name || 'Away')}</span>
+            ${m.is_rivalry ? `<span class="rivalry-tag">🔥 Derby</span>` : ''}
+          </div>
+          <div class="mc-score-box">
+            ${scoreDisplay}
+            <span class="mc-chevron">&#9660;</span>
+          </div>
+        </div>
+        <div class="mc-card-body">
+          <table class="mc-pred-table">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Prediction</th>
+                <th class="hide-mobile">Card Played</th>
+                <th class="right">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${predRowsHtml}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  // ── My Points tab ────────────────────────────────────────
   function describeTiers(row) {
     const tiers = [
       ['Outcome', row.outcome_pts],
@@ -323,7 +1084,7 @@
 
   function describeCard(row) {
     if (!row.card_type) return null;
-    const name = CARD_DISPLAY_NAMES[row.card_type] || row.card_type;
+    const name = CARD_NAMES[row.card_type]?.label || row.card_type;
     const delta = row.final_total - row.base_total;
 
     switch (row.card_type) {
@@ -363,7 +1124,6 @@
       return;
     }
 
-    // Group by gameweek
     const byGw = {};
     rows.forEach(r => {
       const gw = r.matches.gameweek;
@@ -382,8 +1142,8 @@
         <div class="mp-match-row">
           <div class="mp-match-desc">
             <strong>${m.matches.teams_home.name} vs ${m.matches.teams_away.name}</strong>${m.pp_pts > 0 ? '<span class="perfect-badge">PERFECT</span>' : ''}<br>
-            <span class="mp-tier-breakdown">${describeTiers(m)}</span>
-            ${cardDesc ? `<br><span class="mp-card-desc">${cardDesc}</span>` : ''}
+            <div class="mp-tier-breakdown">${describeTiers(m)}</div>
+            ${cardDesc ? `<div class="mp-card-desc">${cardDesc}</div>` : ''}
           </div>
           <div class="mp-match-pts">${m.final_total} pts</div>
         </div>
@@ -400,6 +1160,21 @@
         </div>
       `;
     }).join('');
+  }
+
+  function formatKickoff(utcString) {
+    if (!utcString) return 'TBD';
+    const d = new Date(utcString);
+    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
   init();
