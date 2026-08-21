@@ -61,6 +61,39 @@
     border-top: 1px solid var(--line);
   }
 
+  .tip-note {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--chalk-yellow);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+  .tip-note p {
+    font-size: 0.85rem;
+    color: var(--chalk-dim);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .tip-note p strong { color: var(--chalk); }
+  .tip-cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 8px;
+  }
+  .tip-card-item {
+    font-size: 0.76rem;
+    color: var(--chalk-dim);
+  }
+  .tip-card-item strong { color: var(--claret-light); }
+  .tip-link {
+    font-size: 0.78rem;
+    color: var(--claret-light);
+    text-decoration: none;
+  }
+  .tip-link:hover { text-decoration: underline; }
+
   /* Card selection popup */
   .modal-backdrop {
     position: fixed; inset: 0;
@@ -340,6 +373,18 @@
       <div class="progress-label" id="progress-label">0 of 0 predicted</div>
       <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill" style="width:0%;"></div></div>
 
+      <div class="tip-note">
+        <p>💡 Enter your scorelines and hit <strong>Submit Predictions</strong> first, then play a Dugout Card if you want one. Cards are completely optional and never required to predict a match.</p>
+        <div class="tip-cards-row">
+          <div class="tip-card-item"><strong>Banker</strong> — safe hands on the result</div>
+          <div class="tip-card-item"><strong>Double Down</strong> — press the advantage</div>
+          <div class="tip-card-item"><strong>All In</strong> — backs it fully</div>
+          <div class="tip-card-item"><strong>Rivalry Boost</strong> — doubles derby stakes</div>
+          <div class="tip-card-item"><strong>Assistant Manager</strong> — nails the exact tally</div>
+        </div>
+        <a href="full-rules.html#the-dugout" class="tip-link">Full card details &rarr;</a>
+      </div>
+
       <div id="fixtures-list"></div>
 
       <div class="submit-bar">
@@ -460,11 +505,11 @@
       .from('matches')
       .select('kickoff_utc')
       .eq('gameweek', 1)
-      .order('kickoff_utc', { ascending: true })
+      .order('kickoff_utc', { ascending: false })
       .limit(1);
 
-    const gw1Kickoff = gw1Data && gw1Data[0] ? new Date(gw1Data[0].kickoff_utc) : null;
-    const deadline = gw1Kickoff ? new Date(gw1Kickoff.getTime() - 60 * 60 * 1000) : null;
+    const gw1LastKickoff = gw1Data && gw1Data[0] ? new Date(gw1Data[0].kickoff_utc) : null;
+    const deadline = gw1LastKickoff ? new Date(gw1LastKickoff.getTime() - 60 * 60 * 1000) : null;
     const isOpen = deadline ? (new Date() < deadline) : false;
 
     const { data: pickData } = await sb
@@ -481,7 +526,7 @@
 
       banner.innerHTML = `
         <h3>🏆 Pick the <span>Champion</span></h3>
-        <p class="sub">Who wins the league outright? +12 pts if you're right. Editable until Gameweek 1 kicks off.</p>
+        <p class="sub">Who wins the league outright? +12 pts if you're right. Editable until the last Matchweek 1 fixture kicks off.</p>
         <div class="winner-pick-row">
           <select id="winner-pick-select">
             <option value="">Select a team</option>
@@ -736,6 +781,33 @@
     }
   }
 
+  // ── Preserve unsaved scores across card actions ──────────
+  // Playing/unplaying a card rebuilds the fixture list from
+  // the database, which only knows about SAVED predictions —
+  // anything typed but not yet submitted would otherwise be
+  // silently lost. Snapshot before, restore after.
+  function captureUnsavedInputs() {
+    const snapshot = {};
+    document.querySelectorAll('.fx-score input').forEach(el => {
+      if (el.value !== '') snapshot[el.id] = el.value;
+    });
+    return snapshot;
+  }
+
+  function restoreUnsavedInputs(snapshot) {
+    // Always restore whatever was captured — it reflects the user's most
+    // recent typed state, which should win over anything freshly loaded
+    // from the database (which can only reflect what was saved earlier).
+    // Only skip if the fixture became locked in the meantime.
+    Object.keys(snapshot).forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.disabled) {
+        el.value = snapshot[id];
+      }
+    });
+    updateProgressBar();
+  }
+
   async function confirmUnplay(matchId, cardType) {
     const meta = CARD_META[cardType];
     const ok = confirm(`Remove ${meta.name} from this fixture? You'll get the charge back and can play a different card.`);
@@ -754,7 +826,9 @@
 
     await loadCardInventory();
     delete existingCardPlays[matchId];
+    const snapshot = captureUnsavedInputs();
     renderFixtures();
+    restoreUnsavedInputs(snapshot);
   }
 
   function openCardModal(matchId) {
@@ -799,7 +873,9 @@
     await loadCardInventory();
     existingCardPlays[activeCardModalMatchId] = cardType;
     closeCardModal();
+    const snapshot = captureUnsavedInputs();
     renderFixtures();
+    restoreUnsavedInputs(snapshot);
   }
 
   function closeCardModal() {
