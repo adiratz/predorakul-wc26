@@ -127,7 +127,7 @@
         <tr><td>1</td><td>The winner (or a draw)</td><td>3 pts</td></tr>
         <tr><td>2</td><td>The exact scoreline, right team winning</td><td>+5 pts</td></tr>
         <tr><td>3</td><td>The exact scoreline, wrong team winning</td><td>+2 pts</td></tr>
-        <tr><td>4</td><td>How close the game was (goal difference)</td><td>up to +4 pts</td></tr>
+        <tr><td>4</td><td>How close the game was (exact margin or near-miss)</td><td>up to +4 pts</td></tr>
         <tr><td>5</td><td>Correctly calling an upset</td><td>+4 pts</td></tr>
         <tr><td>6</td><td>Everything at once (Perfect Prediction)</td><td>+5 pts extra</td></tr>
         <tr><td>7</td><td>Your predictions build a season-long table <span class="coming-soon-tag">Coming Later</span></td><td>See below</td></tr>
@@ -144,15 +144,29 @@
       <h3>Wrong Side, Right Score (+2 pts)</h3>
       <p>Sometimes you call the right shape of the game but back the wrong team. For example, you predicted 2-1 to Brighton, but Aston Villa actually won 2-1. You still read the game well, so you get a smaller reward for that.</p>
       <h3>Margin Points (up to +4 pts)</h3>
-      <p>Even without nailing the exact score, you get credit for correctly reading how tight or one-sided the match would be:</p>
+      <p>Even without nailing the exact score, you get credit for correctly reading how tight or one-sided the match would be.</p>
+      
+      <p><strong>Exact Margin:</strong> Correctly predicting the exact winning margin awards points on the scale below. Exact-margin points apply whether or not you backed the right team to win (which is why a reversed scoreline can still stack with margin points):</p>
       <table class="data-table">
-        <tr><th>Actual winning margin</th><th>Points</th></tr>
+        <tr><th>Actual winning margin</th><th>Exact-Match Points</th></tr>
         <tr><td>Won by 1 goal</td><td>+1</td></tr>
         <tr><td>Won by 2 goals</td><td>+2</td></tr>
         <tr><td>Won by 3 goals</td><td>+3</td></tr>
         <tr><td>Won by 4 or more goals</td><td>+4 (capped)</td></tr>
       </table>
-      <p>This applies whether or not you backed the right team to win.</p>
+
+      <p><strong>Near-Miss Bands (+1 pt):</strong> If your predicted margin is close but not exact, you can still earn a <strong>+1 point</strong> bonus under two conditions:</p>
+      <ul style="margin:8px 0 14px 20px;color:var(--chalk-dim);font-size:0.9rem;line-height:1.6;">
+        <li><strong style="color:var(--chalk);">Off by 1 goal:</strong> Always awards <strong>+1 point</strong>, provided you predicted the correct winning team.</li>
+        <li><strong style="color:var(--chalk);">Off by 2 goals (Blowouts only):</strong> Awards <strong>+1 point</strong> only when the actual result was a genuine blowout (an actual margin of 3+ goals) <em>and</em> you predicted the correct winning team. In tighter games (margins of 1 or 2), an off-by-2 guess scores zero.</li>
+      </ul>
+
+      <div style="background:var(--board-dark);border-left:3px solid var(--claret-light);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0 16px;">
+        <strong style="color:var(--chalk);font-size:0.9rem;">⚠️ Crucial Guardrail — Side-Gating:</strong>
+        <p style="color:var(--chalk-dim);font-size:0.85rem;margin:4px 0 0;line-height:1.5;">
+          Near-miss bonus points <strong>strictly require backing the correct winning team</strong>. A margin that merely looks close in number but backs the wrong team gets nothing. For example: predicting <strong>Chelsea to win 5–0</strong> when <strong>Aston Villa actually won 4–0</strong> earns <strong>0 points</strong> on this tier (and 0 overall), because the wrong side was backed entirely.
+        </p>
+      </div>
       <h3>Upset Bonus (+4 pts)</h3>
       <p>Every team has a Difficulty Rating from 1 (weakest) to 5 (strongest), based on how they performed last season, you'll see this next to each fixture. If you correctly predict a clear underdog to win (a team rated at least 2 points weaker than their opponent), you get an automatic +4 bonus on top of everything else. No card needed, it just happens whenever you call it right.</p>
       <p>For example: Manchester United (rated 4) against Coventry (rated 1) is a gap of 3, so a Coventry win would trigger the bonus. But two closely-rated teams, say a 3 versus a 2, don't qualify, even if the lower-rated side wins.</p>
@@ -175,15 +189,25 @@
 
     <div class="card rules-section" id="worked-examples">
       <h2>Worked Examples</h2>
-      <p><strong>Result: Arsenal 2–1 Man City</strong></p>
+      <p><strong>Result: Arsenal 2–1 Man City</strong> <span style="color:var(--chalk-dim);font-size:0.85rem;">(Actual margin: 1 goal, Arsenal win)</span></p>
       <table class="data-table">
         <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
-        <tr><td>Arsenal 1–0</td><td>4 pts</td><td>Right winner (3) + right margin, 1 goal (1)</td></tr>
-        <tr><td>Man City 2–1</td><td>3 pts</td><td>Wrong winner, exact scoreline reversed (2) + right margin (1)</td></tr>
-        <tr><td>Arsenal 4–1</td><td>3 pts</td><td>Right winner (3), margin off by 2</td></tr>
+        <tr><td>Arsenal 1–0</td><td>4 pts</td><td>Right winner (3) + exact 1-goal margin (1)</td></tr>
+        <tr><td>Arsenal 3–1</td><td>4 pts</td><td>Right winner (3) + near-miss margin off-by-1 (1)</td></tr>
+        <tr><td>Man City 2–1</td><td>3 pts</td><td>Wrong winner, exact scoreline reversed (2) + exact 1-goal margin (1)</td></tr>
+        <tr><td>Arsenal 4–1</td><td>3 pts</td><td>Right winner (3), margin off by 2 in a tight game (0 on margin)</td></tr>
+        <tr><td>Man City 3–1</td><td>0 pts</td><td>Wrong winner (0), near-miss margin on wrong side earns nothing (0)</td></tr>
         <tr><td>Draw 1–1</td><td>0 pts</td><td>Wrong on everything</td></tr>
       </table>
-      <p><strong>Result: Chelsea 2–2 Spurs</strong></p>
+
+      <p style="margin-top:18px;"><strong>Result: Liverpool 4–0 Everton</strong> <span style="color:var(--chalk-dim);font-size:0.85rem;">(Actual margin: 4 goals — Blowout, Liverpool win)</span></p>
+      <table class="data-table">
+        <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
+        <tr><td>Liverpool 2–0</td><td>4 pts</td><td>Right winner (3) + blowout near-miss off-by-2 on correct side (1)</td></tr>
+        <tr><td>Everton 5–0</td><td>0 pts</td><td>Wrong winner (0), off-by-1 margin on wrong team earns nothing (0)</td></tr>
+      </table>
+
+      <p style="margin-top:18px;"><strong>Result: Chelsea 2–2 Spurs</strong></p>
       <table class="data-table">
         <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
         <tr><td>Chelsea 2–2</td><td>16 pts</td><td>Right winner (3) + exact 2–2 draw (3) + exact scoreline (5) + Perfect Prediction (5)</td></tr>
