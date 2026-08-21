@@ -724,6 +724,16 @@
     .podium-name { font-size: 0.78rem; }
     .standings-header, .standings-row { padding: 10px 12px; }
     .mc-pred-table th.hide-mobile, .mc-pred-table td.hide-mobile { display: none; }
+
+    /* On mobile portrait screens, hide the sub-label to keep table compact & unclipped */
+    .mc-pts-sub { display: none; }
+
+    /* Ensure tooltip fits mobile phone screens cleanly */
+    .mc-pts-popover {
+      min-width: 190px;
+      max-width: calc(100vw - 40px);
+      right: -4px;
+    }
   }
 </style>
 </head>
