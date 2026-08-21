@@ -158,20 +158,20 @@
       <p><strong>Near-Miss Bands:</strong> If your predicted margin is close but not exact, you can still earn bonus points under two conditions &mdash; provided you back the correct winning team:</p>
       <ul style="margin:8px 0 14px 20px;color:var(--chalk-dim);font-size:0.9rem;line-height:1.6;">
         <li style="margin-bottom:10px;">
-          <strong style="color:var(--chalk);">Off by 1 goal (+2 pts):</strong> Awards <strong>+2 points</strong> whenever the actual match was won by 2 or more goals <em>and</em> you predicted the correct winning team.<br>
-          <span style="font-size:0.85rem;color:var(--chalk-dim);"><em>Example:</em> Chelsea win <strong>3–1</strong> (actual margin of 2). You predicted <strong>Chelsea 2–1</strong> (margin of 1, off by 1) &rarr; you earn <strong>+2 pts</strong> on margin.</span>
+          <strong style="color:var(--chalk);">Off by 1 goal (+2 pts):</strong> Awards <strong>+2 points</strong> whenever the actual match had a winning margin of 2 or more goals <em>and</em> you predicted the correct winning team.<br>
+          <span style="font-size:0.85rem;color:var(--chalk-dim);"><em>Example:</em> Chelsea win <strong>3–1</strong> (actual margin of 2 goals). You predicted <strong>Chelsea 2–1</strong> (predicted margin of 1 goal, off by 1) &rarr; you earn <strong>+2 pts</strong> on margin.</span>
         </li>
         <li style="margin-bottom:6px;">
-          <strong style="color:var(--chalk);">Off by 2 goals in Blowouts (+1 pt):</strong> Awards <strong>+1 point</strong> when the actual result was a genuine blowout (actual margin &ge; 3), your predicted margin was also at least 2 goals (&ge; 2), <em>and</em> you predicted the correct winning team.<br>
-          <span style="font-size:0.85rem;color:var(--chalk-dim);"><em>Example:</em> Liverpool win <strong>4–1</strong> (actual margin of 3). A <strong>5–0</strong> guess (margin of 5, off by 2) earns <strong>+1 pt</strong>. But a 1–0 guess (margin of 1) earns 0 on margin, because a 1-goal prediction represented a tight-game call rather than a blowout read.</span>
+          <strong style="color:var(--chalk);">Off by 2 goals in Blowouts (+1 pt):</strong> Awards <strong>+1 point</strong> when the actual result was a genuine blowout (actual margin &ge; 3 goals), your own predicted margin was also at least 2 goals (&ge; 2), <em>and</em> you predicted the correct winning team.<br>
+          <span style="font-size:0.85rem;color:var(--chalk-dim);"><em>Example:</em> Liverpool win <strong>4–1</strong> (actual margin of 3 goals). A <strong>5–0</strong> prediction (predicted margin of 5 goals, off by 2) earns <strong>+1 pt</strong> on margin. But a <strong>1–0</strong> prediction (predicted margin of 1 goal) earns 0 on margin, because a 1-goal margin prediction represented a tight-game call rather than a blowout read.</span>
         </li>
       </ul>
 
       <p style="color:var(--chalk-dim);font-size:0.9rem;margin:12px 0 16px;line-height:1.55;">
         <strong style="color:var(--chalk);">Key guardrails for near-miss points:</strong><br>
         1. <strong>Requires the winning side:</strong> Backing the wrong team on a near-miss earns zero (e.g. predicting Chelsea 5–0 when Aston Villa won 4–0 scores zero, despite the numbers looking close).<br>
-        2. <strong>No near-miss on 1-goal games:</strong> In tight 1-goal matches (like a 2–1 win), only an exact 1-goal margin earns points. An off-by-1 prediction on a 2–1 game drops to 0 on margin, correctly rewarding the player who called the exact tight finish.<br>
-        3. <strong>Prediction margin floor for blowouts:</strong> Off-by-2 blowout credit requires your own predicted margin to be at least 2 goals (a tight 1–0 call cannot claim blowout credit).
+        2. <strong>No near-miss on 1-goal margins:</strong> In tight 1-goal margin matches (like a 2–1 win), only an exact 1-goal margin earns points. An off-by-1 prediction on a 1-goal margin result drops to 0 on margin, correctly rewarding the player who called the exact tight finish.<br>
+        3. <strong>Prediction margin floor for blowouts:</strong> Off-by-2 blowout credit requires your own predicted margin to be at least 2 goals (a 1-goal margin prediction cannot claim blowout credit).
       </p>
       <h3>Upset Bonus (+4 pts)</h3>
       <p>Every team has a Difficulty Rating from 1 (weakest) to 5 (strongest), based on how they performed last season, you'll see this next to each fixture. If you correctly predict a clear underdog to win (a team rated at least 2 points weaker than their opponent), you get an automatic +4 bonus on top of everything else. No card needed, it just happens whenever you call it right.</p>
@@ -195,14 +195,14 @@
 
     <div class="card rules-section" id="worked-examples">
       <h2>Worked Examples</h2>
-      <p><strong>Result: Arsenal 2–1 Man City</strong> <span style="color:var(--chalk-dim);font-size:0.85rem;">(Actual margin: 1 goal — 1-goal nail-biter, Arsenal win)</span></p>
+      <p><strong>Result: Arsenal 2–1 Man City</strong> <span style="color:var(--chalk-dim);font-size:0.85rem;">(Actual margin: 1 goal, Arsenal win)</span></p>
       <table class="data-table">
         <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
         <tr><td>Arsenal 1–0</td><td>4 pts</td><td>Right winner (3) + exact 1-goal margin (1)</td></tr>
         <tr><td>Man City 2–1</td><td>3 pts</td><td>Wrong winner, exact scoreline reversed (2) + exact 1-goal margin (1)</td></tr>
-        <tr><td>Arsenal 3–1</td><td>3 pts</td><td>Right winner (3), margin off by 1 in a 1-goal game (0 on margin)</td></tr>
-        <tr><td>Arsenal 4–1</td><td>3 pts</td><td>Right winner (3), margin off by 2 in a tight game (0 on margin)</td></tr>
-        <tr><td>Man City 3–1</td><td>0 pts</td><td>Wrong winner (0), near-miss on wrong side earns nothing (0)</td></tr>
+        <tr><td>Arsenal 3–1</td><td>3 pts</td><td>Right winner (3), off by 1 on a 1-goal margin match (0 on margin)</td></tr>
+        <tr><td>Arsenal 4–1</td><td>3 pts</td><td>Right winner (3), off by 2 on a 1-goal margin match (0 on margin)</td></tr>
+        <tr><td>Man City 3–1</td><td>0 pts</td><td>Wrong winner (0), near-miss on wrong team earns nothing (0)</td></tr>
         <tr><td>Draw 1–1</td><td>0 pts</td><td>Wrong on everything</td></tr>
       </table>
 
@@ -210,17 +210,17 @@
       <table class="data-table">
         <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
         <tr><td>Chelsea 2–0</td><td>5 pts</td><td>Right winner (3) + exact 2-goal margin (2)</td></tr>
-        <tr><td>Chelsea 2–1</td><td>5 pts</td><td>Right winner (3) + off-by-1 near-miss on 2-goal game (+2 pts on margin)</td></tr>
-        <tr><td>Chelsea 4–0</td><td>3 pts</td><td>Right winner (3), off by 2 in a non-blowout scores 0 on margin</td></tr>
-        <tr><td>Spurs 3–1</td><td>4 pts</td><td>Wrong winner, reversed scoreline (2) + exact 2-goal margin (2)</td></tr>
+        <tr><td>Chelsea 2–1</td><td>5 pts</td><td>Right winner (3) + off-by-1 near-miss on 2-goal margin (+2 pts on margin)</td></tr>
+        <tr><td>Chelsea 4–0</td><td>3 pts</td><td>Right winner (3), off by 2 on a 2-goal margin match (0 on margin)</td></tr>
+        <tr><td>Spurs 3–1</td><td>4 pts</td><td>Wrong winner, exact scoreline reversed (2) + exact 2-goal margin (2)</td></tr>
       </table>
 
-      <p style="margin-top:18px;"><strong>Result: Liverpool 4–1 Everton</strong> <span style="color:var(--chalk-dim);font-size:0.85rem;">(Actual margin: 3 goals — Blowout, Liverpool win)</span></p>
+      <p style="margin-top:18px;"><strong>Result: Liverpool 4–1 Everton</strong> <span style="color:var(--chalk-dim);font-size:0.85rem;">(Actual margin: 3 goals — 3-goal blowout margin, Liverpool win)</span></p>
       <table class="data-table">
         <tr><th>Prediction</th><th>Score</th><th>Why</th></tr>
-        <tr><td>Liverpool 3–1</td><td>5 pts</td><td>Right winner (3) + off-by-1 near-miss on blowout (+2 pts on margin)</td></tr>
-        <tr><td>Liverpool 5–0</td><td>4 pts</td><td>Right winner (3) + blowout off-by-2 near-miss on 2+ goal prediction (+1 pt on margin)</td></tr>
-        <tr><td>Liverpool 1–0</td><td>3 pts</td><td>Right winner (3), 1-goal tight prediction ineligible for blowout near-miss (0 on margin)</td></tr>
+        <tr><td>Liverpool 3–1</td><td>5 pts</td><td>Right winner (3) + off-by-1 near-miss on 3-goal blowout margin (+2 pts on margin)</td></tr>
+        <tr><td>Liverpool 5–0</td><td>4 pts</td><td>Right winner (3) + off-by-2 near-miss on blowout margin with 2+ goal prediction (+1 pt on margin)</td></tr>
+        <tr><td>Liverpool 1–0</td><td>3 pts</td><td>Right winner (3), 1-goal prediction margin ineligible for blowout near-miss (0 on margin)</td></tr>
         <tr><td>Everton 5–1</td><td>0 pts</td><td>Wrong winner (0), near-miss on wrong team earns nothing (0)</td></tr>
       </table>
 
