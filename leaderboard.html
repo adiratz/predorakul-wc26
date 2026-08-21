@@ -338,7 +338,7 @@
     border: 1px solid var(--line);
     border-radius: 12px;
     margin-bottom: 16px;
-    overflow: hidden;
+    position: relative;
     transition: border-color 0.15s;
   }
   .mc-match-card:hover { border-color: rgba(237,239,236,0.18); }
@@ -353,7 +353,9 @@
     gap: 12px;
     cursor: pointer;
     user-select: none;
+    border-radius: 11px 11px 0 0;
   }
+  .mc-match-card:not(.open) .mc-card-header { border-radius: 11px; }
   .mc-card-header:hover { background: rgba(19,22,25,0.7); }
 
   .mc-teams {
@@ -569,6 +571,20 @@
   .mc-pts-wrap.active .mc-pts-popover {
     opacity: 1;
     pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* Popover opens upward for bottom rows to prevent any clipping */
+  .mc-pred-table tr:last-child .mc-pts-popover,
+  .mc-pred-table tr:nth-last-child(2) .mc-pts-popover {
+    top: auto;
+    bottom: calc(100% + 6px);
+    transform: translateY(4px);
+  }
+  .mc-pred-table tr:last-child .mc-pts-wrap:hover .mc-pts-popover,
+  .mc-pred-table tr:last-child .mc-pts-wrap.active .mc-pts-popover,
+  .mc-pred-table tr:nth-last-child(2) .mc-pts-wrap:hover .mc-pts-popover,
+  .mc-pred-table tr:nth-last-child(2) .mc-pts-wrap.active .mc-pts-popover {
     transform: translateY(0);
   }
 
@@ -1054,7 +1070,7 @@
     }
   }
 
-  function formatPtsBreakdown(scoreInfo) {
+  function formatPtsBreakdown(scoreInfo, pred, actualResult) {
     if (!scoreInfo) {
       return '<span style="color:var(--chalk-dim);font-size:0.8rem;">—</span>';
     }
@@ -1063,11 +1079,37 @@
     const cls = val > 0 ? 'pos' : (val < 0 ? 'neg' : 'zero');
     const displayVal = `${val > 0 ? '+' : ''}${val} pts`;
 
+    // Differentiate between Exact Margin and Partial Margin (Near-Miss)
+    let isPartialMargin = false;
+    if ((scoreInfo.gd_pts || 0) > 0) {
+      if (pred && actualResult && pred.home_score !== null && pred.away_score !== null && actualResult.home_score !== null && actualResult.away_score !== null) {
+        const predDiff = Math.abs(pred.home_score - pred.away_score);
+        const actualDiff = Math.abs(actualResult.home_score - actualResult.away_score);
+        if (predDiff !== actualDiff) {
+          isPartialMargin = true;
+        }
+      } else if (actualResult && actualResult.home_score !== null && actualResult.away_score !== null) {
+        const actualDiff = Math.abs(actualResult.home_score - actualResult.away_score);
+        const exactForDiff = Math.min(4, actualDiff);
+        if (scoreInfo.gd_pts < exactForDiff && actualDiff >= 2) {
+          isPartialMargin = true;
+        }
+      }
+    }
+
     const tiers = [];
     if ((scoreInfo.outcome_pts || 0) > 0) tiers.push(['Winner / Outcome', `+${scoreInfo.outcome_pts} pts`, `Outcome +${scoreInfo.outcome_pts}`]);
     if ((scoreInfo.scoreline_pts || 0) > 0) tiers.push(['Exact Scoreline', `+${scoreInfo.scoreline_pts} pts`, `Exact +${scoreInfo.scoreline_pts}`]);
     if ((scoreInfo.mirror_pts || 0) > 0) tiers.push(['Reversed Scoreline', `+${scoreInfo.mirror_pts} pts`, `Mirror +${scoreInfo.mirror_pts}`]);
-    if ((scoreInfo.gd_pts || 0) > 0) tiers.push(['Goal Margin', `+${scoreInfo.gd_pts} pts`, `Margin +${scoreInfo.gd_pts}`]);
+    
+    if ((scoreInfo.gd_pts || 0) > 0) {
+      if (isPartialMargin) {
+        tiers.push(['Partial Margin (Near-Miss)', `+${scoreInfo.gd_pts} pts`, `Partial Margin +${scoreInfo.gd_pts}`]);
+      } else {
+        tiers.push(['Exact Goal Margin', `+${scoreInfo.gd_pts} pts`, `Margin +${scoreInfo.gd_pts}`]);
+      }
+    }
+
     if ((scoreInfo.underdog_pts || 0) > 0) tiers.push(['Underdog Bonus', `+${scoreInfo.underdog_pts} pts`, `Underdog +${scoreInfo.underdog_pts}`]);
     if ((scoreInfo.pp_pts || 0) > 0) tiers.push(['Perfect Prediction', `+${scoreInfo.pp_pts} pts`, `Perfect +${scoreInfo.pp_pts}`]);
 
@@ -1274,7 +1316,7 @@
             }
           }
 
-          const ptsHtml = formatPtsBreakdown(scoreInfo);
+          const ptsHtml = formatPtsBreakdown(scoreInfo, p, result);
 
           return `
             <tr class="${isOwn ? 'own-pred-row' : ''}">
