@@ -88,20 +88,46 @@ a:hover { text-decoration: underline; }
   border-bottom-color: var(--claret);
 }
 .nav-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--claret);
-  color: var(--chalk);
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: var(--board-raised);
+  border: 1px solid var(--line);
+  color: var(--chalk-dim);
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.95rem;
+  gap: 4px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.82rem;
   cursor: pointer;
-  border: none;
+  white-space: nowrap;
 }
+.nav-avatar:hover { color: var(--chalk); border-color: var(--claret-light); }
+.nav-avatar strong { color: var(--chalk); font-weight: 600; }
+
+.account-menu {
+  position: absolute;
+  top: 56px;
+  right: 20px;
+  background: var(--board-raised);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 6px;
+  min-width: 170px;
+  z-index: 150;
+  box-shadow: var(--shadow, 0 4px 24px rgba(0,0,0,0.4));
+}
+.account-menu a {
+  display: block;
+  padding: 9px 12px;
+  font-size: 0.85rem;
+  color: var(--chalk-dim);
+  text-decoration: none;
+  border-radius: 6px;
+}
+.account-menu a:hover { background: var(--board-dark); color: var(--chalk); }
+.account-menu a.danger { color: var(--claret-light); }
 .nav-mobile-toggle { display: none; }
 
 @media (max-width: 720px) {

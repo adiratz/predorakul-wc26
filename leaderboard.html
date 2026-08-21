@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leaderboard — PredOrakul PL</title>
+<title>Leaderboard: PredOrakul PL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -122,8 +122,11 @@
       <a href="how-to-play.html">Rules</a>
       <a href="about.html">About</a>
     </div>
-    <div class="nav-avatar" id="nav-avatar" style="cursor:default;">?</div>
-    <!-- Profile menu deferred for now — avatar is purely visual -->
+    <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">Playing as <strong id="nav-username">...</strong></button>
+    <div id="account-menu" class="account-menu hidden">
+      <a href="#" onclick="changeUsername(); return false;">Change Username</a>
+      <a href="#" class="danger" onclick="signOut(); return false;">Log Out</a>
+    </div>
   </nav>
 
   <div class="page-wrap">
@@ -181,13 +184,36 @@
       .eq('user_id', currentUser.id)
       .single();
     if (profileData && profileData.display_name) {
-      document.getElementById('nav-avatar').textContent = profileData.display_name.charAt(0).toUpperCase();
+      document.getElementById('nav-username').textContent = profileData.display_name;
     }
 
     await loadLeaderboard();
 
     document.getElementById('loading-state').classList.add('hidden');
     document.getElementById('main-state').classList.remove('hidden');
+  }
+
+  function toggleAccountMenu() {
+    document.getElementById('account-menu').classList.toggle('hidden');
+  }
+
+  async function changeUsername() {
+    const current = document.getElementById('nav-username').textContent;
+    const newName = prompt('Enter your new display name:', current);
+    if (!newName || !newName.trim() || newName.trim() === current) return;
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ display_name: newName.trim() })
+      .eq('user_id', currentUser.id);
+
+    if (error) {
+      alert('Could not update your name: ' + error.message);
+      return;
+    }
+
+    document.getElementById('nav-username').textContent = newName.trim();
+    document.getElementById('account-menu').classList.add('hidden');
   }
 
   async function signOut() {
@@ -230,7 +256,7 @@
     container.innerHTML = '';
 
     if (!rows || rows.length === 0) {
-      container.innerHTML = '<p class="sub" style="padding:20px;text-align:center;">No scores yet — check back after the first results are in.</p>';
+      container.innerHTML = '<p class="sub" style="padding:20px;text-align:center;">No scores yet. Check back after the first results are in.</p>';
       return;
     }
 

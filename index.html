@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PredOrakul PL — Sign In</title>
+<title>PredOrakul PL: Sign In</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -267,7 +267,7 @@
       <!-- ═══ STATE 1: Enter email ═══ -->
       <div id="state-enter-email">
         <h2>Get in the dugout</h2>
-        <p class="sub">Enter your email — we'll send a one-click link, no password needed.</p>
+        <p class="sub">Enter your email and we'll send a one-click link, no password needed.</p>
 
         <div id="status-area"></div>
 
@@ -280,14 +280,14 @@
       <!-- ═══ STATE 2: Check your email (after link sent) ═══ -->
       <div id="state-check-email" class="hidden">
         <h2>Check your inbox</h2>
-        <p class="sub">We've sent a sign-in link to <strong id="sent-to-email"></strong>. Click it to get into the dugout — you can close this tab.</p>
+        <p class="sub">We've sent a sign-in link to <strong id="sent-to-email"></strong>. Click it to get into the dugout, then you can close this tab.</p>
         <button class="btn" onclick="resetToEmailEntry()" style="background:var(--board-dark);color:var(--chalk-dim);">Use a different email</button>
       </div>
 
       <!-- ═══ STATE 3: Logged in, needs a display name (first login only) ═══ -->
       <div id="state-set-name" class="hidden">
         <h2>Welcome to the dugout</h2>
-        <p class="sub">One last thing — what should we call you on the leaderboard?</p>
+        <p class="sub">One last thing: what should we call you on the leaderboard?</p>
 
         <label for="display-name">Display name</label>
         <input type="text" id="display-name" placeholder="e.g. Sam T.">
@@ -298,7 +298,7 @@
       <!-- ═══ STATE 4: Fully logged in ═══ -->
       <div id="state-logged-in" class="hidden">
         <h2>You're in, <span id="welcome-name"></span></h2>
-        <p class="sub">The Predict page is being built next — check back soon to make your first gameweek picks.</p>
+        <p class="sub">The Predict page is being built next. Check back soon to make your first gameweek picks.</p>
         <button class="btn" onclick="signOut()" style="background:var(--board-dark);color:var(--chalk-dim);">Log out</button>
       </div>
 
@@ -417,7 +417,7 @@
       .eq('user_id', user.id);
 
     if (error) {
-      alert('Could not save your name — please try again.');
+      alert('Could not save your name, please try again.');
       return;
     }
 

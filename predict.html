@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Predict — PredOrakul PL</title>
+<title>Predict: PredOrakul PL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -305,8 +305,11 @@
       <a href="how-to-play.html">Rules</a>
       <a href="about.html">About</a>
     </div>
-    <div class="nav-avatar" id="nav-avatar" style="cursor:default;">?</div>
-    <!-- Profile menu deferred for now — avatar is purely visual, no click action, to avoid accidental logouts burning our limited email sends -->
+    <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">Playing as <strong id="nav-username">...</strong></button>
+    <div id="account-menu" class="account-menu hidden">
+      <a href="#" onclick="changeUsername(); return false;">Change Username</a>
+      <a href="#" class="danger" onclick="signOut(); return false;">Log Out</a>
+    </div>
   </nav>
 
   <div class="page-wrap">
@@ -329,7 +332,7 @@
 
       <div class="matchweek-nav">
         <button class="mw-btn" id="prev-mw-btn" onclick="changeMatchweek(-1)">&larr; Prev</button>
-        <div class="matchweek-title" id="mw-title">Matchweek —</div>
+        <div class="matchweek-title" id="mw-title">Loading...</div>
         <button class="mw-btn" id="next-mw-btn" onclick="changeMatchweek(1)">Next &rarr;</button>
       </div>
 
@@ -414,14 +417,14 @@
     }
     currentUser = session.user;
 
-    // Show the player's initial instead of a generic "?"
+    // Show the player's display name in the nav
     const { data: profileData } = await sb
       .from('profiles')
       .select('display_name')
       .eq('user_id', currentUser.id)
       .single();
     if (profileData && profileData.display_name) {
-      document.getElementById('nav-avatar').textContent = profileData.display_name.charAt(0).toUpperCase();
+      document.getElementById('nav-username').textContent = profileData.display_name;
     }
 
     const { data: mwData } = await sb
@@ -477,10 +480,10 @@
 
       banner.innerHTML = `
         <h3>🏆 Pick the <span>Champion</span></h3>
-        <p class="sub">Who wins the league outright? +12 pts if you're right. Editable until Gameweek 1 kicks off — one pick, no card needed.</p>
+        <p class="sub">Who wins the league outright? +12 pts if you're right. Editable until Gameweek 1 kicks off.</p>
         <div class="winner-pick-row">
           <select id="winner-pick-select">
-            <option value="">— Select a team —</option>
+            <option value="">Select a team</option>
             ${options}
           </select>
           <button class="btn small" onclick="saveWinnerPick()">Save</button>
@@ -494,7 +497,7 @@
     } else {
       banner.innerHTML = `
         <h3>🏆 Champion <span>Pick</span></h3>
-        <div class="winner-pick-locked">No pick was made before Gameweek 1 — sits out this season.</div>
+        <div class="winner-pick-locked">No pick was made before Gameweek 1, so you sit out this season.</div>
       `;
     }
   }
@@ -804,6 +807,29 @@
   }
 
   // ── Account menu ─────────────────────────────────────────
+  function toggleAccountMenu() {
+    document.getElementById('account-menu').classList.toggle('hidden');
+  }
+
+  async function changeUsername() {
+    const current = document.getElementById('nav-username').textContent;
+    const newName = prompt('Enter your new display name:', current);
+    if (!newName || !newName.trim() || newName.trim() === current) return;
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ display_name: newName.trim() })
+      .eq('user_id', currentUser.id);
+
+    if (error) {
+      alert('Could not update your name: ' + error.message);
+      return;
+    }
+
+    document.getElementById('nav-username').textContent = newName.trim();
+    document.getElementById('account-menu').classList.add('hidden');
+  }
+
   async function signOut() {
     await sb.auth.signOut();
     window.location.href = 'index.html';

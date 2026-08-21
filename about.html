@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About — PredOrakul PL</title>
+<title>About: PredOrakul PL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -136,8 +136,11 @@
       <a href="how-to-play.html">Rules</a>
       <a href="about.html" class="active">About</a>
     </div>
-    <div class="nav-avatar" id="nav-avatar" style="cursor:default;">?</div>
-    <!-- Profile menu deferred for now — avatar is purely visual -->
+    <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">Playing as <strong id="nav-username">...</strong></button>
+    <div id="account-menu" class="account-menu hidden">
+      <a href="#" onclick="changeUsername(); return false;">Change Username</a>
+      <a href="#" class="danger" onclick="signOut(); return false;">Log Out</a>
+    </div>
   </nav>
 
   <div class="page-wrap" style="max-width:640px;">
@@ -149,13 +152,13 @@
 
     <div class="card about-section">
       <h2>Where this started</h2>
-      <p>PredOrakul began as a World Cup prediction league between a small group of friends — nine predictors, 104 matches, way too much banter about who actually knew football and who was just guessing.</p>
+      <p>PredOrakul began as a World Cup prediction league between a small group of friends. Nine predictors, 104 matches, way too much banter about who actually knew football and who was just guessing.</p>
       <p>That version is still live, and it's the reason this one exists at all.</p>
       <a href="WC26/about.html" class="wc-callout">
         <span class="wc-callout-icon">🏆</span>
         <span class="wc-callout-text">
           <span class="title">PredOrakul WC2026</span>
-          <span class="sub">Where it all started — the original tournament edition</span>
+          <span class="sub">Where it all started, the original tournament edition</span>
         </span>
         <span class="wc-callout-arrow">&rarr;</span>
       </a>
@@ -163,36 +166,36 @@
 
     <div class="card about-section">
       <h2>Now, for every Premier League weekend</h2>
-      <p>The World Cup only comes around once every four years. Football doesn't. So PredOrakul is back for the 2026/27 Premier League season — same obsession with getting predictions exactly right, but built out properly this time, with a deeper scoring system and a genuine strategic layer we never had in the World Cup version.</p>
+      <p>The World Cup only comes around once every four years. Football doesn't. So PredOrakul is back for the 2026/27 Premier League season, same obsession with getting predictions exactly right, but built out properly this time, with a deeper scoring system and a genuine strategic layer we never had in the World Cup version.</p>
     </div>
 
     <div class="card about-section">
       <h2>What's different this time</h2>
-      <p>Every scoreline you predict can score in <strong>five different ways at once</strong> — get the winner right, the exact score, the margin, an upset, or nail everything simultaneously for the biggest bonus in the game. It's not one prediction, one outcome — it's five chances to be right, stacked on top of each other.</p>
+      <p>Every scoreline you predict can score in <strong>five different ways at once</strong>: get the winner right, the exact score, the margin, an upset, or nail everything simultaneously for the biggest bonus in the game. It's not one prediction, one outcome. It's five chances to be right, stacked on top of each other.</p>
 
       <div class="feature-grid">
         <div class="feature-item">
           <div class="name">The Dugout</div>
-          <div class="desc">Five tactical cards, one per fixture — from playing it safe to going all-in on a result you're sure about.</div>
+          <div class="desc">Five tactical cards, one per fixture, from playing it safe to going all-in on a result you're sure about.</div>
         </div>
         <div class="feature-item">
           <div class="name">Upset Bonus</div>
-          <div class="desc">Automatic points for correctly calling a genuine underdog win — no card needed, just a sharp eye.</div>
+          <div class="desc">Automatic points for correctly calling a genuine underdog win. No card needed, just a sharp eye.</div>
         </div>
         <div class="feature-item">
           <div class="name">Champion Pick</div>
-          <div class="desc">One pick before Gameweek 1 — who lifts the title in May? Locked in early, resolved at the very end.</div>
+          <div class="desc">One pick before Gameweek 1: who lifts the title in May? Locked in early, resolved at the very end.</div>
         </div>
         <div class="feature-item">
           <div class="name">Shadow Table <span class="coming-soon-tag">Coming soon</span></div>
-          <div class="desc">Your predictions quietly build a full personalized league table all season — a byproduct of picks you're already making.</div>
+          <div class="desc">Your predictions quietly build a full personalized league table all season, a byproduct of picks you're already making.</div>
         </div>
       </div>
     </div>
 
     <div class="card about-section" style="margin-bottom:0;">
       <h2>Same spirit, sharper game</h2>
-      <p>It's still built for banter first, bragging rights second. Just with a scoring system that finally rewards reading a match properly — not just picking a winner and hoping.</p>
+      <p>It's still built for banter first, bragging rights second. Just with a scoring system that finally rewards reading a match properly, not just picking a winner and hoping.</p>
       <a href="predict.html" class="btn" style="display:inline-block;margin-top:6px;">Start predicting &rarr;</a>
     </div>
 
@@ -203,17 +206,43 @@
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  let currentUserId = null;
+
   async function initAvatar() {
     const { data: { session } } = await sb.auth.getSession();
     if (!session) return;
+    currentUserId = session.user.id;
     const { data: profileData } = await sb
       .from('profiles')
       .select('display_name')
-      .eq('user_id', session.user.id)
+      .eq('user_id', currentUserId)
       .single();
     if (profileData && profileData.display_name) {
-      document.getElementById('nav-avatar').textContent = profileData.display_name.charAt(0).toUpperCase();
+      document.getElementById('nav-username').textContent = profileData.display_name;
     }
+  }
+
+  function toggleAccountMenu() {
+    document.getElementById('account-menu').classList.toggle('hidden');
+  }
+
+  async function changeUsername() {
+    const current = document.getElementById('nav-username').textContent;
+    const newName = prompt('Enter your new display name:', current);
+    if (!newName || !newName.trim() || newName.trim() === current) return;
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ display_name: newName.trim() })
+      .eq('user_id', currentUserId);
+
+    if (error) {
+      alert('Could not update your name: ' + error.message);
+      return;
+    }
+
+    document.getElementById('nav-username').textContent = newName.trim();
+    document.getElementById('account-menu').classList.add('hidden');
   }
 
   async function signOut() {
