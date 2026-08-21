@@ -415,7 +415,10 @@
 
     await loadCardInventory();
     await loadMatchweek(currentMatchweek);
-    await loadWinnerPick();
+    // TEMPORARILY DISABLED for debugging — testing whether the Winner Pick
+    // banner is related to the score input issue. Re-enable once confirmed.
+    // await loadWinnerPick();
+    document.getElementById('winner-pick-banner').style.display = 'none';
 
     document.getElementById('loading-state').classList.add('hidden');
     document.getElementById('main-state').classList.remove('hidden');
