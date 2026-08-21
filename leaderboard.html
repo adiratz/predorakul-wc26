@@ -55,6 +55,7 @@
     flex-shrink: 0;
   }
   .lb-name { flex: 1; font-weight: 500; }
+  .lb-team { color: var(--chalk-dim); font-weight: 500; }
   .lb-pts { font-family: var(--font-mono); font-weight: 600; width: 70px; text-align: right; }
   .lb-delta {
     font-family: var(--font-mono);
@@ -125,6 +126,7 @@
     <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">Playing as <strong id="nav-username">...</strong></button>
     <div id="account-menu" class="account-menu hidden">
       <a href="#" onclick="changeUsername(); return false;">Change Username</a>
+      <a href="#" onclick="changeTeam(); return false;">Change Team</a>
       <a href="#" class="danger" onclick="signOut(); return false;">Log Out</a>
     </div>
   </nav>
@@ -216,6 +218,23 @@
     document.getElementById('account-menu').classList.add('hidden');
   }
 
+  async function changeTeam() {
+    const newTeamName = prompt("What's your team called?");
+    if (!newTeamName || !newTeamName.trim()) return;
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ custom_team_name: newTeamName.trim() })
+      .eq('user_id', currentUser.id);
+
+    if (error) {
+      alert('Could not update your team name: ' + error.message);
+      return;
+    }
+
+    document.getElementById('account-menu').classList.add('hidden');
+  }
+
   async function signOut() {
     await sb.auth.signOut();
     window.location.href = 'index.html';
@@ -267,7 +286,7 @@
       row.className = 'lb-row' + (isOwn ? ' own-row' : '');
       row.innerHTML = `
         <div class="lb-rank">${r.rank}</div>
-        <div class="lb-name">${r.display_name}${isOwn ? ' (you)' : ''}</div>
+        <div class="lb-name">${r.custom_team_name ? `<span class="lb-team">${r.custom_team_name}</span> &middot; ` : ''}${r.display_name}${isOwn ? ' (you)' : ''}</div>
         <div class="lb-pts">${r.total_points}</div>
         <div class="lb-delta">${delta !== undefined ? '+' + delta : ''}</div>
       `;

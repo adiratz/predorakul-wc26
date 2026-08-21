@@ -308,6 +308,7 @@
     <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">Playing as <strong id="nav-username">...</strong></button>
     <div id="account-menu" class="account-menu hidden">
       <a href="#" onclick="changeUsername(); return false;">Change Username</a>
+      <a href="#" onclick="changeTeam(); return false;">Change Team</a>
       <a href="#" class="danger" onclick="signOut(); return false;">Log Out</a>
     </div>
   </nav>
@@ -827,6 +828,23 @@
     }
 
     document.getElementById('nav-username').textContent = newName.trim();
+    document.getElementById('account-menu').classList.add('hidden');
+  }
+
+  async function changeTeam() {
+    const newTeamName = prompt("What's your team called?");
+    if (!newTeamName || !newTeamName.trim()) return;
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ custom_team_name: newTeamName.trim() })
+      .eq('user_id', currentUser.id);
+
+    if (error) {
+      alert('Could not update your team name: ' + error.message);
+      return;
+    }
+
     document.getElementById('account-menu').classList.add('hidden');
   }
 

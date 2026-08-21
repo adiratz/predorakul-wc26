@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Enter Results</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --board: #1C2024; --board-dark: #131619; --board-raised: #23282D;
+    --chalk: #EDEFEC; --chalk-dim: #9BA3A6; --claret: #9A3548;
+    --claret-light: #C15468; --line: rgba(237,239,236,0.09);
+    --success: #4CAF7D;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--board);
+    color: var(--chalk);
+    font-family: -apple-system, sans-serif;
+    padding: 24px 16px;
+  }
+  .wrap { max-width: 600px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin-bottom: 4px; }
+  .sub { color: var(--chalk-dim); font-size: 0.85rem; margin-bottom: 20px; }
+
+  .mw-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .mw-nav button {
+    background: var(--board-raised); border: 1px solid var(--line);
+    color: var(--chalk-dim); border-radius: 6px; padding: 6px 12px; cursor: pointer;
+  }
+  .mw-title { font-weight: 700; font-size: 1.1rem; }
+
+  .fixture-row {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .fixture-row.has-result { border-color: var(--success); }
+  .fx-names { flex: 1; min-width: 140px; font-size: 0.85rem; }
+  .fx-score-entry { display: flex; align-items: center; gap: 6px; }
+  .fx-score-entry input {
+    width: 36px; height: 32px; text-align: center;
+    background: var(--board-dark); border: 1px solid var(--line);
+    border-radius: 6px; color: var(--chalk); font-size: 0.95rem; font-weight: 600;
+  }
+  .step-col { display: flex; flex-direction: column; gap: 2px; }
+  .step-btn {
+    width: 20px; height: 15px; font-size: 0.7rem; line-height: 1;
+    background: var(--board-dark); border: 1px solid var(--line); border-radius: 3px;
+    color: var(--chalk-dim); cursor: pointer;
+  }
+  .step-btn:active { background: var(--claret); color: var(--chalk); }
+  .save-btn {
+    background: var(--claret); color: var(--chalk); border: none;
+    border-radius: 6px; padding: 8px 14px; font-size: 0.82rem; cursor: pointer;
+  }
+  .save-btn:hover { background: var(--claret-light); }
+  .status { font-size: 0.72rem; color: var(--success); min-width: 50px; }
+
+  #not-authorized { text-align: center; padding: 60px 20px; color: var(--chalk-dim); }
+  #login-prompt { text-align: center; padding: 60px 20px; }
+  #login-prompt input {
+    background: var(--board-dark); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--chalk); padding: 10px; width: 240px; margin-right: 8px;
+  }
+  #login-prompt button {
+    background: var(--claret); color: var(--chalk); border: none;
+    border-radius: 6px; padding: 10px 16px; cursor: pointer;
+  }
+  .hidden { display: none !important; }
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Admin — Enter Results</h1>
+    <p class="sub">Not linked anywhere in the app. Only accessible when logged in as the admin account.</p>
+
+    <div id="login-prompt">
+      <p class="sub">Sign in with your admin email to continue.</p>
+      <input type="email" id="admin-email" placeholder="you@example.com">
+      <button onclick="sendLink()">Send Link</button>
+      <p class="sub" id="login-status" style="margin-top:12px;"></p>
+    </div>
+
+    <div id="not-authorized" class="hidden">
+      This account is not authorized to enter results.
+    </div>
+
+    <div id="admin-panel" class="hidden">
+      <div class="mw-nav">
+        <button onclick="changeMw(-1)">&larr; Prev</button>
+        <span class="mw-title" id="mw-title">Matchweek 1</span>
+        <button onclick="changeMw(1)">Next &rarr;</button>
+      </div>
+      <div id="fixtures-list"></div>
+    </div>
+  </div>
+
+<script>
+  const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const ADMIN_EMAIL = 'joxodogso@gmail.com'; // client-side check for UX only,
+                                               // real enforcement is the RLS policy
+
+
+
+  let currentMw = 1;
+  let allMws = [];
+  let fixtures = [];
+
+  async function sendLink() {
+    const email = document.getElementById('admin-email').value.trim();
+    if (!email) return;
+    const { error } = await sb.auth.signInWithOtp({
+      email: email,
+      options: { emailRedirectTo: 'https://predorakul.com/admin-results.html' }
+    });
+    document.getElementById('login-status').textContent = error
+      ? 'Error: ' + error.message
+      : 'Check your inbox for the link.';
+  }
+
+  async function init() {
+    const { data: { session } } = await sb.auth.getSession();
+
+    if (!session) {
+      document.getElementById('login-prompt').classList.remove('hidden');
+      return;
+    }
+    document.getElementById('login-prompt').classList.add('hidden');
+
+    if (session.user.email !== ADMIN_EMAIL) {
+      document.getElementById('not-authorized').classList.remove('hidden');
+      return;
+    }
+
+    document.getElementById('admin-panel').classList.remove('hidden');
+
+    const { data: mwData } = await sb.from('matches').select('gameweek, kickoff_utc').order('gameweek');
+    allMws = [...new Set(mwData.map(m => m.gameweek))].sort((a,b) => a-b);
+    const now = new Date();
+    const upcoming = mwData.find(m => new Date(m.kickoff_utc) > now);
+    currentMw = upcoming ? upcoming.gameweek : allMws[0];
+
+    loadMw(currentMw);
+  }
+
+  async function loadMw(mw) {
+    currentMw = mw;
+    document.getElementById('mw-title').textContent = `Matchweek ${mw}`;
+
+    const { data: matchData } = await sb
+      .from('matches')
+      .select('id, kickoff_utc, teams_home:home_team_id(name), teams_away:away_team_id(name)')
+      .eq('gameweek', mw)
+      .order('kickoff_utc');
+    fixtures = matchData || [];
+
+    const matchIds = fixtures.map(f => f.id);
+    const { data: resultData } = await sb.from('results').select('match_id, home_score, away_score').in('match_id', matchIds);
+    const existingResults = {};
+    (resultData || []).forEach(r => existingResults[r.match_id] = r);
+
+    const container = document.getElementById('fixtures-list');
+    container.innerHTML = '';
+    fixtures.forEach(f => {
+      const existing = existingResults[f.id];
+      const row = document.createElement('div');
+      row.className = 'fixture-row' + (existing ? ' has-result' : '');
+      row.innerHTML = `
+        <div class="fx-names">${f.teams_home.name} vs ${f.teams_away.name}</div>
+        <div class="fx-score-entry">
+          <input type="number" min="0" max="20" id="rh-${f.id}" value="${existing ? existing.home_score : ''}">
+          <div class="step-col">
+            <button class="step-btn" onclick="step('rh-${f.id}', 1)">+</button>
+            <button class="step-btn" onclick="step('rh-${f.id}', -1)">-</button>
+          </div>
+          <span>-</span>
+          <input type="number" min="0" max="20" id="ra-${f.id}" value="${existing ? existing.away_score : ''}">
+          <div class="step-col">
+            <button class="step-btn" onclick="step('ra-${f.id}', 1)">+</button>
+            <button class="step-btn" onclick="step('ra-${f.id}', -1)">-</button>
+          </div>
+        </div>
+        <button class="save-btn" onclick="saveResult(${f.id})">Save</button>
+        <span class="status" id="status-${f.id}">${existing ? 'Saved' : ''}</span>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  function step(inputId, delta) {
+    const el = document.getElementById(inputId);
+    let val = parseInt(el.value);
+    if (isNaN(val)) val = 0;
+    val = Math.max(0, Math.min(20, val + delta));
+    el.value = val;
+  }
+
+  async function saveResult(matchId) {
+    const home = document.getElementById(`rh-${matchId}`).value;
+    const away = document.getElementById(`ra-${matchId}`).value;
+    if (home === '' || away === '') {
+      alert('Enter both scores first.');
+      return;
+    }
+
+    const { error } = await sb
+      .from('results')
+      .upsert({ match_id: matchId, home_score: parseInt(home), away_score: parseInt(away) }, { onConflict: 'match_id' });
+
+    const statusEl = document.getElementById(`status-${matchId}`);
+    if (error) {
+      statusEl.textContent = 'Error!';
+      statusEl.style.color = 'var(--claret-light)';
+      alert('Could not save: ' + error.message);
+      return;
+    }
+    statusEl.textContent = 'Saved';
+    statusEl.style.color = 'var(--success)';
+    loadMw(currentMw); // refresh to show has-result border
+  }
+
+  function changeMw(delta) {
+    const idx = allMws.indexOf(currentMw);
+    const newIdx = idx + delta;
+    if (newIdx < 0 || newIdx >= allMws.length) return;
+    loadMw(allMws[newIdx]);
+  }
+
+  init();
+</script>
+</body>
+</html>

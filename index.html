@@ -137,6 +137,27 @@
     border-color: var(--claret-light);
   }
 
+  select {
+    width: 100%;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 13px 36px 13px 14px;
+    color: var(--chalk);
+    font-size: 0.95rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin-bottom: 18px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C15468' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+  }
+  select:focus { outline: none; border-color: var(--claret-light); }
+  select option { background: var(--board-dark); color: var(--chalk); }
+
   .btn {
     width: 100%;
     background: var(--claret);
@@ -287,12 +308,15 @@
       <!-- ═══ STATE 3: Logged in, needs a display name (first login only) ═══ -->
       <div id="state-set-name" class="hidden">
         <h2>Welcome to the dugout</h2>
-        <p class="sub">One last thing: what should we call you on the leaderboard?</p>
+        <p class="sub">One last thing: what should we call you, and what's your team called?</p>
 
         <label for="display-name">Display name</label>
         <input type="text" id="display-name" placeholder="e.g. Sam T.">
 
-        <button class="btn" onclick="saveDisplayName()">Save and continue</button>
+        <label for="custom-team-name" style="margin-top:14px;">Your team's name</label>
+        <input type="text" id="custom-team-name" placeholder="e.g. Rice Rice Baby">
+
+        <button class="btn" style="margin-top:18px;" onclick="saveDisplayName()">Save and continue</button>
       </div>
 
       <!-- ═══ STATE 4: Fully logged in ═══ -->
@@ -407,17 +431,21 @@
   async function saveDisplayName() {
     const name = document.getElementById('display-name').value.trim();
     if (!name) return;
+    const teamName = document.getElementById('custom-team-name').value.trim();
 
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return;
 
+    const updates = { display_name: name };
+    if (teamName) updates.custom_team_name = teamName;
+
     const { error } = await sb
       .from('profiles')
-      .update({ display_name: name })
+      .update(updates)
       .eq('user_id', user.id);
 
     if (error) {
-      alert('Could not save your name, please try again.');
+      alert('Could not save your details, please try again.');
       return;
     }
 
