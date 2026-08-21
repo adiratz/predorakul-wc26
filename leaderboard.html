@@ -36,6 +36,7 @@
   .lb-row {
     display: flex;
     align-items: center;
+    gap: 14px;
     padding: 12px 16px;
     border-bottom: 1px solid var(--line);
     font-size: 0.9rem;
@@ -66,6 +67,7 @@
   }
   .lb-header-row {
     display: flex;
+    gap: 14px;
     padding: 8px 16px;
     font-family: var(--font-mono);
     font-size: 0.68rem;
@@ -101,6 +103,8 @@
   .mp-match-row:last-child { border-bottom: none; }
   .mp-match-desc { color: var(--chalk-dim); }
   .mp-match-desc strong { color: var(--chalk); }
+  .mp-tier-breakdown { font-size: 0.78rem; color: var(--chalk-dim); }
+  .mp-card-desc { font-size: 0.78rem; color: var(--chalk-yellow); }
   .mp-match-pts { font-family: var(--font-mono); font-weight: 600; flex-shrink: 0; margin-left: 12px; }
   .perfect-badge {
     display: inline-block;
@@ -151,7 +155,7 @@
         <div class="lb-header-row">
           <div class="lb-rank">Rank</div>
           <div class="lb-name">Player</div>
-          <div class="lb-pts">Pts</div>
+          <div class="lb-pts">Total Pts</div>
           <div class="lb-delta">This week</div>
         </div>
         <div id="leaderboard-rows"></div>
@@ -288,23 +292,57 @@
         <div class="lb-rank">${r.rank}</div>
         <div class="lb-name">${r.custom_team_name ? `<span class="lb-team">${r.custom_team_name}</span> &middot; ` : ''}${r.display_name}${isOwn ? ' (you)' : ''}</div>
         <div class="lb-pts">${r.total_points}</div>
-        <div class="lb-delta">${delta !== undefined ? '+' + delta : ''}</div>
+        <div class="lb-delta" style="${delta !== undefined && delta < 0 ? 'color:var(--claret-light);' : ''}">${delta !== undefined ? (delta >= 0 ? '+' + delta : delta) : ''}</div>
       `;
       container.appendChild(row);
     });
   }
 
   // ── My Points tab ────────────────────────────────────────
-  function describeScore(row) {
-    if (row.pp_pts > 0) return 'Perfect prediction!';
-    const bits = [];
-    if (row.outcome_pts > 0) bits.push('right winner');
-    if (row.scoreline_pts > 0) bits.push('exact score');
-    if (row.mirror_pts > 0) bits.push('right score, wrong side');
-    if (row.gd_pts > 0) bits.push('right margin');
-    if (row.underdog_pts > 0) bits.push('upset bonus');
-    if (bits.length === 0) return 'no points this match';
-    return bits.join(' + ');
+  const CARD_DISPLAY_NAMES = {
+    banker: 'Banker', double_down: 'Double Down', all_in: 'All In',
+    rivalry_boost: 'Rivalry Boost', assistant_manager: 'Assistant Manager',
+  };
+
+  function describeTiers(row) {
+    const tiers = [
+      ['Outcome', row.outcome_pts],
+      ['Exact Score', row.scoreline_pts],
+      ['Mirror Score', row.mirror_pts],
+      ['Margin', row.gd_pts],
+      ['Upset Bonus', row.underdog_pts],
+      ['Perfect Prediction', row.pp_pts],
+    ];
+    const scored = tiers.filter(([, pts]) => pts > 0);
+    if (scored.length === 0) return 'No points this match';
+    return scored.map(([label, pts]) => `${label} +${pts}`).join(' &middot; ');
+  }
+
+  function describeCard(row) {
+    if (!row.card_type) return null;
+    const name = CARD_DISPLAY_NAMES[row.card_type] || row.card_type;
+    const delta = row.final_total - row.base_total;
+
+    switch (row.card_type) {
+      case 'banker':
+        return delta > 0
+          ? `${name} played: doubled your Outcome points (+${delta})`
+          : `${name} played: outcome was wrong, so no bonus applied`;
+      case 'double_down':
+        return `${name} played: doubled your total (${row.base_total} &rarr; ${row.final_total})`;
+      case 'all_in':
+        return row.final_total < 0
+          ? `${name} played: wrong winner, this match cost you ${row.final_total} pts instead of scoring`
+          : `${name} played: correct winner, tripled your total (${row.base_total} &rarr; ${row.final_total})`;
+      case 'rivalry_boost':
+        return `${name} played: doubled your total on this derby (${row.base_total} &rarr; ${row.final_total})`;
+      case 'assistant_manager':
+        return delta > 0
+          ? `${name} played: nailed the winning team's exact tally (+2)`
+          : `${name} played: didn't hit the winning team's exact score this time`;
+      default:
+        return `${name} played`;
+    }
   }
 
   async function loadMyPoints() {
@@ -335,16 +373,19 @@
     container.innerHTML = gws.map(gw => {
       const matches = byGw[gw];
       const gwTotal = matches.reduce((sum, m) => sum + m.final_total, 0);
-      const matchRows = matches.map(m => `
+      const matchRows = matches.map(m => {
+        const cardDesc = describeCard(m);
+        return `
         <div class="mp-match-row">
           <div class="mp-match-desc">
-            <strong>${m.matches.teams_home.name} vs ${m.matches.teams_away.name}</strong><br>
-            ${describeScore(m)}${m.pp_pts > 0 ? '<span class="perfect-badge">PERFECT</span>' : ''}
-            ${m.card_type ? `<br><span style="color:var(--chalk-yellow);">${m.card_type.replace('_',' ')} played</span>` : ''}
+            <strong>${m.matches.teams_home.name} vs ${m.matches.teams_away.name}</strong>${m.pp_pts > 0 ? '<span class="perfect-badge">PERFECT</span>' : ''}<br>
+            <span class="mp-tier-breakdown">${describeTiers(m)}</span>
+            ${cardDesc ? `<br><span class="mp-card-desc">${cardDesc}</span>` : ''}
           </div>
           <div class="mp-match-pts">${m.final_total} pts</div>
         </div>
-      `).join('');
+      `;
+      }).join('');
 
       return `
         <div class="mp-gw-block">
