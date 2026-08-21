@@ -223,7 +223,8 @@
     z-index: 10;
   }
 
-  .fx-score { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .fx-score { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .fx-score-group { display: flex; flex-direction: column; align-items: center; gap: 3px; }
   .fx-score input {
     width: 38px; height: 38px;
     text-align: center;
@@ -234,10 +235,36 @@
     font-family: var(--font-mono);
     font-size: 1rem;
     font-weight: 600;
+    /* Hide native spinner arrows — replaced with our own buttons below,
+       since native spinners/typing are unreliable on some setups */
+    -moz-appearance: textfield;
+  }
+  .fx-score input::-webkit-outer-spin-button,
+  .fx-score input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
   .fx-score input:focus { outline: none; border-color: var(--claret-light); }
   .fx-score input:disabled { opacity: 0.4; }
-  .fx-score .dash { color: var(--chalk-dim); font-size: 0.9rem; }
+  .fx-score .dash { color: var(--chalk-dim); font-size: 0.9rem; align-self: center; margin-top: 14px; }
+  .fx-step-row { display: flex; gap: 4px; }
+  .fx-step-btn {
+    width: 17px; height: 17px;
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--chalk-dim);
+    font-size: 0.7rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .fx-step-btn:hover { color: var(--chalk); border-color: var(--claret-light); }
+  .fx-step-btn:active { background: var(--claret); color: var(--chalk); }
+  .fx-step-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
   .fixture-bottom {
     display: flex;
@@ -543,6 +570,32 @@
     return new Date() > deadline;
   }
 
+  // Direct value-setting has proven reliable in every test, including
+  // on machines where native typing/spinners don't register — so this
+  // is the guaranteed-to-work path for entering scores.
+  function stepScore(inputId, delta) {
+    const el = document.getElementById(inputId);
+    if (!el || el.disabled) return;
+    let current = parseInt(el.value);
+    if (isNaN(current)) current = 0;
+    let next = current + delta;
+    if (next < 0) next = 0;
+    if (next > 20) next = 20;
+    el.value = next;
+    updateProgressBar();
+  }
+
+  function updateProgressBar() {
+    let predictedCount = 0;
+    fixtures.forEach(f => {
+      const homeEl = document.getElementById(`home-${f.id}`);
+      const awayEl = document.getElementById(`away-${f.id}`);
+      if (homeEl && awayEl && homeEl.value !== '' && awayEl.value !== '') predictedCount++;
+    });
+    document.getElementById('progress-label').textContent = `${predictedCount} of ${fixtures.length} predicted`;
+    document.getElementById('progress-fill').style.width = fixtures.length ? `${(predictedCount/fixtures.length)*100}%` : '0%';
+  }
+
   function difficultyDots(rating) {
     let dots = '';
     for (let i = 1; i <= 5; i++) {
@@ -589,9 +642,21 @@
             <span class="fx-dots" data-tooltip="Team Difficulty: ${f.teams_home.difficulty_rating} of 5">${difficultyDots(f.teams_home.difficulty_rating)}</span>
           </div>
           <div class="fx-score">
-            <input type="number" min="0" max="20" id="home-${f.id}" value="${existing ? existing.home_score : ''}" ${locked ? 'disabled' : ''}>
+            <div class="fx-score-group">
+              <input type="number" min="0" max="20" id="home-${f.id}" value="${existing ? existing.home_score : ''}" ${locked ? 'disabled' : ''}>
+              <div class="fx-step-row">
+                <button type="button" class="fx-step-btn" ${locked ? 'disabled' : ''} onclick="stepScore('home-${f.id}', -1)">−</button>
+                <button type="button" class="fx-step-btn" ${locked ? 'disabled' : ''} onclick="stepScore('home-${f.id}', 1)">+</button>
+              </div>
+            </div>
             <span class="dash">–</span>
-            <input type="number" min="0" max="20" id="away-${f.id}" value="${existing ? existing.away_score : ''}" ${locked ? 'disabled' : ''}>
+            <div class="fx-score-group">
+              <input type="number" min="0" max="20" id="away-${f.id}" value="${existing ? existing.away_score : ''}" ${locked ? 'disabled' : ''}>
+              <div class="fx-step-row">
+                <button type="button" class="fx-step-btn" ${locked ? 'disabled' : ''} onclick="stepScore('away-${f.id}', -1)">−</button>
+                <button type="button" class="fx-step-btn" ${locked ? 'disabled' : ''} onclick="stepScore('away-${f.id}', 1)">+</button>
+              </div>
+            </div>
           </div>
           <div class="fx-team away">
             <span class="fx-team-name">${f.teams_away.name}</span>
@@ -604,6 +669,12 @@
         </div>
       `;
       container.appendChild(row);
+
+      // Also update the progress bar live if native typing works on this device
+      const homeInput = document.getElementById(`home-${f.id}`);
+      const awayInput = document.getElementById(`away-${f.id}`);
+      if (homeInput) homeInput.addEventListener('input', updateProgressBar);
+      if (awayInput) awayInput.addEventListener('input', updateProgressBar);
     });
 
     document.getElementById('progress-label').textContent = `${predictedCount} of ${fixtures.length} predicted`;
