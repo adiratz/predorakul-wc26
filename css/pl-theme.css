@@ -131,14 +131,62 @@ a:hover { text-decoration: underline; }
 .nav-mobile-toggle { display: none; }
 
 @media (max-width: 720px) {
-  .nav-links { display: none; }
-  .nav-mobile-toggle {
-    display: block;
-    background: none;
-    border: none;
+  .nav-bar {
+    padding: 10px 16px 8px;
+    flex-wrap: wrap;
+    gap: 8px 0;
+  }
+  .nav-logo {
+    font-size: 1.25rem;
+  }
+  .nav-links {
+    display: flex;
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    margin-top: 2px;
+  }
+  .nav-links a {
+    flex: 1;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 6px 2px;
+    border-radius: 6px;
+    color: var(--chalk-dim);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s ease;
+  }
+  .nav-links a:hover {
     color: var(--chalk);
-    font-size: 1.4rem;
-    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-links a.active {
+    color: var(--chalk);
+    background: rgba(154,53,72,0.22);
+    border-bottom: 2px solid var(--claret);
+    font-weight: 600;
+  }
+  .nav-avatar {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 0.76rem;
+    max-width: 170px;
+  }
+  .nav-avatar strong {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+  .account-menu {
+    top: 50px;
+    right: 14px;
   }
 }
 

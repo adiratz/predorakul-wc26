@@ -680,14 +680,33 @@
     }
     currentUser = session.user;
 
-    const { data: profileData } = await sb
-      .from('profiles')
-      .select('display_name')
-      .eq('user_id', currentUser.id)
-      .single();
-    if (profileData && profileData.display_name) {
-      document.getElementById('nav-username').textContent = profileData.display_name;
+    // Show the player's display name in the nav
+    let displayName = currentUser.user_metadata?.display_name 
+      || currentUser.user_metadata?.full_name 
+      || currentUser.user_metadata?.name
+      || (currentUser.email ? currentUser.email.split('@')[0] : 'Player');
+
+    try {
+      const { data: profileData } = await sb
+        .from('profiles')
+        .select('display_name')
+        .eq('user_id', currentUser.id)
+        .maybeSingle();
+
+      if (profileData && profileData.display_name) {
+        displayName = profileData.display_name;
+      } else {
+        await sb.from('profiles').upsert({
+          user_id: currentUser.id,
+          display_name: displayName
+        }, { onConflict: 'user_id' });
+      }
+    } catch (e) {
+      console.warn('Could not fetch profile:', e);
     }
+
+    const navUserEl = document.getElementById('nav-username');
+    if (navUserEl) navUserEl.textContent = displayName;
 
     await Promise.all([loadLeaderboard(), initGameweeks()]);
 

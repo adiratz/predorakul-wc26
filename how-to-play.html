@@ -122,16 +122,37 @@
 
   async function initAvatar() {
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) return;
-    currentUserId = session.user.id;
-    const { data: profileData } = await sb
-      .from('profiles')
-      .select('display_name')
-      .eq('user_id', currentUserId)
-      .single();
-    if (profileData && profileData.display_name) {
-      document.getElementById('nav-username').textContent = profileData.display_name;
+    const avatarBtn = document.getElementById('nav-avatar');
+    if (!session) {
+      if (avatarBtn) {
+        avatarBtn.outerHTML = '<a href="index.html" class="nav-avatar" style="text-decoration:none;">Sign In &rarr;</a>';
+      }
+      return;
     }
+    const user = session.user;
+    currentUserId = user.id;
+
+    let displayName = user.user_metadata?.display_name 
+      || user.user_metadata?.full_name 
+      || user.user_metadata?.name
+      || (user.email ? user.email.split('@')[0] : 'Player');
+
+    try {
+      const { data: profileData } = await sb
+        .from('profiles')
+        .select('display_name')
+        .eq('user_id', currentUserId)
+        .maybeSingle();
+
+      if (profileData && profileData.display_name) {
+        displayName = profileData.display_name;
+      }
+    } catch (e) {
+      console.warn('Profile fetch error:', e);
+    }
+
+    const nameEl = document.getElementById('nav-username');
+    if (nameEl) nameEl.textContent = displayName;
   }
 
   function toggleAccountMenu() {
