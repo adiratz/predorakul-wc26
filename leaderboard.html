@@ -905,14 +905,28 @@
   }
 
   // ── Match Centre ─────────────────────────────────────────
+  // ── Match Centre (Approach A: Show locked/scored matches only) ──
   async function initGameweeks() {
     const { data: mwData } = await sb.from('matches').select('gameweek, kickoff_utc').order('gameweek');
     allGameweeks = [...new Set((mwData || []).map(m => m.gameweek))].sort((a,b) => a - b);
     if (allGameweeks.length === 0) allGameweeks = [1];
 
-    const now = new Date();
-    const upcoming = (mwData || []).find(m => new Date(m.kickoff_utc) > now);
-    currentGw = upcoming ? upcoming.gameweek : allGameweeks[0];
+    // Find the latest scored gameweek
+    const { data: recentResult } = await sb
+      .from('results')
+      .select('matches(gameweek)')
+      .order('entered_at', { ascending: false })
+      .limit(1);
+
+    const latestScoredGw = recentResult?.[0]?.matches?.gameweek;
+
+    if (latestScoredGw && allGameweeks.includes(latestScoredGw)) {
+      currentGw = latestScoredGw;
+    } else {
+      const now = new Date();
+      const upcoming = (mwData || []).find(m => new Date(m.kickoff_utc) > now);
+      currentGw = upcoming ? upcoming.gameweek : allGameweeks[allGameweeks.length - 1];
+    }
   }
 
   function updateGwNavButtons() {
@@ -934,21 +948,24 @@
   async function loadGameweekMatches(gw) {
     updateGwNavButtons();
     const container = document.getElementById('mc-fixtures-container');
-    container.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--chalk-dim);">Loading Matchweek ${gw} fixtures...</div>`;
+    container.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--chalk-dim);"><div class="spinner"></div><div>Loading Matchweek ${gw} fixtures...</div></div>`;
 
-    const { data: matches } = await sb
+    // 1. Fetch all fixtures for this gameweek on demand
+    const { data: allMatches, error: matchErr } = await sb
       .from('matches')
-      .select('id, gameweek, kickoff_utc, is_rivalry, teams_home:home_team_id(name, short_name), teams_away:away_team_id(name, short_name)')
+      .select('id, gameweek, kickoff_utc, is_rivalry, teams_home:home_team_id(id, name, short_code), teams_away:away_team_id(id, name, short_code)')
       .eq('gameweek', gw)
       .order('kickoff_utc');
 
-    if (!matches || matches.length === 0) {
+    if (matchErr || !allMatches || allMatches.length === 0) {
       container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--chalk-dim);">No fixtures found for Matchweek ${gw}.</div>`;
+      document.getElementById('mc-match-count').textContent = '';
       return;
     }
 
-    const matchIds = matches.map(m => m.id);
+    const matchIds = allMatches.map(m => m.id);
 
+    // 2. Fetch results for this gameweek's fixtures
     const { data: results } = await sb
       .from('results')
       .select('match_id, home_score, away_score')
@@ -957,14 +974,38 @@
     const resultMap = {};
     (results || []).forEach(r => resultMap[r.match_id] = r);
 
-    const [{ data: predictions }, { data: scores }] = await Promise.all([
-      sb.from('predictions')
-        .select('user_id, match_id, home_score, away_score, profiles:user_id(display_name, custom_team_name)')
-        .in('match_id', matchIds),
-      sb.from('prediction_scores')
-        .select('user_id, match_id, base_total, final_total, pp_pts, card_type')
-        .in('match_id', matchIds)
+    // 3. Approach A filter: Only show fixtures that have kicked off or have results
+    const now = new Date();
+    const lockedMatches = allMatches.filter(m => 
+      resultMap[m.id] !== undefined || (m.kickoff_utc && now >= new Date(m.kickoff_utc))
+    );
+
+    if (lockedMatches.length === 0) {
+      document.getElementById('mc-match-count').textContent = `0 of ${allMatches.length} matches locked`;
+      container.innerHTML = `
+        <div style="text-align:center;padding:48px 20px;background:var(--board-raised);border:1px solid var(--line);border-radius:14px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">⏳</div>
+          <h3 style="font-family:var(--font-display);font-size:1.25rem;text-transform:uppercase;margin-bottom:6px;">No matches locked yet</h3>
+          <p style="color:var(--chalk-dim);font-size:0.88rem;max-width:440px;margin:0 auto;line-height:1.5;">
+            Match Centre reveals player predictions, tactical cards, and live scores once each match kicks off. Check back when Matchweek ${gw} gets underway!
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    document.getElementById('mc-match-count').textContent = `${lockedMatches.length} of ${allMatches.length} matches locked`;
+
+    // 4. Fetch predictions, scores, and profiles for the locked fixtures safely
+    const lockedMatchIds = lockedMatches.map(m => m.id);
+    const [{ data: predictions }, { data: scores }, { data: profileList }] = await Promise.all([
+      sb.from('predictions').select('user_id, match_id, home_score, away_score').in('match_id', lockedMatchIds),
+      sb.from('prediction_scores').select('user_id, match_id, base_total, final_total, pp_pts, card_type').in('match_id', lockedMatchIds),
+      sb.from('profiles').select('user_id, display_name, custom_team_name')
     ]);
+
+    const profileMap = {};
+    (profileList || []).forEach(p => profileMap[p.user_id] = p);
 
     const predsByMatch = {};
     (predictions || []).forEach(p => {
@@ -977,17 +1018,33 @@
       scoreMap[`${s.user_id}_${s.match_id}`] = s;
     });
 
-    document.getElementById('mc-match-count').textContent = `${matches.length} fixtures in Matchweek ${gw}`;
     container.innerHTML = '';
 
-    matches.forEach(m => {
+    lockedMatches.forEach(m => {
       const result = resultMap[m.id];
       const hasResult = result !== undefined;
       const matchPreds = predsByMatch[m.id] || [];
 
-      matchPreds.sort((a, b) => {
-        const scA = scoreMap[`${a.user_id}_${m.id}`]?.final_total ?? 0;
-        const scB = scoreMap[`${b.user_id}_${m.id}`]?.final_total ?? 0;
+      // Combine userIds from both predictions and prediction_scores
+      const userIds = Array.from(new Set([
+        ...matchPreds.map(p => p.user_id),
+        ...Object.keys(scoreMap).filter(k => k.endsWith(`_${m.id}`)).map(k => k.split(`_${m.id}`)[0])
+      ]));
+
+      const userEntries = userIds.map(uid => {
+        const p = matchPreds.find(pred => pred.user_id === uid);
+        const scoreInfo = scoreMap[`${uid}_${m.id}`];
+        return {
+          user_id: uid,
+          home_score: p ? p.home_score : null,
+          away_score: p ? p.away_score : null,
+          scoreInfo: scoreInfo
+        };
+      });
+
+      userEntries.sort((a, b) => {
+        const scA = a.scoreInfo?.final_total ?? 0;
+        const scB = b.scoreInfo?.final_total ?? 0;
         return scB - scA;
       });
 
@@ -996,31 +1053,38 @@
 
       let scoreDisplay = hasResult
         ? `<div class="mc-result-pill">${result.home_score} - ${result.away_score}</div>`
-        : `<div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--chalk-dim);">${formatKickoff(m.kickoff_utc)}</div>`;
+        : `<div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--chalk-dim);">${formatKickoff(m.kickoff_utc)} &middot; LIVE</div>`;
 
       let predRowsHtml = '';
-      if (matchPreds.length === 0) {
-        predRowsHtml = `<tr><td colspan="4" style="text-align:center;color:var(--chalk-dim);padding:18px;">No predictions submitted for this match yet.</td></tr>`;
+      if (userEntries.length === 0) {
+        predRowsHtml = `<tr><td colspan="4" style="text-align:center;color:var(--chalk-dim);padding:18px;">No predictions submitted for this match.</td></tr>`;
       } else {
-        predRowsHtml = matchPreds.map(p => {
-          const profile = p.profiles || {};
-          const isOwn = p.user_id === currentUser.id;
-          const scoreInfo = scoreMap[`${p.user_id}_${m.id}`];
+        predRowsHtml = userEntries.map(p => {
+          const profile = profileMap[p.user_id] || {};
+          const isOwn = typeof currentUser !== 'undefined' && currentUser ? p.user_id === currentUser.id : false;
+          const scoreInfo = p.scoreInfo;
           const cardType = scoreInfo?.card_type;
           const chip = cardType && CARD_NAMES[cardType] ? CARD_NAMES[cardType] : null;
           const isPerfect = (scoreInfo?.pp_pts || 0) > 0;
 
           let predPillClass = 'wrong';
+          let predScoreText = p.home_score !== null && p.away_score !== null ? `${p.home_score} - ${p.away_score}` : 'Submitted';
+
           if (hasResult) {
             const actualHome = result.home_score;
             const actualAway = result.away_score;
-            if (p.home_score === actualHome && p.away_score === actualAway) {
-              predPillClass = 'exact';
-            } else {
-              const actualDiff = actualHome - actualAway;
-              const predDiff = p.home_score - p.away_score;
-              const sameOutcome = (actualDiff > 0 && predDiff > 0) || (actualDiff < 0 && predDiff < 0) || (actualDiff === 0 && predDiff === 0);
-              if (sameOutcome) predPillClass = 'outcome';
+            if (p.home_score !== null && p.away_score !== null) {
+              if (p.home_score === actualHome && p.away_score === actualAway) {
+                predPillClass = 'exact';
+              } else {
+                const actualDiff = actualHome - actualAway;
+                const predDiff = p.home_score - p.away_score;
+                const sameOutcome = (actualDiff > 0 && predDiff > 0) || (actualDiff < 0 && predDiff < 0) || (actualDiff === 0 && predDiff === 0);
+                if (sameOutcome) predPillClass = 'outcome';
+              }
+            } else if (scoreInfo) {
+              if ((scoreInfo.scoreline_pts || 0) > 0) predPillClass = 'exact';
+              else if ((scoreInfo.outcome_pts || 0) > 0) predPillClass = 'outcome';
             }
           }
 
@@ -1038,7 +1102,7 @@
                 <div style="font-size:0.75rem;color:var(--chalk-dim);">${escapeHtml(profile.custom_team_name || '')}</div>
               </td>
               <td>
-                <span class="pred-pill ${predPillClass}">${p.home_score} - ${p.away_score}</span>
+                <span class="pred-pill ${predPillClass}">${predScoreText}</span>
               </td>
               <td class="hide-mobile">
                 ${chip ? `<span class="chip-tag ${chip.cls}">${chip.icon} ${chip.label}</span>` : ''}
