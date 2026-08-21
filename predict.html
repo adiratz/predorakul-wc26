@@ -53,6 +53,8 @@
   }
 
   .submit-bar {
+    position: sticky;
+    bottom: 0;
     background: var(--board);
     padding: 16px 0;
     margin-top: 20px;
@@ -295,9 +297,6 @@
 </style>
 </head>
 <body>
-  <div style="background:#ff0000; color:#fff; text-align:center; padding:14px; font-size:1.2rem; font-weight:bold; font-family:sans-serif;">
-    🔴 TEST VERSION 3 — if you don't see this red bar, you are looking at a CACHED/OLD file 🔴
-  </div>
   <nav class="nav-bar">
     <div class="nav-logo">PRED<span>ORAKUL</span></div>
     <div class="nav-links">
@@ -346,7 +345,16 @@
 
   </div>
 
-  <!-- Card selection modal TEMPORARILY REMOVED for debugging -->
+  <!-- Card selection modal -->
+  <div class="modal-backdrop hidden" id="card-modal">
+    <div class="modal">
+      <h3>Play a Dugout Card</h3>
+      <div id="modal-card-list"></div>
+      <div class="modal-close-row">
+        <button class="btn secondary" style="flex:1;" onclick="closeCardModal()">Close</button>
+      </div>
+    </div>
+  </div>
 
 <script>
   const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
@@ -434,10 +442,7 @@
 
     await loadCardInventory();
     await loadMatchweek(currentMatchweek);
-    // TEMPORARILY DISABLED for debugging — testing whether the Winner Pick
-    // banner is related to the score input issue. Re-enable once confirmed.
-    // await loadWinnerPick();
-    document.getElementById('winner-pick-banner').style.display = 'none';
+    await loadWinnerPick();
 
     document.getElementById('loading-state').classList.add('hidden');
     document.getElementById('main-state').classList.remove('hidden');
