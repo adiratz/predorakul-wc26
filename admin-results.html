@@ -76,6 +76,25 @@
   }
   .hidden { display: none !important; }
 
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--board-dark); border-radius: 8px; padding: 4px; }
+  .tab-btn {
+    flex: 1; background: none; border: none; color: var(--chalk-dim);
+    padding: 8px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+  }
+  .tab-btn.active { background: var(--claret); color: var(--chalk); }
+
+  .fx-edit-row {
+    background: var(--board-raised); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center;
+    justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  }
+  .fx-edit-names { flex: 1; min-width: 140px; font-size: 0.85rem; }
+  .fx-edit-current { color: var(--chalk-dim); font-size: 0.72rem; margin-top: 2px; }
+  .fx-edit-input {
+    background: var(--board-dark); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--chalk); padding: 8px; font-size: 0.85rem; width: 170px;
+  }
+
 </style>
 </head>
 <body>
@@ -95,12 +114,29 @@
     </div>
 
     <div id="admin-panel" class="hidden">
-      <div class="mw-nav">
-        <button onclick="changeMw(-1)">&larr; Prev</button>
-        <span class="mw-title" id="mw-title">Matchweek 1</span>
-        <button onclick="changeMw(1)">Next &rarr;</button>
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-results-btn" onclick="switchTab('results')">Results</button>
+        <button class="tab-btn" id="tab-fixtures-btn" onclick="switchTab('fixtures')">Fixtures</button>
       </div>
-      <div id="fixtures-list"></div>
+
+      <div id="tab-results">
+        <div class="mw-nav">
+          <button onclick="changeMw(-1)">&larr; Prev</button>
+          <span class="mw-title" id="mw-title">Matchweek 1</span>
+          <button onclick="changeMw(1)">Next &rarr;</button>
+        </div>
+        <div id="fixtures-list"></div>
+      </div>
+
+      <div id="tab-fixtures" class="hidden">
+        <div class="mw-nav">
+          <button onclick="changeMwFx(-1)">&larr; Prev</button>
+          <span class="mw-title" id="mw-title-fx">Matchweek 1</span>
+          <button onclick="changeMwFx(1)">Next &rarr;</button>
+        </div>
+        <p class="sub" style="margin-bottom:14px;">Enter kickoff times in UK local time (as PL publishes them), same format as before: YYYY-MM-DD HH:MM. Converts to UTC automatically.</p>
+        <div id="fixtures-edit-list"></div>
+      </div>
     </div>
   </div>
 
@@ -237,6 +273,143 @@
     const newIdx = idx + delta;
     if (newIdx < 0 || newIdx >= allMws.length) return;
     loadMw(allMws[newIdx]);
+  }
+
+  // ── Fixtures tab (edit kickoff times) ───────────────────
+  let currentMwFx = 1;
+
+  function switchTab(tab) {
+    document.getElementById('tab-results').classList.toggle('hidden', tab !== 'results');
+    document.getElementById('tab-fixtures').classList.toggle('hidden', tab !== 'fixtures');
+    document.getElementById('tab-results-btn').classList.toggle('active', tab === 'results');
+    document.getElementById('tab-fixtures-btn').classList.toggle('active', tab === 'fixtures');
+    if (tab === 'fixtures') {
+      currentMwFx = currentMw;
+      loadMwFixtures(currentMwFx);
+    }
+  }
+
+  function formatUtcForEdit(isoString) {
+    // Turns '2026-09-18T19:00:00+00:00' into '2026-09-18 19:00' for display
+    const d = new Date(isoString);
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
+  }
+
+  // ── UK time → UTC conversion ─────────────────────────────
+  // PL kickoff times are always published in UK local time.
+  // This mirrors the exact BST/GMT boundary logic already used
+  // when the original fixture list was imported — same source
+  // of truth, not a separate/untested conversion.
+  function ukOffsetHours(year, month, day) {
+    // BST 2026: 29 Mar 2026 – 25 Oct 2026
+    // GMT: 25 Oct 2026 – 28 Mar 2027
+    // BST 2027 onward: from 28 Mar 2027
+    const d = new Date(Date.UTC(year, month - 1, day));
+    const bstStart2026 = new Date(Date.UTC(2026, 2, 29));
+    const bstEnd2026   = new Date(Date.UTC(2026, 9, 25));
+    const bstStart2027 = new Date(Date.UTC(2027, 2, 28));
+    if (d >= bstStart2026 && d < bstEnd2026) return 1;
+    if (d >= bstStart2027) return 1;
+    return 0;
+  }
+
+  function ukTimeToUtc(ukLocalString) {
+    // Input: "YYYY-MM-DD HH:MM" interpreted as UK local time.
+    // Returns: ISO string in UTC, e.g. "2026-09-18T18:00:00+00:00"
+    const match = ukLocalString.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/);
+    if (!match) return null;
+    const year = parseInt(match[1]), month = parseInt(match[2]), day = parseInt(match[3]);
+    const hour = parseInt(match[4]), minute = parseInt(match[5]);
+
+    const offset = ukOffsetHours(year, month, day);
+    let utcHour = hour - offset;
+    const pad = n => String(n).padStart(2, '0');
+
+    // Handle hour rolling below 0 (BST midnight-ish kickoffs, rare but safe to cover)
+    let utcDate = new Date(Date.UTC(year, month - 1, day, utcHour, minute));
+    return `${utcDate.getUTCFullYear()}-${pad(utcDate.getUTCMonth()+1)}-${pad(utcDate.getUTCDate())}T${pad(utcDate.getUTCHours())}:${pad(utcDate.getUTCMinutes())}:00+00:00`;
+  }
+
+  function utcToUkTimeDisplay(isoString) {
+    // Inverse of the above — for pre-filling the UK-time input
+    // from a stored UTC value.
+    const d = new Date(isoString);
+    const offset = ukOffsetHours(d.getUTCFullYear(), d.getUTCMonth()+1, d.getUTCDate());
+    const ukDate = new Date(d.getTime() + offset * 3600000);
+    const pad = n => String(n).padStart(2, '0');
+    return `${ukDate.getUTCFullYear()}-${pad(ukDate.getUTCMonth()+1)}-${pad(ukDate.getUTCDate())} ${pad(ukDate.getUTCHours())}:${pad(ukDate.getUTCMinutes())}`;
+  }
+
+  async function loadMwFixtures(mw) {
+    currentMwFx = mw;
+    document.getElementById('mw-title-fx').textContent = `Matchweek ${mw}`;
+
+    const { data: matchData } = await sb
+      .from('matches')
+      .select('id, kickoff_utc, is_rivalry, teams_home:home_team_id(name), teams_away:away_team_id(name)')
+      .eq('gameweek', mw)
+      .order('kickoff_utc');
+
+    const container = document.getElementById('fixtures-edit-list');
+    container.innerHTML = '';
+    (matchData || []).forEach(f => {
+      const row = document.createElement('div');
+      row.className = 'fx-edit-row';
+      row.innerHTML = `
+        <div class="fx-edit-names">
+          ${f.teams_home.name} vs ${f.teams_away.name}${f.is_rivalry ? ' &middot; RIVALRY' : ''}
+          <div class="fx-edit-current">Stored as: ${formatUtcForEdit(f.kickoff_utc)} UTC</div>
+        </div>
+        <div>
+          <input type="text" class="fx-edit-input" id="ko-${f.id}" value="${utcToUkTimeDisplay(f.kickoff_utc)}" oninput="previewUtc(${f.id})">
+          <div class="fx-edit-current" id="ko-preview-${f.id}"></div>
+        </div>
+        <button class="save-btn" onclick="saveKickoff(${f.id})">Save</button>
+        <span class="status" id="ko-status-${f.id}"></span>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  function previewUtc(matchId) {
+    const raw = document.getElementById(`ko-${matchId}`).value.trim();
+    const utc = ukTimeToUtc(raw);
+    const previewEl = document.getElementById(`ko-preview-${matchId}`);
+    previewEl.textContent = utc ? `Will save as: ${formatUtcForEdit(utc)} UTC` : '';
+  }
+
+  async function saveKickoff(matchId) {
+    const raw = document.getElementById(`ko-${matchId}`).value.trim();
+    const valid = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(raw);
+    if (!valid) {
+      alert('Format must be exactly: YYYY-MM-DD HH:MM (e.g. 2026-09-18 20:00), in UK local time.');
+      return;
+    }
+
+    const isoUtc = ukTimeToUtc(raw);
+    const { error } = await sb
+      .from('matches')
+      .update({ kickoff_utc: isoUtc })
+      .eq('id', matchId);
+
+    const statusEl = document.getElementById(`ko-status-${matchId}`);
+    if (error) {
+      statusEl.textContent = 'Error!';
+      statusEl.style.color = 'var(--claret-light)';
+      alert('Could not save: ' + error.message);
+      return;
+    }
+    statusEl.textContent = 'Saved';
+    statusEl.style.color = 'var(--success)';
+    loadMwFixtures(currentMwFx);
+  }
+
+  function changeMwFx(delta) {
+    const idx = allMws.indexOf(currentMwFx);
+    const newIdx = idx + delta;
+    if (newIdx < 0 || newIdx >= allMws.length) return;
+    loadMwFixtures(allMws[newIdx]);
   }
 
   init();
