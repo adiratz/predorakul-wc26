@@ -533,15 +533,124 @@
     letter-spacing: 0.04em;
   }
 
-  .mc-pts-scored {
+  /* ── Match Centre Points Breakdown & Popover ── */
+  .mc-pts-wrap {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    cursor: pointer;
+  }
+  .mc-pts-val {
     font-family: var(--font-mono);
     font-weight: 700;
     font-size: 0.95rem;
-    text-align: right;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.1;
   }
-  .mc-pts-scored.pos { color: var(--success); }
-  .mc-pts-scored.zero { color: var(--chalk-dim); }
-  .mc-pts-scored.neg { color: var(--claret-light); }
+  .mc-pts-val.pos { color: var(--success); }
+  .mc-pts-val.zero { color: var(--chalk-dim); }
+  .mc-pts-val.neg { color: var(--claret-light); }
+
+  .mc-pts-info-btn {
+    font-size: 0.65rem;
+    color: var(--chalk-dim);
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .mc-pts-wrap:hover .mc-pts-info-btn,
+  .mc-pts-wrap.active .mc-pts-info-btn {
+    background: var(--chalk-yellow);
+    color: var(--board-dark);
+    transform: scale(1.1);
+  }
+
+  .mc-pts-sub {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--chalk-dim);
+    margin-top: 3px;
+    white-space: nowrap;
+    opacity: 0.85;
+    letter-spacing: 0.01em;
+  }
+
+  .mc-pts-popover {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 120;
+    background: #14171A;
+    border: 1px solid rgba(237,239,236,0.18);
+    border-radius: 10px;
+    padding: 10px 14px;
+    min-width: 210px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.85);
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    text-align: left;
+  }
+
+  .mc-pts-wrap:hover .mc-pts-popover,
+  .mc-pts-wrap.active .mc-pts-popover {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .popover-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--chalk-dim);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+  }
+  .popover-head .tot {
+    font-weight: 700;
+    color: var(--chalk);
+  }
+
+  .popover-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.76rem;
+    color: var(--chalk-dim);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .popover-item strong {
+    font-family: var(--font-mono);
+    color: var(--chalk);
+    margin-left: 12px;
+  }
+  .popover-item.card-mod {
+    border-top: 1px dashed var(--line);
+    padding-top: 6px;
+    margin-top: 6px;
+    color: var(--chalk-yellow);
+  }
+  .popover-item.card-mod strong {
+    color: var(--chalk-yellow);
+  }
 
   /* ── Footer CTA Banner ── */
   .spec-cta-banner {
@@ -897,6 +1006,83 @@
     }
   }
 
+  function formatPtsBreakdown(scoreInfo) {
+    if (!scoreInfo) {
+      return '<span style="color:var(--chalk-dim);font-size:0.8rem;">—</span>';
+    }
+
+    const val = scoreInfo.final_total ?? 0;
+    const cls = val > 0 ? 'pos' : (val < 0 ? 'neg' : 'zero');
+    const displayVal = `${val > 0 ? '+' : ''}${val} pts`;
+
+    const tiers = [];
+    if ((scoreInfo.outcome_pts || 0) > 0) tiers.push(['Winner / Outcome', `+${scoreInfo.outcome_pts} pts`, `Outcome +${scoreInfo.outcome_pts}`]);
+    if ((scoreInfo.scoreline_pts || 0) > 0) tiers.push(['Exact Scoreline', `+${scoreInfo.scoreline_pts} pts`, `Exact +${scoreInfo.scoreline_pts}`]);
+    if ((scoreInfo.mirror_pts || 0) > 0) tiers.push(['Reversed Scoreline', `+${scoreInfo.mirror_pts} pts`, `Mirror +${scoreInfo.mirror_pts}`]);
+    if ((scoreInfo.gd_pts || 0) > 0) tiers.push(['Goal Margin', `+${scoreInfo.gd_pts} pts`, `Margin +${scoreInfo.gd_pts}`]);
+    if ((scoreInfo.underdog_pts || 0) > 0) tiers.push(['Underdog Bonus', `+${scoreInfo.underdog_pts} pts`, `Underdog +${scoreInfo.underdog_pts}`]);
+    if ((scoreInfo.pp_pts || 0) > 0) tiers.push(['Perfect Prediction', `+${scoreInfo.pp_pts} pts`, `Perfect +${scoreInfo.pp_pts}`]);
+
+    let cardEffect = null;
+    if (scoreInfo.card_type) {
+      const cardMeta = CARD_NAMES[scoreInfo.card_type];
+      const cardLabel = cardMeta ? `${cardMeta.icon} ${cardMeta.label}` : scoreInfo.card_type;
+      const base = scoreInfo.base_total ?? 0;
+      const final = scoreInfo.final_total ?? 0;
+      const diff = final - base;
+
+      if (scoreInfo.card_type === 'banker') {
+        cardEffect = [cardLabel, diff > 0 ? `+${diff} pts (Winner ×2)` : 'No bonus'];
+      } else if (scoreInfo.card_type === 'double_down') {
+        cardEffect = [cardLabel, `×2 (${base} → ${final} pts)`];
+      } else if (scoreInfo.card_type === 'all_in') {
+        cardEffect = [cardLabel, diff >= 0 ? `×3 (${base} → ${final} pts)` : `-3 pts penalty`];
+      } else if (scoreInfo.card_type === 'rivalry_boost') {
+        cardEffect = [cardLabel, `×2 (${base} → ${final} pts)`];
+      } else if (scoreInfo.card_type === 'assistant_manager') {
+        cardEffect = [cardLabel, diff > 0 ? `+${diff} pts` : 'No bonus'];
+      } else {
+        cardEffect = [cardLabel, `${diff >= 0 ? '+' : ''}${diff} pts`];
+      }
+    }
+
+    const subText = tiers.length > 0 
+      ? tiers.map(t => t[2]).join(' &middot; ')
+      : (val === 0 ? '0 pts scored' : '');
+
+    const rowsHtml = tiers.map(t => `
+      <div class="popover-item">
+        <span>${t[0]}</span>
+        <strong>${t[1]}</strong>
+      </div>
+    `).join('');
+
+    const cardHtml = cardEffect ? `
+      <div class="popover-item card-mod">
+        <span>${cardEffect[0]}</span>
+        <strong>${cardEffect[1]}</strong>
+      </div>
+    ` : '';
+
+    return `
+      <div class="mc-pts-wrap" onclick="this.classList.toggle('active'); event.stopPropagation();">
+        <div class="mc-pts-val ${cls}">
+          ${displayVal}
+          <span class="mc-pts-info-btn" title="View points breakdown">ⓘ</span>
+        </div>
+        ${subText ? `<div class="mc-pts-sub">${subText}</div>` : ''}
+        <div class="mc-pts-popover" onclick="event.stopPropagation()">
+          <div class="popover-head">
+            <span>Points Breakdown</span>
+            <span class="tot">${displayVal}</span>
+          </div>
+          ${rowsHtml || '<div class="popover-item"><span>No points this match</span><strong>0 pts</strong></div>'}
+          ${cardHtml}
+        </div>
+      </div>
+    `;
+  }
+
   async function loadGameweekMatches(gw) {
     updateGwNavButtons();
     const container = document.getElementById('mc-fixtures-container');
@@ -952,7 +1138,7 @@
     const lockedMatchIds = lockedMatches.map(m => m.id);
     const [{ data: predictions }, { data: scores }, { data: profileList }] = await Promise.all([
       sb.from('predictions').select('user_id, match_id, home_score, away_score').in('match_id', lockedMatchIds),
-      sb.from('prediction_scores').select('user_id, match_id, base_total, final_total, pp_pts, card_type').in('match_id', lockedMatchIds),
+      sb.from('prediction_scores').select('user_id, match_id, base_total, final_total, outcome_pts, scoreline_pts, mirror_pts, gd_pts, underdog_pts, pp_pts, card_type').in('match_id', lockedMatchIds),
       sb.from('profiles').select('user_id, display_name, custom_team_name')
     ]);
 
@@ -1039,12 +1225,7 @@
             }
           }
 
-          let ptsHtml = '<span style="color:var(--chalk-dim);font-size:0.8rem;">—</span>';
-          if (scoreInfo) {
-            const val = scoreInfo.final_total;
-            const cls = val > 0 ? 'pos' : (val < 0 ? 'neg' : 'zero');
-            ptsHtml = `<span class="mc-pts-scored ${cls}">${val > 0 ? '+' : ''}${val} pts</span>`;
-          }
+          const ptsHtml = formatPtsBreakdown(scoreInfo);
 
           return `
             <tr>
@@ -1059,7 +1240,7 @@
                 ${chip ? `<span class="chip-tag ${chip.cls}">${chip.icon} ${chip.label}</span>` : ''}
                 ${isPerfect ? `<span class="perfect-pill">PERFECT</span>` : ''}
               </td>
-              <td style="text-align:right;">
+              <td style="text-align:right;vertical-align:middle;">
                 ${ptsHtml}
               </td>
             </tr>
@@ -1115,6 +1296,10 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.mc-pts-wrap.active').forEach(el => el.classList.remove('active'));
+  });
 
   init();
 </script>
