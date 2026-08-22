@@ -805,7 +805,7 @@
           const ptsWon = pm.final_total ?? 0;
           rows.push(`
             <div class="card-deployed-detail">
-              &bull; MW${gwNum} vs ${matchTitle} &rarr; <strong>${ptsWon > 0 ? '+' : ''}${ptsWon} pts</strong>
+              &bull; MW${gwNum} | ${matchTitle} &rarr; <strong>${ptsWon > 0 ? '+' : ''}${ptsWon} pts</strong>
             </div>
           `);
         });
@@ -815,7 +815,7 @@
           const gwNum = match ? match.gameweek : '?';
           rows.push(`
             <div class="card-deployed-detail" style="color:var(--chalk-dim);">
-              &bull; MW${gwNum} vs ${matchTitle} (Upcoming)
+              &bull; MW${gwNum} | ${matchTitle} (Upcoming)
             </div>
           `);
         });
