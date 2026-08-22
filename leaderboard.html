@@ -890,6 +890,7 @@
     </div>
     <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">Playing as <strong id="nav-username">...</strong></button>
     <div id="account-menu" class="account-menu hidden">
+      <a href="profile.html">My Dossier &amp; War Chest</a>
       <a href="#" onclick="changeUsername(); return false;">Change Username</a>
       <a href="#" onclick="changeTeam(); return false;">Change Team</a>
       <a href="#" class="danger" onclick="signOut(); return false;">Log Out</a>
@@ -1203,9 +1204,9 @@
 
     podiumEl.innerHTML = `
       ${second ? `
-        <div class="podium-slot second ${isSecondYou ? 'is-you' : ''}">
+        <div class="podium-slot second ${isSecondYou ? 'is-you' : ''}" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${second.user_id}'">
           <div class="podium-avatar">🥈</div>
-          <div class="podium-name">${escapeHtml(second.display_name)}${isSecondYou ? ' (you)' : ''}</div>
+          <div class="podium-name"><a href="profile.html?u=${second.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(second.display_name)}</a>${isSecondYou ? ' (you)' : ''}</div>
           <div class="podium-team">${escapeHtml(second.custom_team_name || 'FC Orakul')}</div>
           <div class="podium-block">
             <div class="podium-pts">${second.total_points}</div>
@@ -1214,9 +1215,9 @@
         </div>
       ` : ''}
 
-      <div class="podium-slot first ${isFirstYou ? 'is-you' : ''}">
+      <div class="podium-slot first ${isFirstYou ? 'is-you' : ''}" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${first.user_id}'">
         <div class="podium-avatar">🥇</div>
-        <div class="podium-name" style="font-weight:700;">${escapeHtml(first.display_name)}${isFirstYou ? ' (you)' : ''}</div>
+        <div class="podium-name" style="font-weight:700;"><a href="profile.html?u=${first.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(first.display_name)}</a>${isFirstYou ? ' (you)' : ''}</div>
         <div class="podium-team">${escapeHtml(first.custom_team_name || 'FC Orakul')}</div>
         <div class="podium-block">
           <div class="podium-pts">${first.total_points}</div>
@@ -1225,9 +1226,9 @@
       </div>
 
       ${third ? `
-        <div class="podium-slot third ${isThirdYou ? 'is-you' : ''}">
+        <div class="podium-slot third ${isThirdYou ? 'is-you' : ''}" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${third.user_id}'">
           <div class="podium-avatar">🥉</div>
-          <div class="podium-name">${escapeHtml(third.display_name)}${isThirdYou ? ' (you)' : ''}</div>
+          <div class="podium-name"><a href="profile.html?u=${third.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(third.display_name)}</a>${isThirdYou ? ' (you)' : ''}</div>
           <div class="podium-team">${escapeHtml(third.custom_team_name || 'FC Orakul')}</div>
           <div class="podium-block">
             <div class="podium-pts">${third.total_points}</div>
@@ -1266,8 +1267,8 @@
       row.className = 'standings-row' + (isOwn ? ' own-row' : '');
       row.innerHTML = `
         <div class="st-rank ${rankClass}">${r.rank}</div>
-        <div class="st-name-wrap">
-          <div class="st-name">${escapeHtml(r.display_name)}${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;font-weight:700;">(you)</span>' : ''}</div>
+        <div class="st-name-wrap" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${r.user_id}'">
+          <div class="st-name"><a href="profile.html?u=${r.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(r.display_name)}</a>${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;font-weight:700;">(you)</span>' : ''}</div>
           <div class="st-team">${escapeHtml(r.custom_team_name || 'FC Orakul')}</div>
         </div>
         <div class="col-bar">
@@ -1574,7 +1575,7 @@
           return `
             <tr class="${isOwn ? 'own-pred-row' : ''}">
               <td>
-                <div style="font-weight:600;color:var(--chalk);">${escapeHtml(profile.display_name || 'Player')}${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;">(you)</span>' : ''}</div>
+                <div style="font-weight:600;color:var(--chalk);"><a href="profile.html?u=${p.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(profile.display_name || 'Player')}</a>${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;">(you)</span>' : ''}</div>
                 <div style="font-size:0.75rem;color:var(--chalk-dim);">${escapeHtml(profile.custom_team_name || '')}</div>
               </td>
               <td>
@@ -1867,7 +1868,7 @@
           return `
             <tr class="${isOwn ? 'own-pred-row' : ''}">
               <td>
-                <div style="font-weight:600;color:var(--chalk);">${escapeHtml(prof.display_name || 'Player')}${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;">(you)</span>' : ''}</div>
+                <div style="font-weight:600;color:var(--chalk);"><a href="profile.html?u=${p.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(prof.display_name || 'Player')}</a>${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;">(you)</span>' : ''}</div>
                 <div style="font-size:0.75rem;color:var(--chalk-dim);">${escapeHtml(prof.custom_team_name || '')}</div>
               </td>
               <td>

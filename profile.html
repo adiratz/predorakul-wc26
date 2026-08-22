@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player Dossier & Tactical War Chest : PredOrakul PL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="css/pl-theme.css">
+<style>
+  .profile-hero {
+    background: linear-gradient(135deg, rgba(154,53,72,0.2) 0%, rgba(35,40,45,0.95) 100%);
+    border: 1px solid rgba(193,84,104,0.3);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .profile-main-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--claret) 0%, var(--claret-dark) 100%);
+    border: 2px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: var(--chalk);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    flex-shrink: 0;
+  }
+  .profile-titles h1 {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--chalk);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .profile-titles h1 span { color: var(--claret-light); }
+  .profile-team-sub {
+    font-size: 0.95rem;
+    color: var(--chalk-dim);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .profile-switcher-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 10px;
+  }
+  .profile-switcher-wrap label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--chalk-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .profile-select {
+    background: transparent;
+    border: none;
+    color: var(--chalk);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+  }
+  .profile-select option {
+    background: var(--board-raised);
+    color: var(--chalk);
+  }
+
+  .profile-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(237,239,236,0.08);
+  }
+  .p-stat-box {
+    background: rgba(19,22,25,0.6);
+    border: 1px solid rgba(237,239,236,0.06);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .p-stat-box .lbl {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--chalk-dim);
+    margin-bottom: 4px;
+  }
+  .p-stat-box .val {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--chalk);
+    line-height: 1;
+  }
+  .p-stat-box .val.gold { color: var(--chalk-yellow); }
+  .p-stat-box .val.claret { color: var(--claret-light); }
+
+  /* ── Champion Selection Card ── */
+  .profile-champ-card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .profile-champ-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .profile-champ-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .profile-champ-meta h4 {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--chalk-dim);
+    margin: 0 0 2px 0;
+  }
+  .profile-champ-meta .team-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--chalk);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .profile-champ-badge {
+    background: rgba(232,212,92,0.1);
+    border: 1px solid rgba(232,212,92,0.3);
+    color: var(--chalk-yellow);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  /* ── War Chest Cards Grid ── */
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--chalk);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title span { color: var(--claret-light); }
+
+  .warchest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 26px;
+  }
+  .card-dossier {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.15s, border-color 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-dossier:hover {
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-2px);
+  }
+  .card-dossier-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .card-dossier-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--chalk);
+  }
+  .card-dossier-desc {
+    font-size: 0.8rem;
+    color: var(--chalk-dim);
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+  .card-status-box {
+    background: var(--board-dark);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .card-status-box.available {
+    border-color: rgba(76,175,125,0.3);
+    color: var(--success);
+    background: rgba(76,175,125,0.08);
+  }
+  .card-status-box.deployed {
+    border-color: rgba(193,84,104,0.35);
+    color: var(--claret-light);
+    background: rgba(154,53,72,0.12);
+  }
+  .card-deployed-detail {
+    font-size: 0.74rem;
+    color: var(--chalk);
+    margin-top: 4px;
+    line-height: 1.35;
+  }
+  .card-deployed-detail strong {
+    color: var(--chalk-yellow);
+  }
+
+  /* ── Match Predictions & Performance Dossier ── */
+  .history-container {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  .history-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .history-table th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--chalk-dim);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .history-table td {
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(237,239,236,0.06);
+    vertical-align: middle;
+  }
+  .history-table tr:last-child td { border-bottom: none; }
+  .history-table .right { text-align: right; }
+
+  .fixture-desc-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .fixture-teams-title {
+    font-weight: 600;
+    color: var(--chalk);
+  }
+  .fixture-time-sub {
+    font-size: 0.74rem;
+    color: var(--chalk-dim);
+  }
+  .rivalry-tag {
+    font-size: 0.68rem;
+    font-family: var(--font-mono);
+    color: var(--chalk-yellow);
+    background: rgba(232,212,92,0.12);
+    border: 1px solid rgba(232,212,92,0.25);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+  }
+  .score-badge {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.92rem;
+    background: var(--board-dark);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    display: inline-block;
+  }
+  .actual-score-tag {
+    font-size: 0.72rem;
+    color: var(--chalk-dim);
+    margin-top: 3px;
+    font-family: var(--font-mono);
+  }
+
+  /* Tooltip breakdown */
+  .mc-pts-wrap {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    cursor: pointer;
+  }
+  .mc-pts-val {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+  }
+  .mc-pts-val.pos { color: var(--success); background: rgba(76,175,125,0.12); border-color: rgba(76,175,125,0.25); }
+  .mc-pts-val.neg { color: var(--error-red); background: rgba(217,76,76,0.12); border-color: rgba(217,76,76,0.25); }
+  .mc-pts-val.zero { color: var(--chalk-dim); background: rgba(255,255,255,0.04); }
+  .mc-pts-info-btn { font-size: 0.7rem; opacity: 0.7; }
+  .mc-pts-popover {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #181c20;
+    border: 1px solid rgba(237,239,236,0.18);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    border-radius: 8px;
+    padding: 10px 14px;
+    z-index: 120;
+    width: max-content;
+    min-width: 200px;
+    display: none;
+    text-align: left;
+  }
+  .mc-pts-wrap:hover .mc-pts-popover, .mc-pts-wrap.active .mc-pts-popover { display: block; }
+  .mc-pts-popover-title {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--chalk-dim);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+  }
+  .mc-pts-popover-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    margin-bottom: 4px;
+    color: var(--chalk);
+  }
+  .mc-pts-popover-row span:last-child {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--success);
+  }
+  .mc-pts-popover-total {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 4px;
+    margin-top: 4px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+  }
+
+  .chip-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+  }
+  .chip-banker { background: rgba(76,175,125,0.15); border-color: rgba(76,175,125,0.3); color: var(--success); }
+  .chip-double_down { background: rgba(232,212,92,0.15); border-color: rgba(232,212,92,0.3); color: var(--chalk-yellow); }
+  .chip-all_in { background: rgba(217,76,76,0.15); border-color: rgba(217,76,76,0.3); color: var(--error-red); }
+  .chip-rivalry_boost { background: rgba(193,84,104,0.15); border-color: rgba(193,84,104,0.3); color: var(--claret-light); }
+  .chip-assistant_manager { background: rgba(64,150,221,0.15); border-color: rgba(64,150,221,0.3); color: #58a6ff; }
+
+  @media (max-width: 640px) {
+    .profile-titles h1 { font-size: 1.8rem; }
+    .profile-avatar { width: 52px; height: 52px; font-size: 1.5rem; }
+    .profile-header-row { flex-direction: column; align-items: flex-start; }
+    .profile-switcher-wrap { width: 100%; justify-content: space-between; }
+    .hide-mobile { display: none; }
+    .mc-pts-popover { min-width: 180px; max-width: calc(100vw - 40px); right: -6px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top Nav Bar -->
+  <nav class="nav-bar">
+    <div class="nav-logo">PRED<span>ORAKUL</span></div>
+    <div class="nav-links">
+      <a href="predict.html">Predict</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="spectate.html">Spectator Hub</a>
+      <a href="how-to-play.html">Rules</a>
+      <a href="about.html">About</a>
+    </div>
+    <button class="nav-avatar" id="nav-avatar" onclick="toggleAccountMenu()">Playing as <strong id="nav-username">...</strong></button>
+    <div id="account-menu" class="account-menu hidden">
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="#" onclick="changeUsername(); return false;">Change Username</a>
+      <a href="#" onclick="changeTeam(); return false;">Change Team</a>
+      <a href="#" class="danger" onclick="signOut(); return false;">Log Out</a>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    
+    <div id="profile-loading" class="loading-box" style="text-align:center;padding:50px 20px;">
+      <div class="spinner"></div>
+      <div>Loading Player Dossier & Tactical War Chest...</div>
+    </div>
+
+    <div id="profile-content" class="hidden">
+      
+      <!-- Profile Hero Header -->
+      <div class="profile-hero">
+        <div class="profile-header-row">
+          <div class="profile-main-info">
+            <div class="profile-avatar" id="p-avatar-initial">?</div>
+            <div class="profile-titles">
+              <h1 id="p-display-name">Player Name</h1>
+              <div class="profile-team-sub">
+                <span id="p-team-name">Team Name</span>
+                <span id="p-you-tag" class="hidden" style="color:var(--chalk-yellow);font-family:var(--font-mono);font-size:0.72rem;background:rgba(232,212,92,0.12);padding:1px 6px;border-radius:4px;">(YOU)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Switch Player Dropdown -->
+          <div class="profile-switcher-wrap">
+            <label for="player-select">Scout Player:</label>
+            <select id="player-select" class="profile-select" onchange="onPlayerSelectChange(this.value)">
+              <option value="">Select player...</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Stats Strip -->
+        <div class="profile-stats-grid">
+          <div class="p-stat-box">
+            <div class="lbl">Table Rank</div>
+            <div class="val gold" id="p-stat-rank">#-</div>
+          </div>
+          <div class="p-stat-box">
+            <div class="lbl">Total Points</div>
+            <div class="val" id="p-stat-total">0 pts</div>
+          </div>
+          <div class="p-stat-box">
+            <div class="lbl">Recent GW Pts</div>
+            <div class="val claret" id="p-stat-delta">+0 pts</div>
+          </div>
+          <div class="p-stat-box">
+            <div class="lbl">Perfect Picks</div>
+            <div class="val" id="p-stat-perfect">0</div>
+          </div>
+          <div class="p-stat-box">
+            <div class="lbl">Cards in Reserve</div>
+            <div class="val gold" id="p-stat-cards-left">5 / 5</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 👑 Title Champion Pick Card -->
+      <div class="profile-champ-card">
+        <div class="profile-champ-left">
+          <div class="profile-champ-icon">🏆</div>
+          <div class="profile-champ-meta">
+            <h4>Title Champion Selection</h4>
+            <div class="team-name" id="p-champ-name">No Selection Made</div>
+          </div>
+        </div>
+        <div class="profile-champ-badge" id="p-champ-status">
+          🔒 +12 pts at season end if correct
+        </div>
+      </div>
+
+      <!-- 🎴 Dugout War Chest: Tactical Card Inventory & Log -->
+      <div class="section-title">
+        🎴 Tactical Dugout <span>War Chest</span>
+      </div>
+      <div class="warchest-grid" id="warchest-grid">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- 📜 Match Predictions & Scoring Dossier -->
+      <div class="history-container">
+        <div class="history-controls">
+          <div class="section-title" style="margin-bottom:0;">
+            📜 Fixture & Scoring <span>Dossier</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <select id="gw-filter-select" class="profile-select" style="background:var(--board-dark);padding:6px 12px;border:1px solid var(--line);border-radius:8px;" onchange="renderHistoryTable()">
+              <option value="all">All Matchweeks</option>
+            </select>
+          </div>
+        </div>
+
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Matchweek & Fixture</th>
+              <th>Prediction</th>
+              <th class="hide-mobile">Card Played</th>
+              <th class="right">Points Scored</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+  const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let currentUser = null;
+  let selectedUserId = null;
+  let allProfiles = [];
+  let leaderboardData = [];
+  let allGameweeks = [];
+  let userPicks = {};
+  let userCardInventory = {};
+  let userHistoryScores = [];
+  let userPredictions = [];
+  let matchesData = {};
+  let resultsData = {};
+
+  const CARD_DEFINITIONS = {
+    banker: { 
+      label: 'The Banker', 
+      icon: '🛡️', 
+      cls: 'chip-banker', 
+      desc: 'Guarantees outcome pts (+3) even if your backed team fails to win.',
+      maxCharges: 1
+    },
+    double_down: { 
+      label: 'Double Down', 
+      icon: '⚡', 
+      cls: 'chip-double_down', 
+      desc: 'Doubles all positive points scored on the fixture (2x multiplier).',
+      maxCharges: 1
+    },
+    all_in: { 
+      label: 'All-In', 
+      icon: '💥', 
+      cls: 'chip-all_in', 
+      desc: 'Triples base points (3x) on correct outcome, but incurs a -3 pt penalty on a miss.',
+      maxCharges: 1
+    },
+    rivalry_boost: { 
+      label: 'Rivalry Boost', 
+      icon: '⚔️', 
+      cls: 'chip-rivalry_boost', 
+      desc: 'Can only be deployed on designated Derby/Rivalry fixtures for bonus points.',
+      maxCharges: 1
+    },
+    assistant_manager: { 
+      label: 'Ass\'t Manager', 
+      icon: '🎯', 
+      cls: 'chip-assistant_manager', 
+      desc: 'Safety net insurance: awards +2 pts if your scoreline guess was off by just 1 goal.',
+      maxCharges: 1
+    }
+  };
+
+  async function init() {
+    const { data: { session } } = await sb.auth.getSession();
+    currentUser = session ? session.user : null;
+
+    if (currentUser) {
+      let displayName = currentUser.user_metadata?.display_name 
+        || currentUser.user_metadata?.full_name 
+        || (currentUser.email ? currentUser.email.split('@')[0] : 'Player');
+      const navUserEl = document.getElementById('nav-username');
+      if (navUserEl) navUserEl.textContent = displayName;
+    } else {
+      const navAvatar = document.getElementById('nav-avatar');
+      if (navAvatar) {
+        navAvatar.textContent = 'Spectator Mode';
+        navAvatar.onclick = () => window.location.href = 'index.html';
+      }
+    }
+
+    // Determine targeted userId from URL query parameter ?u=...
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramUser = urlParams.get('u') || urlParams.get('user') || urlParams.get('id');
+
+    await loadInitialData();
+
+    if (paramUser && allProfiles.some(p => p.user_id === paramUser)) {
+      selectedUserId = paramUser;
+    } else if (currentUser && allProfiles.some(p => p.user_id === currentUser.id)) {
+      selectedUserId = currentUser.id;
+    } else if (allProfiles.length > 0) {
+      selectedUserId = allProfiles[0].user_id;
+    }
+
+    populatePlayerDropdown();
+    if (selectedUserId) {
+      await loadPlayerDossier(selectedUserId);
+    }
+
+    document.getElementById('profile-loading').classList.add('hidden');
+    document.getElementById('profile-content').classList.remove('hidden');
+  }
+
+  async function loadInitialData() {
+    const [{ data: profs }, { data: lb }, { data: matches }, { data: res }] = await Promise.all([
+      sb.from('profiles').select('user_id, display_name, custom_team_name').order('display_name'),
+      sb.from('leaderboard').select('*'),
+      sb.from('matches').select('id, gameweek, kickoff_utc, is_rivalry, teams_home:home_team_id(id, name, short_code, difficulty_rating), teams_away:away_team_id(id, name, short_code, difficulty_rating)').order('kickoff_utc'),
+      sb.from('results').select('*')
+    ]);
+
+    allProfiles = profs || [];
+    leaderboardData = lb || [];
+
+    (matches || []).forEach(m => {
+      matchesData[m.id] = m;
+      if (!allGameweeks.includes(m.gameweek)) allGameweeks.push(m.gameweek);
+    });
+    allGameweeks.sort((a,b) => a - b);
+
+    (res || []).forEach(r => resultsData[r.match_id] = r);
+
+    // Populate Matchweek filter
+    const gwSelect = document.getElementById('gw-filter-select');
+    gwSelect.innerHTML = '<option value="all">All Matchweeks</option>' + 
+      allGameweeks.map(gw => `<option value="${gw}">Matchweek ${gw}</option>`).join('');
+  }
+
+  function populatePlayerDropdown() {
+    const select = document.getElementById('player-select');
+    select.innerHTML = allProfiles.map(p => 
+      `<option value="${p.user_id}" ${p.user_id === selectedUserId ? 'selected' : ''}>${escapeHtml(p.display_name || 'Player')}${p.user_id === (currentUser?.id) ? ' (You)' : ''}</option>`
+    ).join('');
+  }
+
+  async function onPlayerSelectChange(userId) {
+    if (!userId) return;
+    selectedUserId = userId;
+    // Update URL query parameter without full reload
+    const newUrl = `${window.location.pathname}?u=${userId}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+    await loadPlayerDossier(userId);
+  }
+
+  async function loadPlayerDossier(userId) {
+    const prof = allProfiles.find(p => p.user_id === userId) || {};
+    const lbRow = leaderboardData.find(l => l.user_id === userId) || { total_points: 0 };
+
+    // Fetch user champion pick, card inventory, prediction scores, and predictions
+    const [{ data: champPick }, { data: cardInv }, { data: scoreRows }, { data: predRows }] = await Promise.all([
+      sb.from('winner_picks').select('team_id, teams:team_id(id, name, short_code, difficulty_rating)').eq('user_id', userId).maybeSingle(),
+      sb.from('card_inventory').select('card_type, charges_remaining').eq('user_id', userId),
+      sb.from('prediction_scores').select('*').eq('user_id', userId),
+      sb.from('predictions').select('*').eq('user_id', userId)
+    ]);
+
+    userPicks[userId] = champPick;
+    userCardInventory[userId] = {};
+    (cardInv || []).forEach(c => userCardInventory[userId][c.card_type] = c.charges_remaining);
+
+    userHistoryScores = scoreRows || [];
+    userPredictions = predRows || [];
+
+    // 1. Render Header Info
+    const displayName = prof.display_name || 'Player';
+    document.getElementById('p-display-name').textContent = displayName;
+    document.getElementById('p-team-name').textContent = prof.custom_team_name || 'PredOrakul Contender';
+    document.getElementById('p-avatar-initial').textContent = displayName.charAt(0).toUpperCase();
+
+    const isYou = currentUser && currentUser.id === userId;
+    document.getElementById('p-you-tag').classList.toggle('hidden', !isYou);
+
+    // Calculate Rank
+    const sortedLb = [...leaderboardData].sort((a, b) => b.total_points - a.total_points);
+    const rankIdx = sortedLb.findIndex(r => r.user_id === userId);
+    const rankDisplay = rankIdx >= 0 ? `#${rankIdx + 1}` : '#-';
+    document.getElementById('p-stat-rank').textContent = rankDisplay;
+    document.getElementById('p-stat-total').textContent = `${lbRow.total_points || 0} pts`;
+
+    // Perfect picks count
+    const perfectCount = userHistoryScores.filter(s => (s.pp_pts || 0) > 0).length;
+    document.getElementById('p-stat-perfect').textContent = perfectCount;
+
+    // Recent delta
+    const recentGw = allGameweeks[allGameweeks.length - 1];
+    const recentGwPts = userHistoryScores
+      .filter(s => matchesData[s.match_id]?.gameweek === recentGw)
+      .reduce((sum, s) => sum + (s.final_total || 0), 0);
+    document.getElementById('p-stat-delta').textContent = `+${recentGwPts} pts`;
+
+    // 2. Render Champion Pick
+    const champNameEl = document.getElementById('p-champ-name');
+    const champStatusEl = document.getElementById('p-champ-status');
+    if (champPick && champPick.teams) {
+      const diffStars = '★'.repeat(champPick.teams.difficulty_rating || 3);
+      champNameEl.innerHTML = `${escapeHtml(champPick.teams.name)} <span style="font-size:0.9rem;color:var(--chalk-yellow);letter-spacing:1px;">${diffStars}</span>`;
+      champStatusEl.textContent = '🔒 Locked for Season · +12 pts if correct';
+    } else {
+      champNameEl.textContent = 'No Pick Recorded';
+      champStatusEl.textContent = 'Did not lock in a title pick';
+    }
+
+    // 3. Render War Chest
+    renderWarChest(userId);
+
+    // 4. Render Match History Table
+    renderHistoryTable();
+  }
+
+  function renderWarChest(userId) {
+    const container = document.getElementById('warchest-grid');
+    const inv = userCardInventory[userId] || {};
+
+    let totalCardsRemaining = 0;
+
+    const cardsHtml = Object.keys(CARD_DEFINITIONS).map(cardKey => {
+      const def = CARD_DEFINITIONS[cardKey];
+      const remaining = inv[cardKey] !== undefined ? inv[cardKey] : 1;
+      totalCardsRemaining += remaining;
+
+      // Check if and where this card was played in history
+      const playedMatch = userHistoryScores.find(s => s.card_type === cardKey);
+      const playedPred = userPredictions.find(p => p.card_type === cardKey);
+
+      let statusHtml = '';
+      if (remaining > 0) {
+        statusHtml = `
+          <div class="card-status-box available">
+            🟢 Ready in Reserve (${remaining} charge left)
+          </div>
+        `;
+      } else if (playedMatch) {
+        const match = matchesData[playedMatch.match_id];
+        const matchTitle = match ? `${match.teams_home.name} vs ${match.teams_away.name}` : 'Fixture';
+        const gwNum = match ? match.gameweek : '?';
+        const ptsWon = playedMatch.final_total ?? 0;
+        statusHtml = `
+          <div class="card-status-box deployed">
+            ⚔️ Deployed in MW${gwNum}
+            <div class="card-deployed-detail">
+              vs ${matchTitle} &rarr; <strong>${ptsWon > 0 ? '+' : ''}${ptsWon} pts</strong>
+            </div>
+          </div>
+        `;
+      } else if (playedPred) {
+        const match = matchesData[playedPred.match_id];
+        const gwNum = match ? match.gameweek : '?';
+        statusHtml = `
+          <div class="card-status-box deployed">
+            ⏳ Locked for MW${gwNum} (Fixture upcoming)
+          </div>
+        `;
+      } else {
+        statusHtml = `
+          <div class="card-status-box" style="color:var(--chalk-dim);">
+            🔒 0 charges remaining
+          </div>
+        `;
+      }
+
+      return `
+        <div class="card-dossier">
+          <div class="card-dossier-top">
+            <div class="card-dossier-title">
+              <span>${def.icon}</span> ${def.label}
+            </div>
+          </div>
+          <div class="card-dossier-desc">
+            ${def.desc}
+          </div>
+          ${statusHtml}
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = cardsHtml;
+    document.getElementById('p-stat-cards-left').textContent = `${totalCardsRemaining} / 5`;
+  }
+
+  function renderHistoryTable() {
+    const tbody = document.getElementById('history-tbody');
+    const gwFilter = document.getElementById('gw-filter-select').value;
+
+    const predMap = {};
+    userPredictions.forEach(p => predMap[p.match_id] = p);
+
+    const scoreMap = {};
+    userHistoryScores.forEach(s => scoreMap[s.match_id] = s);
+
+    // Collect all match IDs where user predicted or has a score
+    const matchIds = Array.from(new Set([
+      ...userPredictions.map(p => p.match_id),
+      ...userHistoryScores.map(s => s.match_id)
+    ]));
+
+    let filteredMatches = matchIds.map(id => matchesData[id]).filter(Boolean);
+
+    if (gwFilter !== 'all') {
+      const gwNum = parseInt(gwFilter);
+      filteredMatches = filteredMatches.filter(m => m.gameweek === gwNum);
+    }
+
+    filteredMatches.sort((a, b) => new Date(b.kickoff_utc) - new Date(a.kickoff_utc));
+
+    if (filteredMatches.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--chalk-dim);">No match predictions recorded for this selection.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filteredMatches.map(m => {
+      const pred = predMap[m.id];
+      const score = scoreMap[m.id];
+      const result = resultsData[m.id];
+
+      const homeName = m.teams_home ? m.teams_home.name : 'Home';
+      const awayName = m.teams_away ? m.teams_away.name : 'Away';
+      const isRivalry = m.is_rivalry;
+
+      const predDisplay = pred && pred.home_score !== null ? `${pred.home_score} - ${pred.away_score}` : '—';
+      const actualDisplay = result ? `${result.home_score} - ${result.away_score}` : 'Upcoming';
+
+      // Card played
+      const cardType = score?.card_type || pred?.card_type;
+      const cardDef = cardType ? CARD_DEFINITIONS[cardType] : null;
+      const cardPill = cardDef ? `<span class="chip-tag ${cardDef.cls}">${cardDef.icon} ${cardDef.label}</span>` : '<span style="color:var(--chalk-dim);font-size:0.75rem;">—</span>';
+
+      // Points & breakdown popover
+      const ptsHtml = formatPtsBreakdown(score, pred, result);
+
+      return `
+        <tr>
+          <td>
+            <div class="fixture-desc-wrap">
+              <div class="fixture-teams-title">
+                <strong>${escapeHtml(homeName)} vs ${escapeHtml(awayName)}</strong>
+                ${isRivalry ? '<span class="rivalry-tag">⚔️ RIVALRY</span>' : ''}
+              </div>
+              <div class="fixture-time-sub">MW${m.gameweek} &middot; ${formatKickoff(m.kickoff_utc)}</div>
+            </div>
+          </td>
+          <td>
+            <span class="score-badge">${predDisplay}</span>
+            <div class="actual-score-tag">Actual: <strong>${actualDisplay}</strong></div>
+          </td>
+          <td class="hide-mobile">
+            ${cardPill}
+          </td>
+          <td class="right">
+            ${ptsHtml}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function formatPtsBreakdown(scoreInfo, pred, actualResult) {
+    if (!scoreInfo) {
+      return '<span style="color:var(--chalk-dim);font-size:0.8rem;">—</span>';
+    }
+
+    const val = scoreInfo.final_total ?? 0;
+    const cls = val > 0 ? 'pos' : (val < 0 ? 'neg' : 'zero');
+    const displayVal = `${val > 0 ? '+' : ''}${val} pts`;
+
+    // Differentiate between Exact Margin and Partial Margin (Near-Miss)
+    let isPartialMargin = false;
+    if ((scoreInfo.gd_pts || 0) > 0) {
+      if (pred && actualResult && pred.home_score !== null && pred.away_score !== null && actualResult.home_score !== null && actualResult.away_score !== null) {
+        const predDiff = Math.abs(pred.home_score - pred.away_score);
+        const actualDiff = Math.abs(actualResult.home_score - actualResult.away_score);
+        if (predDiff !== actualDiff) {
+          isPartialMargin = true;
+        }
+      } else if (actualResult && actualResult.home_score !== null && actualResult.away_score !== null) {
+        const actualDiff = Math.abs(actualResult.home_score - actualResult.away_score);
+        const exactForDiff = Math.min(4, actualDiff);
+        if (scoreInfo.gd_pts < exactForDiff && actualDiff >= 2) {
+          isPartialMargin = true;
+        }
+      }
+    }
+
+    const tiers = [];
+    if ((scoreInfo.outcome_pts || 0) > 0) tiers.push(['Winner / Outcome', `+${scoreInfo.outcome_pts} pts`]);
+    if ((scoreInfo.scoreline_pts || 0) > 0) tiers.push(['Exact Scoreline', `+${scoreInfo.scoreline_pts} pts`]);
+    if ((scoreInfo.mirror_pts || 0) > 0) tiers.push(['Reversed Scoreline', `+${scoreInfo.mirror_pts} pts`]);
+    if ((scoreInfo.gd_pts || 0) > 0) {
+      const marginLabel = isPartialMargin ? 'Partial Margin (Near-Miss)' : 'Exact Goal Margin';
+      tiers.push([marginLabel, `+${scoreInfo.gd_pts} pts`]);
+    }
+    if ((scoreInfo.underdog_pts || 0) > 0) tiers.push(['Underdog Bonus', `+${scoreInfo.underdog_pts} pts`]);
+    if ((scoreInfo.pp_pts || 0) > 0) tiers.push(['Perfect Prediction (PP)', `+${scoreInfo.pp_pts} pts`]);
+
+    let cardExtra = '';
+    if (scoreInfo.card_type) {
+      const cardDef = CARD_DEFINITIONS[scoreInfo.card_type];
+      const cardName = cardDef ? `${cardDef.icon} ${cardDef.label}` : scoreInfo.card_type;
+      cardExtra = `
+        <div class="mc-pts-popover-row" style="color:var(--chalk-yellow);border-top:1px solid rgba(255,255,255,0.08);padding-top:4px;margin-top:4px;">
+          <span>${cardName} (Applied)</span>
+          <span>${val} pts total</span>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="mc-pts-wrap" onclick="event.stopPropagation(); this.classList.toggle('active');">
+        <span class="mc-pts-val ${cls}">
+          ${displayVal} <span class="mc-pts-info-btn">ⓘ</span>
+        </span>
+        <div class="mc-pts-popover">
+          <div class="mc-pts-popover-title">Scoring Breakdown</div>
+          ${tiers.map(([lbl, pts]) => `
+            <div class="mc-pts-popover-row">
+              <span>${lbl}</span>
+              <span>${pts}</span>
+            </div>
+          `).join('')}
+          ${cardExtra}
+          <div class="mc-pts-popover-total">
+            <span>Match Total</span>
+            <span style="color:${val >= 0 ? 'var(--success)' : 'var(--error-red)'};font-family:var(--font-mono);">${displayVal}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function formatKickoff(utcString) {
+    if (!utcString) return 'TBD';
+    const d = new Date(utcString);
+    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function toggleAccountMenu() {
+    const menu = document.getElementById('account-menu');
+    menu.classList.toggle('hidden');
+  }
+
+  async function signOut() {
+    await sb.auth.signOut();
+    window.location.href = 'index.html';
+  }
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.mc-pts-wrap.active').forEach(el => el.classList.remove('active'));
+    const menu = document.getElementById('account-menu');
+    if (menu && !menu.classList.contains('hidden')) {
+      menu.classList.add('hidden');
+    }
+  });
+
+  init();
+</script>
+</body>
+</html>

@@ -1166,9 +1166,9 @@
 
     podiumEl.innerHTML = `
       ${second ? `
-        <div class="podium-slot second">
+        <div class="podium-slot second" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${second.user_id}'">
           <div class="podium-avatar">🥈</div>
-          <div class="podium-name">${escapeHtml(second.display_name)}</div>
+          <div class="podium-name"><a href="profile.html?u=${second.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(second.display_name)}</a></div>
           <div class="podium-team">${escapeHtml(second.custom_team_name || 'FC Orakul')}</div>
           <div class="podium-block">
             <div class="podium-pts">${second.total_points}</div>
@@ -1177,9 +1177,9 @@
         </div>
       ` : ''}
 
-      <div class="podium-slot first">
+      <div class="podium-slot first" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${first.user_id}'">
         <div class="podium-avatar">🥇</div>
-        <div class="podium-name" style="font-weight:700;">${escapeHtml(first.display_name)}</div>
+        <div class="podium-name" style="font-weight:700;"><a href="profile.html?u=${first.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(first.display_name)}</a></div>
         <div class="podium-team">${escapeHtml(first.custom_team_name || 'FC Orakul')}</div>
         <div class="podium-block">
           <div class="podium-pts">${first.total_points}</div>
@@ -1188,9 +1188,9 @@
       </div>
 
       ${third ? `
-        <div class="podium-slot third">
+        <div class="podium-slot third" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${third.user_id}'">
           <div class="podium-avatar">🥉</div>
-          <div class="podium-name">${escapeHtml(third.display_name)}</div>
+          <div class="podium-name"><a href="profile.html?u=${third.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(third.display_name)}</a></div>
           <div class="podium-team">${escapeHtml(third.custom_team_name || 'FC Orakul')}</div>
           <div class="podium-block">
             <div class="podium-pts">${third.total_points}</div>
@@ -1228,8 +1228,8 @@
       row.className = 'standings-row';
       row.innerHTML = `
         <div class="st-rank ${rankClass}">${r.rank}</div>
-        <div class="st-name-wrap">
-          <div class="st-name">${escapeHtml(r.display_name)}</div>
+        <div class="st-name-wrap" style="cursor:pointer;" onclick="window.location.href='profile.html?u=${r.user_id}'">
+          <div class="st-name"><a href="profile.html?u=${r.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(r.display_name)}</a></div>
           <div class="st-team">${escapeHtml(r.custom_team_name || 'FC Orakul')}</div>
         </div>
         <div class="col-bar">
@@ -1535,7 +1535,7 @@
           return `
             <tr>
               <td>
-                <div style="font-weight:600;color:var(--chalk);">${escapeHtml(profile.display_name || 'Player')}</div>
+                <div style="font-weight:600;color:var(--chalk);"><a href="profile.html?u=${p.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(profile.display_name || 'Player')}</a></div>
                 <div style="font-size:0.75rem;color:var(--chalk-dim);">${escapeHtml(profile.custom_team_name || '')}</div>
               </td>
               <td>
@@ -1728,7 +1728,7 @@
           return `
             <tr>
               <td>
-                <div style="font-weight:600;color:var(--chalk);">${escapeHtml(prof.display_name || 'Player')}</div>
+                <div style="font-weight:600;color:var(--chalk);"><a href="profile.html?u=${p.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(prof.display_name || 'Player')}</a></div>
                 <div style="font-size:0.75rem;color:var(--chalk-dim);">${escapeHtml(prof.custom_team_name || '')}</div>
               </td>
               <td>
