@@ -1681,11 +1681,6 @@
           <div class="val">${darkHorse ? escapeHtml(darkHorse.team.name) : (sortedTeams[1] ? escapeHtml(sortedTeams[1].team.name) : 'None yet')}</div>
           <div class="sub">${darkHorse ? `Rated ${darkHorse.team.difficulty_rating}/5 (${darkHorse.count} pick${darkHorse.count === 1 ? '' : 's'})` : 'No outsider picked yet'}</div>
         </div>
-        <div class="champ-stat-card">
-          <div class="eyebrow">🏆 The Grand Prize</div>
-          <div class="val">+12 <span style="font-size:0.95rem;font-weight:400;color:var(--chalk-dim);">pts</span></div>
-          <div class="sub">Awarded to correct picks at season end</div>
-        </div>
       `;
 
       // Render Total picks label
