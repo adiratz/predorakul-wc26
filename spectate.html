@@ -715,6 +715,192 @@
     font-size: 0.9rem;
   }
 
+  /* ── Champion Picks Tab Styles ── */
+  .champ-hero-banner {
+    background: linear-gradient(135deg, rgba(154,53,72,0.18) 0%, rgba(232,212,92,0.08) 100%);
+    border: 1px solid rgba(193,84,104,0.3);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .champ-hero-text h3 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    color: var(--chalk);
+    margin: 0 0 4px 0;
+  }
+  .champ-hero-text h3 span { color: var(--chalk-yellow); }
+  .champ-hero-text p {
+    color: var(--chalk-dim);
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.45;
+  }
+  .champ-deadline-badge {
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--chalk-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .champ-deadline-badge.locked {
+    color: var(--success);
+    border-color: rgba(76,175,125,0.35);
+    background: rgba(76,175,125,0.1);
+  }
+
+  .champ-insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .champ-stat-card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .champ-stat-card .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--chalk-dim);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .champ-stat-card .val {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.45rem;
+    color: var(--chalk);
+    line-height: 1.1;
+  }
+  .champ-stat-card .val.gold { color: var(--chalk-yellow); }
+  .champ-stat-card .sub {
+    font-size: 0.76rem;
+    color: var(--chalk-dim);
+    margin-top: 4px;
+  }
+
+  .champ-dist-card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 22px;
+  }
+  .champ-dist-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .champ-bar-row {
+    margin-bottom: 14px;
+  }
+  .champ-bar-row:last-child { margin-bottom: 0; }
+  .champ-bar-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.86rem;
+    margin-bottom: 6px;
+  }
+  .champ-bar-meta .team-name {
+    font-weight: 600;
+    color: var(--chalk);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .champ-bar-meta .team-stats {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--chalk-dim);
+  }
+  .champ-bar-meta .team-stats strong {
+    color: var(--chalk-yellow);
+    font-size: 0.88rem;
+  }
+  .champ-bar-track {
+    height: 10px;
+    background: var(--board-dark);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .champ-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--claret) 0%, var(--claret-light) 100%);
+    border-radius: 5px;
+    transition: width 0.6s ease;
+  }
+  .champ-bar-fill.leader {
+    background: linear-gradient(90deg, #d4af37 0%, #f7df6e 100%);
+  }
+
+  .champ-table-card {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .champ-pick-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: var(--chalk);
+    font-size: 0.88rem;
+  }
+  .diff-stars {
+    color: var(--chalk-yellow);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+  }
+  .champ-status-pill {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(76,175,125,0.15);
+    border: 1px solid rgba(76,175,125,0.3);
+    color: var(--success);
+  }
+  .champ-status-pill.pending {
+    background: rgba(232,212,92,0.12);
+    border-color: rgba(232,212,92,0.3);
+    color: var(--chalk-yellow);
+  }
+
   @media (max-width: 640px) {
     .spec-title { font-size: 2.1rem; }
     .col-bar { display: none; }
@@ -743,8 +929,9 @@
   <nav class="nav-bar">
     <div class="nav-logo">PRED<span>ORAKUL</span></div>
     <div class="nav-links">
-      <a href="#" class="active" onclick="switchSpecTab('leaderboard'); return false;">Standings</a>
-      <a href="#" onclick="switchSpecTab('matches'); return false;">Match Centre</a>
+      <a href="#" id="spec-nav-standings" class="active" onclick="switchSpecTab('leaderboard'); return false;">Standings</a>
+      <a href="#" id="spec-nav-matches" onclick="switchSpecTab('matches'); return false;">Match Centre</a>
+      <a href="#" id="spec-nav-champions" onclick="switchSpecTab('champions'); return false;">Champion Picks</a>
       <a href="how-to-play.html">Rules</a>
       <a href="about.html">About</a>
     </div>
@@ -770,6 +957,9 @@
       </button>
       <button class="spec-tab-btn" id="tab-btn-matches" onclick="switchSpecTab('matches')">
         📊 Match Centre
+      </button>
+      <button class="spec-tab-btn" id="tab-btn-champions" onclick="switchSpecTab('champions')">
+        👑 Champion Picks
       </button>
     </div>
 
@@ -811,6 +1001,57 @@
       </div>
 
       <div id="mc-fixtures-container"></div>
+    </div>
+
+    <!-- Champion Picks View -->
+    <div id="spec-view-champions" class="hidden">
+      <div class="champ-hero-banner">
+        <div class="champ-hero-text">
+          <h3>🏆 Premier League <span>Title Picks</span></h3>
+          <p>Every player's locked champion pick for the 2026/27 season. Correct calls score a massive <strong>+12 points</strong> when the trophy is lifted.</p>
+        </div>
+        <div class="champ-deadline-badge locked" id="champ-lock-status">
+          <span>🔒 Locked for Season</span>
+        </div>
+      </div>
+
+      <div id="champ-loading" class="loading-box" style="text-align:center;padding:40px 20px;color:var(--chalk-dim);">
+        <div class="spinner"></div>
+        <div>Loading Champion picks & community insights...</div>
+      </div>
+
+      <div id="champ-content" class="hidden">
+        <!-- Insights stats grid -->
+        <div class="champ-insights-grid" id="champ-insights-grid"></div>
+
+        <!-- Consensus & Distribution progress bars -->
+        <div class="champ-dist-card">
+          <div class="champ-dist-title">
+            <span>📊 Community Title Vote Share</span>
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--chalk-dim);font-weight:400;" id="champ-total-picks-label">0 picks recorded</span>
+          </div>
+          <div id="champ-distribution-bars"></div>
+        </div>
+
+        <!-- Player Picks Table -->
+        <div class="champ-table-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+            <h3 style="font-family:var(--font-display);font-size:1.1rem;text-transform:uppercase;margin:0;">All Player Champion Selections</h3>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--chalk-yellow);background:rgba(232,212,92,0.1);padding:3px 8px;border-radius:4px;border:1px solid rgba(232,212,92,0.25);">+12 PTS AT SEASON END</span>
+          </div>
+          <table class="mc-pred-table">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Champion Selection</th>
+                <th class="hide-mobile">Difficulty</th>
+                <th class="right">Status</th>
+              </tr>
+            </thead>
+            <tbody id="champ-player-rows"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- Join CTA Banner -->
@@ -858,11 +1099,23 @@
     currentTab = tab;
     document.getElementById('spec-view-leaderboard').classList.toggle('hidden', tab !== 'leaderboard');
     document.getElementById('spec-view-matches').classList.toggle('hidden', tab !== 'matches');
+    document.getElementById('spec-view-champions').classList.toggle('hidden', tab !== 'champions');
     document.getElementById('tab-btn-leaderboard').classList.toggle('active', tab === 'leaderboard');
     document.getElementById('tab-btn-matches').classList.toggle('active', tab === 'matches');
+    document.getElementById('tab-btn-champions').classList.toggle('active', tab === 'champions');
+
+    const navStandings = document.getElementById('spec-nav-standings');
+    const navMatches = document.getElementById('spec-nav-matches');
+    const navChampions = document.getElementById('spec-nav-champions');
+    if (navStandings) navStandings.classList.toggle('active', tab === 'leaderboard');
+    if (navMatches) navMatches.classList.toggle('active', tab === 'matches');
+    if (navChampions) navChampions.classList.toggle('active', tab === 'champions');
 
     if (tab === 'matches') {
       loadGameweekMatches(currentGw);
+    }
+    if (tab === 'champions') {
+      loadChampionPicks();
     }
   }
 
@@ -1332,6 +1585,180 @@
 
       container.appendChild(card);
     });
+  }
+
+  // ── Champion Picks & Community Insights ──────────────────
+  let champPicksLoaded = false;
+
+  async function loadChampionPicks() {
+    const loadingEl = document.getElementById('champ-loading');
+    const contentEl = document.getElementById('champ-content');
+    loadingEl.classList.remove('hidden');
+    contentEl.classList.add('hidden');
+
+    try {
+      // 1. Fetch deadline info from Gameweek 1 matches
+      const { data: gw1Data } = await sb
+        .from('matches')
+        .select('kickoff_utc')
+        .eq('gameweek', 1)
+        .order('kickoff_utc', { ascending: false })
+        .limit(1);
+
+      const gw1LastKickoff = gw1Data && gw1Data[0] ? new Date(gw1Data[0].kickoff_utc) : null;
+      const deadline = gw1LastKickoff ? new Date(gw1LastKickoff.getTime() - 60 * 60 * 1000) : null;
+      const isLocked = deadline ? (new Date() >= deadline) : true;
+
+      // Update badge
+      const statusBadge = document.getElementById('champ-lock-status');
+      if (statusBadge) {
+        if (isLocked) {
+          statusBadge.className = 'champ-deadline-badge locked';
+          statusBadge.innerHTML = '<span>🔒 Locked for Season</span>';
+        } else {
+          statusBadge.className = 'champ-deadline-badge';
+          statusBadge.innerHTML = '<span>⏳ Editable until MW1 kickoff</span>';
+        }
+      }
+
+      // 2. Fetch all profiles and winner_picks
+      const [{ data: profiles }, { data: picks }] = await Promise.all([
+        sb.from('profiles').select('user_id, display_name, custom_team_name'),
+        sb.from('winner_picks').select('user_id, team_id, updated_at, teams:team_id(id, name, short_code, difficulty_rating)')
+      ]);
+
+      const profileMap = {};
+      (profiles || []).forEach(p => profileMap[p.user_id] = p);
+
+      const pickList = picks || [];
+      const totalPlayers = (profiles || []).length;
+      const totalPicks = pickList.length;
+
+      // Calculate vote counts per team
+      const teamCounts = {};
+      const teamMeta = {};
+      pickList.forEach(p => {
+        if (!p.teams) return;
+        const tid = p.teams.id;
+        teamCounts[tid] = (teamCounts[tid] || 0) + 1;
+        teamMeta[tid] = p.teams;
+      });
+
+      const sortedTeams = Object.keys(teamCounts)
+        .map(tid => ({
+          team: teamMeta[tid],
+          count: teamCounts[tid],
+          pct: totalPicks > 0 ? Math.round((teamCounts[tid] / totalPicks) * 100) : 0
+        }))
+        .sort((a, b) => b.count - a.count || a.team.name.localeCompare(b.team.name));
+
+      const favourite = sortedTeams[0] || null;
+      
+      // Find dark horse pick (lowest difficulty rating picked)
+      let darkHorse = null;
+      if (sortedTeams.length > 0) {
+        const sortedByDiff = [...sortedTeams].sort((a, b) => (a.team.difficulty_rating || 3) - (b.team.difficulty_rating || 3));
+        if (sortedByDiff[0] && (sortedByDiff[0].team.difficulty_rating || 3) <= 3) {
+          darkHorse = sortedByDiff[0];
+        }
+      }
+
+      // Render Insight Cards
+      const insightsGrid = document.getElementById('champ-insights-grid');
+      insightsGrid.innerHTML = `
+        <div class="champ-stat-card">
+          <div class="eyebrow">👑 Consensus Favourite</div>
+          <div class="val gold">${favourite ? escapeHtml(favourite.team.name) : 'TBD'}</div>
+          <div class="sub">${favourite ? `Backed by <strong>${favourite.pct}%</strong> of players (${favourite.count} pick${favourite.count === 1 ? '' : 's'})` : 'No picks yet'}</div>
+        </div>
+        <div class="champ-stat-card">
+          <div class="eyebrow">⚔️ Title Contenders</div>
+          <div class="val">${sortedTeams.length} <span style="font-size:0.95rem;font-weight:400;color:var(--chalk-dim);">teams</span></div>
+          <div class="sub">Backed across the league</div>
+        </div>
+        <div class="champ-stat-card">
+          <div class="eyebrow">🎲 Boldest Dark Horse</div>
+          <div class="val">${darkHorse ? escapeHtml(darkHorse.team.name) : (sortedTeams[1] ? escapeHtml(sortedTeams[1].team.name) : 'None yet')}</div>
+          <div class="sub">${darkHorse ? `Rated ${darkHorse.team.difficulty_rating}/5 (${darkHorse.count} pick${darkHorse.count === 1 ? '' : 's'})` : 'No outsider picked yet'}</div>
+        </div>
+        <div class="champ-stat-card">
+          <div class="eyebrow">🏆 The Grand Prize</div>
+          <div class="val">+12 <span style="font-size:0.95rem;font-weight:400;color:var(--chalk-dim);">pts</span></div>
+          <div class="sub">Awarded to correct picks at season end</div>
+        </div>
+      `;
+
+      // Render Total picks label
+      document.getElementById('champ-total-picks-label').textContent = `${totalPicks} of ${totalPlayers} players locked in`;
+
+      // Render Distribution Bars
+      const distContainer = document.getElementById('champ-distribution-bars');
+      if (sortedTeams.length === 0) {
+        distContainer.innerHTML = `<div style="text-align:center;padding:24px;color:var(--chalk-dim);font-size:0.88rem;">No champion picks submitted yet.</div>`;
+      } else {
+        distContainer.innerHTML = sortedTeams.map((item, idx) => `
+          <div class="champ-bar-row">
+            <div class="champ-bar-meta">
+              <span class="team-name">
+                ${idx === 0 ? '👑 ' : ''}${escapeHtml(item.team.name)}
+                <span class="diff-stars">${'★'.repeat(item.team.difficulty_rating || 3)}</span>
+              </span>
+              <span class="team-stats">
+                <strong>${item.pct}%</strong> &middot; ${item.count} player${item.count === 1 ? '' : 's'}
+              </span>
+            </div>
+            <div class="champ-bar-track">
+              <div class="champ-bar-fill ${idx === 0 ? 'leader' : ''}" style="width: ${item.pct}%;"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Player Table
+      const playerTbody = document.getElementById('champ-player-rows');
+      if (pickList.length === 0) {
+        playerTbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--chalk-dim);">No champion picks made yet.</td></tr>`;
+      } else {
+        const sortedPicks = [...pickList].sort((a, b) => {
+          const nameA = profileMap[a.user_id]?.display_name || '';
+          const nameB = profileMap[b.user_id]?.display_name || '';
+          return nameA.localeCompare(nameB);
+        });
+
+        playerTbody.innerHTML = sortedPicks.map(p => {
+          const prof = profileMap[p.user_id] || {};
+          const team = p.teams || { name: 'Unknown', difficulty_rating: 3 };
+          const diffStars = '★'.repeat(team.difficulty_rating || 3) + '☆'.repeat(5 - (team.difficulty_rating || 3));
+
+          return `
+            <tr>
+              <td>
+                <div style="font-weight:600;color:var(--chalk);">${escapeHtml(prof.display_name || 'Player')}</div>
+                <div style="font-size:0.75rem;color:var(--chalk-dim);">${escapeHtml(prof.custom_team_name || '')}</div>
+              </td>
+              <td>
+                <div class="champ-pick-pill">
+                  🏆 ${escapeHtml(team.name)}
+                </div>
+              </td>
+              <td class="hide-mobile">
+                <span class="diff-stars" title="Difficulty Rating: ${team.difficulty_rating}/5">${diffStars}</span>
+              </td>
+              <td style="text-align:right;">
+                <span class="champ-status-pill ${isLocked ? '' : 'pending'}">${isLocked ? '🔒 Locked' : '⏳ Open'}</span>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      loadingEl.classList.add('hidden');
+      contentEl.classList.remove('hidden');
+      champPicksLoaded = true;
+    } catch (err) {
+      console.error('Error loading champion picks:', err);
+      loadingEl.innerHTML = `<div style="color:var(--chalk-dim);padding:30px;">Could not load champion picks.</div>`;
+    }
   }
 
   function formatKickoff(utcString) {
