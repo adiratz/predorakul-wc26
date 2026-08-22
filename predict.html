@@ -13,13 +13,52 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
     margin-bottom: 6px;
   }
-  .matchweek-title {
+  .mw-select-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .mw-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    color: var(--chalk);
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 6px 34px 6px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.15s, background 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .mw-select:hover, .mw-select:focus {
+    border-color: var(--claret-light);
+    background: #282e34;
+    outline: none;
+  }
+  .mw-select option {
+    background: var(--board-raised);
+    color: var(--chalk);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .mw-select-icon {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    color: var(--claret-light);
+    font-size: 0.85rem;
+    line-height: 1;
   }
   .mw-btn {
     background: var(--board-raised);
@@ -29,9 +68,18 @@
     padding: 8px 14px;
     font-size: 0.85rem;
     cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
   }
-  .mw-btn:hover { color: var(--chalk); }
+  .mw-btn:hover { color: var(--chalk); border-color: rgba(255,255,255,0.2); }
   .mw-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  @media (max-width: 640px) {
+    .matchweek-nav { gap: 6px; }
+    .mw-btn { padding: 8px 10px; font-size: 0.8rem; }
+    .mw-select { font-size: 1.25rem; padding: 6px 28px 6px 12px; }
+  }
 
   .progress-bar-track {
     background: var(--board-dark);
@@ -366,9 +414,14 @@
       <div class="winner-pick-banner" id="winner-pick-banner"></div>
 
       <div class="matchweek-nav">
-        <button class="mw-btn" id="prev-mw-btn" onclick="changeMatchweek(-1)">&larr; Prev</button>
-        <div class="matchweek-title" id="mw-title">Loading...</div>
-        <button class="mw-btn" id="next-mw-btn" onclick="changeMatchweek(1)">Next &rarr;</button>
+        <button class="mw-btn" id="prev-mw-btn" onclick="changeMatchweek(-1)" title="Previous Matchweek">&larr; Prev</button>
+        <div class="mw-select-wrap">
+          <select id="mw-select" class="mw-select" aria-label="Select Matchweek" onchange="onMatchweekSelectChange(this.value)">
+            <option value="1">Matchweek 1</option>
+          </select>
+          <div class="mw-select-icon">▾</div>
+        </div>
+        <button class="mw-btn" id="next-mw-btn" onclick="changeMatchweek(1)" title="Next Matchweek">Next &rarr;</button>
       </div>
 
       <div class="progress-label" id="progress-label">0 of 0 predicted</div>
@@ -509,12 +562,27 @@
     const upcoming = mwData.find(m => new Date(m.kickoff_utc) > now);
     currentMatchweek = upcoming ? upcoming.gameweek : allMatchweeks[allMatchweeks.length - 1];
 
+    populateMatchweekSelect();
     await loadCardInventory();
     await loadMatchweek(currentMatchweek);
     await loadWinnerPick();
 
     document.getElementById('loading-state').classList.add('hidden');
     document.getElementById('main-state').classList.remove('hidden');
+  }
+
+  function populateMatchweekSelect() {
+    const select = document.getElementById('mw-select');
+    if (!select) return;
+    select.innerHTML = allMatchweeks.map(mw => `<option value="${mw}">Matchweek ${mw}</option>`).join('');
+    select.value = String(currentMatchweek);
+  }
+
+  function onMatchweekSelectChange(val) {
+    const mw = parseInt(val, 10);
+    if (!isNaN(mw) && allMatchweeks.includes(mw)) {
+      loadMatchweek(mw);
+    }
   }
 
   // ── Winner Pick ──────────────────────────────────────────
@@ -600,7 +668,10 @@
 
   async function loadMatchweek(mw) {
     currentMatchweek = mw;
-    document.getElementById('mw-title').textContent = `Matchweek ${mw}`;
+    const select = document.getElementById('mw-select');
+    if (select && select.value !== String(mw)) {
+      select.value = String(mw);
+    }
     document.getElementById('prev-mw-btn').disabled = (mw <= allMatchweeks[0]);
     document.getElementById('next-mw-btn').disabled = (mw >= allMatchweeks[allMatchweeks.length-1]);
 
