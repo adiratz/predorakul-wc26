@@ -595,38 +595,40 @@
       label: 'The Banker', 
       icon: '🛡️', 
       cls: 'chip-banker', 
-      desc: 'Guarantees outcome pts (+3) even if your backed team fails to win.',
-      maxCharges: 1
+      desc: 'Doubles the points you earn just for calling the winner correctly (3 → 6 pts). No downside if wrong.',
+      maxCharges: 5
     },
     double_down: { 
       label: 'Double Down', 
       icon: '⚡', 
       cls: 'chip-double_down', 
       desc: 'Doubles all positive points scored on the fixture (2x multiplier).',
-      maxCharges: 1
+      maxCharges: 4
     },
     all_in: { 
       label: 'All-In', 
       icon: '💥', 
       cls: 'chip-all_in', 
       desc: 'Triples base points (3x) on correct outcome, but incurs a -3 pt penalty on a miss.',
-      maxCharges: 1
+      maxCharges: 2
     },
     rivalry_boost: { 
       label: 'Rivalry Boost', 
       icon: '⚔️', 
       cls: 'chip-rivalry_boost', 
-      desc: 'Can only be deployed on designated Derby/Rivalry fixtures for bonus points.',
-      maxCharges: 1
+      desc: 'Doubles everything you earn, playable exclusively on designated Rivalry/Derby fixtures.',
+      maxCharges: 8
     },
     assistant_manager: { 
       label: 'Ass\'t Manager', 
       icon: '🎯', 
       cls: 'chip-assistant_manager', 
-      desc: 'Safety net insurance: awards +2 pts if your scoreline guess was off by just 1 goal.',
-      maxCharges: 1
+      desc: '+2 bonus if you predict the winning team\'s exact goal count (or full draw scoreline).',
+      maxCharges: 4
     }
   };
+
+  const TOTAL_SEASON_CARDS = 23;
 
   async function init() {
     const { data: { session } } = await sb.auth.getSession();
@@ -783,45 +785,56 @@
 
     const cardsHtml = Object.keys(CARD_DEFINITIONS).map(cardKey => {
       const def = CARD_DEFINITIONS[cardKey];
-      const remaining = inv[cardKey] !== undefined ? inv[cardKey] : 1;
+      const maxCharges = def.maxCharges || 1;
+
+      // Find all match deployments for this card type (past scored + upcoming)
+      const playedMatches = userHistoryScores.filter(s => s.card_type === cardKey);
+      const pendingPreds = userPredictions.filter(p => p.card_type === cardKey && !userHistoryScores.some(s => s.match_id === p.match_id));
+      const totalUsed = playedMatches.length + pendingPreds.length;
+
+      const remaining = inv[cardKey] !== undefined ? inv[cardKey] : Math.max(0, maxCharges - totalUsed);
       totalCardsRemaining += remaining;
 
-      // Check if and where this card was played in history
-      const playedMatch = userHistoryScores.find(s => s.card_type === cardKey);
-      const playedPred = userPredictions.find(p => p.card_type === cardKey);
-
-      let statusHtml = '';
-      if (remaining > 0) {
-        statusHtml = `
-          <div class="card-status-box available">
-            🟢 Ready in Reserve (${remaining} charge left)
-          </div>
-        `;
-      } else if (playedMatch) {
-        const match = matchesData[playedMatch.match_id];
-        const matchTitle = match ? `${match.teams_home.name} vs ${match.teams_away.name}` : 'Fixture';
-        const gwNum = match ? match.gameweek : '?';
-        const ptsWon = playedMatch.final_total ?? 0;
-        statusHtml = `
-          <div class="card-status-box deployed">
-            ⚔️ Deployed in MW${gwNum}
+      let deploymentsHtml = '';
+      if (playedMatches.length > 0 || pendingPreds.length > 0) {
+        const rows = [];
+        playedMatches.forEach((pm, idx) => {
+          const match = matchesData[pm.match_id];
+          const matchTitle = match ? `${match.teams_home.name} vs ${match.teams_away.name}` : 'Fixture';
+          const gwNum = match ? match.gameweek : '?';
+          const ptsWon = pm.final_total ?? 0;
+          rows.push(`
             <div class="card-deployed-detail">
-              vs ${matchTitle} &rarr; <strong>${ptsWon > 0 ? '+' : ''}${ptsWon} pts</strong>
+              &bull; MW${gwNum} vs ${matchTitle} &rarr; <strong>${ptsWon > 0 ? '+' : ''}${ptsWon} pts</strong>
             </div>
-          </div>
-        `;
-      } else if (playedPred) {
-        const match = matchesData[playedPred.match_id];
-        const gwNum = match ? match.gameweek : '?';
-        statusHtml = `
-          <div class="card-status-box deployed">
-            ⏳ Locked for MW${gwNum} (Fixture upcoming)
+          `);
+        });
+        pendingPreds.forEach(pp => {
+          const match = matchesData[pp.match_id];
+          const matchTitle = match ? `${match.teams_home.name} vs ${match.teams_away.name}` : 'Fixture';
+          const gwNum = match ? match.gameweek : '?';
+          rows.push(`
+            <div class="card-deployed-detail" style="color:var(--chalk-dim);">
+              &bull; MW${gwNum} vs ${matchTitle} (Upcoming)
+            </div>
+          `);
+        });
+        deploymentsHtml = rows.join('');
+      }
+
+      let statusBoxHtml = '';
+      if (remaining > 0) {
+        statusBoxHtml = `
+          <div class="card-status-box available">
+            🟢 ${remaining} of ${maxCharges} ${remaining === 1 ? 'charge' : 'charges'} ready in reserve
+            ${deploymentsHtml}
           </div>
         `;
       } else {
-        statusHtml = `
-          <div class="card-status-box" style="color:var(--chalk-dim);">
-            🔒 0 charges remaining
+        statusBoxHtml = `
+          <div class="card-status-box deployed">
+            🔒 All ${maxCharges} charges deployed this season
+            ${deploymentsHtml}
           </div>
         `;
       }
@@ -832,17 +845,20 @@
             <div class="card-dossier-title">
               <span>${def.icon}</span> ${def.label}
             </div>
+            <span style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:${remaining > 0 ? 'var(--chalk-yellow)' : 'var(--chalk-dim)'};background:var(--board-dark);padding:3px 8px;border-radius:6px;border:1px solid var(--line);">
+              ${remaining} / ${maxCharges} Left
+            </span>
           </div>
           <div class="card-dossier-desc">
             ${def.desc}
           </div>
-          ${statusHtml}
+          ${statusBoxHtml}
         </div>
       `;
     }).join('');
 
     container.innerHTML = cardsHtml;
-    document.getElementById('p-stat-cards-left').textContent = `${totalCardsRemaining} / 5`;
+    document.getElementById('p-stat-cards-left').textContent = `${totalCardsRemaining} / ${TOTAL_SEASON_CARDS}`;
   }
 
   function renderHistoryTable() {
