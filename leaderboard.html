@@ -1697,7 +1697,7 @@
       });
 
       const card = document.createElement('div');
-      card.className = 'mc-match-card' + (m.is_rivalry ? ' has-rivalry' : '') + (hasResult ? ' open' : '');
+      card.className = 'mc-match-card' + (m.is_rivalry ? ' has-rivalry' : '');
 
       let scoreDisplay = hasResult
         ? `<div class="mc-result-pill">${result.home_score} - ${result.away_score}</div>`
