@@ -205,7 +205,8 @@
   }
   .col-rank { width: 36px; flex-shrink: 0; }
   .col-name { flex: 1; }
-  .col-bar { width: 120px; }
+  .col-cats { display: flex; gap: 6px; width: 270px; flex-shrink: 0; }
+  .col-cat { width: 40px; text-align: center; flex-shrink: 0; }
   .col-delta { width: 75px; text-align: right; }
   .col-pts { width: 75px; text-align: right; }
 
@@ -257,19 +258,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .st-bar-bg {
-    width: 100%;
-    height: 6px;
-    background: var(--board-dark);
-    border-radius: 4px;
-    overflow: hidden;
+  .st-cats { display: flex; gap: 6px; width: 270px; flex-shrink: 0; }
+  .st-cat {
+    width: 40px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--chalk-dim);
+    flex-shrink: 0;
   }
-  .st-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--claret), var(--claret-light));
-    border-radius: 4px;
-    transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
+  .st-cat.neg { color: var(--claret-light); }
   .st-delta {
     font-family: var(--font-mono);
     font-size: 0.82rem;
@@ -959,7 +957,7 @@
 
   @media (max-width: 640px) {
     .lb-title { font-size: 2.1rem; }
-    .col-bar { display: none; }
+    .col-cats, .st-cats { display: none; }
     .podium-container { gap: 6px; }
     .podium-slot { min-width: 80px; }
     .podium-pts { font-size: 1.15rem; }
@@ -1043,7 +1041,14 @@
           <div class="standings-header">
             <div class="col-rank">#</div>
             <div class="col-name">Player / Team</div>
-            <div class="col-bar">Points</div>
+            <div class="col-cats">
+              <div class="col-cat" title="Outcome Points">OUT</div>
+              <div class="col-cat" title="Scoreline Points">SCR</div>
+              <div class="col-cat" title="Margin Points">MGN</div>
+              <div class="col-cat" title="Upset Points">UPS</div>
+              <div class="col-cat" title="Perfect Prediction Points">PP</div>
+              <div class="col-cat" title="Dugout Card Points">DUG</div>
+            </div>
             <div class="col-delta">This Wk</div>
             <div class="col-pts">Total</div>
           </div>
@@ -1146,7 +1151,7 @@
   let currentTab = 'leaderboard';
   let leaderboardData = [];
   let weeklyDeltas = {};
-  let maxPoints = 1;
+  let categoryTotals = {};
   let allGameweeks = [];
   let currentGw = 1;
 
@@ -1270,6 +1275,23 @@
     const { data: rows } = await sb.from('leaderboard').select('*');
     leaderboardData = rows || [];
 
+    const { data: catRows } = await sb
+      .from('prediction_scores')
+      .select('user_id, outcome_pts, scoreline_pts, mirror_pts, gd_pts, underdog_pts, pp_pts, base_total, final_total');
+    categoryTotals = {};
+    (catRows || []).forEach(r => {
+      if (!categoryTotals[r.user_id]) {
+        categoryTotals[r.user_id] = { outcome: 0, scoreline: 0, margin: 0, upset: 0, pp: 0, dugout: 0 };
+      }
+      const c = categoryTotals[r.user_id];
+      c.outcome += r.outcome_pts || 0;
+      c.scoreline += (r.scoreline_pts || 0) + (r.mirror_pts || 0);
+      c.margin += r.gd_pts || 0;
+      c.upset += r.underdog_pts || 0;
+      c.dugout += (r.final_total ?? r.base_total ?? 0) - (r.base_total || 0);
+      c.pp += r.pp_pts || 0;
+    });
+
     // Most recently scored gameweek, for the "this week" column
     const { data: gwRow } = await sb
       .from('results')
@@ -1359,12 +1381,10 @@
       return;
     }
 
-    maxPoints = Math.max(1, ...leaderboardData.map(r => r.total_points));
-
     leaderboardData.forEach(r => {
       const isOwn = r.user_id === currentUser.id;
       const delta = weeklyDeltas[r.user_id];
-      const fillPct = Math.max(4, Math.round((r.total_points / maxPoints) * 100));
+      const cat = categoryTotals[r.user_id] || { outcome: 0, scoreline: 0, margin: 0, upset: 0, pp: 0, dugout: 0 };
       const rankClass = r.rank === 1 ? 'top1' : (r.rank === 2 ? 'top2' : (r.rank === 3 ? 'top3' : ''));
 
       let deltaHtml = '';
@@ -1382,10 +1402,13 @@
           <div class="st-name"><a href="profile.html?u=${r.user_id}" style="color:inherit;text-decoration:none;">${escapeHtml(r.display_name)}</a>${isOwn ? ' <span style="color:var(--claret-light);font-size:0.75rem;font-weight:700;">(you)</span>' : ''}</div>
           <div class="st-team">${escapeHtml(r.custom_team_name || 'FC Orakul')}</div>
         </div>
-        <div class="col-bar">
-          <div class="st-bar-bg">
-            <div class="st-bar-fill" style="width: ${fillPct}%;"></div>
-          </div>
+        <div class="st-cats">
+          <div class="st-cat" title="Outcome Points">${cat.outcome}</div>
+          <div class="st-cat" title="Scoreline Points">${cat.scoreline}</div>
+          <div class="st-cat" title="Margin Points">${cat.margin}</div>
+          <div class="st-cat" title="Upset Points">${cat.upset}</div>
+          <div class="st-cat" title="Perfect Prediction Points">${cat.pp}</div>
+          <div class="st-cat ${cat.dugout < 0 ? 'neg' : ''}" title="Dugout Card Points">${cat.dugout > 0 ? '+' : ''}${cat.dugout}</div>
         </div>
         <div class="st-delta">${deltaHtml}</div>
         <div class="st-pts">${r.total_points} <span style="font-size:0.75rem;font-weight:400;color:var(--chalk-dim)">pts</span></div>
