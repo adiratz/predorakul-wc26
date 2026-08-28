@@ -1,0 +1,25 @@
+name: Supabase Keep-Alive
+
+# Runs every 3 days — comfortably under Supabase's 7-day
+# inactivity threshold, with margin for GitHub occasionally
+# delaying a scheduled run by an hour or two.
+on:
+  schedule:
+    - cron: '0 6 */3 * *'   # 06:00 UTC, every 3rd day
+  workflow_dispatch:         # also allows manually triggering a test run
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase to keep the project active
+        run: |
+          http_status=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://aqcuuardxrjzowgwnuaz.supabase.co/rest/v1/teams?select=id&limit=1" \
+            -H "apikey: sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld" \
+            -H "Authorization: Bearer sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld")
+          echo "Supabase responded with status $http_status"
+          if [ "$http_status" != "200" ]; then
+            echo "::error::Keep-alive ping failed (HTTP $http_status)"
+            exit 1
+          fi
