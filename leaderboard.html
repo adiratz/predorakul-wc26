@@ -1084,6 +1084,24 @@
 
       <!-- Tab 3: My Points -->
       <div id="tab-mypoints" class="mp-card hidden">
+        <div class="mc-controls" id="mp-controls">
+          <div class="mc-gw-nav">
+            <button class="mc-nav-btn" id="mp-prev-btn" onclick="navMpGw(-1)">&larr; Prev</button>
+            <div class="mc-picker-wrap" id="mp-picker-wrap">
+              <button type="button" class="mc-picker-btn" id="mp-picker-btn" onclick="toggleMpGwDropdown(event)">
+                <span id="mp-gw-title">Matchweek 1</span>
+                <span class="mc-picker-icon">▾</span>
+              </button>
+              <div class="mc-dropdown-menu hidden" id="mp-dropdown-menu">
+                <div class="mc-dropdown-header">Jump to Matchweek</div>
+                <div class="mc-dropdown-list" id="mp-dropdown-list">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+            </div>
+            <button class="mc-nav-btn" id="mp-next-btn" onclick="navMpGw(1)">Next &rarr;</button>
+          </div>
+        </div>
         <div id="mypoints-content"></div>
       </div>
 
@@ -1154,6 +1172,9 @@
   let categoryTotals = {};
   let allGameweeks = [];
   let currentGw = 1;
+  let myPointsByGw = {};
+  let myScoredGameweeks = [];
+  let currentMpGw = null;
 
   const CARD_NAMES = {
     banker: { label: 'Banker', icon: '🛡️', cls: 'chip-banker' },
@@ -1868,26 +1889,37 @@
       .eq('user_id', currentUser.id)
       .order('match_id', { ascending: false });
 
+    document.getElementById('mp-controls').classList.toggle('hidden', !rows || rows.length === 0);
+
     if (!rows || rows.length === 0) {
       container.innerHTML = '<p class="sub">No scored predictions yet.</p>';
       return;
     }
 
-    const byGw = {};
+    myPointsByGw = {};
     rows.forEach(r => {
       const gw = r.matches.gameweek;
-      if (!byGw[gw]) byGw[gw] = [];
-      byGw[gw].push(r);
+      if (!myPointsByGw[gw]) myPointsByGw[gw] = [];
+      myPointsByGw[gw].push(r);
     });
 
-    const gws = Object.keys(byGw).map(Number).sort((a,b) => b - a);
+    myScoredGameweeks = Object.keys(myPointsByGw).map(Number).sort((a, b) => a - b);
+    if (!currentMpGw || !myScoredGameweeks.includes(currentMpGw)) {
+      currentMpGw = myScoredGameweeks[myScoredGameweeks.length - 1];
+    }
 
-    container.innerHTML = gws.map(gw => {
-      const matches = byGw[gw];
-      const gwTotal = matches.reduce((sum, m) => sum + m.final_total, 0);
-      const matchRows = matches.map(m => {
-        const cardDesc = describeCard(m);
-        return `
+    populateMpGwDropdown();
+    renderMpGw();
+  }
+
+  function renderMpGw() {
+    const container = document.getElementById('mypoints-content');
+    const matches = myPointsByGw[currentMpGw] || [];
+    const gwTotal = matches.reduce((sum, m) => sum + m.final_total, 0);
+
+    const matchRows = matches.map(m => {
+      const cardDesc = describeCard(m);
+      return `
         <div class="mp-match-row">
           <div class="mp-match-desc">
             <strong>${m.matches.teams_home.name} vs ${m.matches.teams_away.name}</strong>${m.pp_pts > 0 ? '<span class="perfect-badge">PERFECT</span>' : ''}<br>
@@ -1897,18 +1929,82 @@
           <div class="mp-match-pts">${m.final_total} pts</div>
         </div>
       `;
-      }).join('');
+    }).join('');
 
+    container.innerHTML = `
+      <div class="mp-gw-block">
+        <div class="mp-gw-title">
+          <span>Matchweek ${currentMpGw}</span>
+          <span class="gw-total">${gwTotal} pts</span>
+        </div>
+        ${matchRows}
+      </div>
+    `;
+  }
+
+  function populateMpGwDropdown() {
+    const list = document.getElementById('mp-dropdown-list');
+    if (!list) return;
+    list.innerHTML = myScoredGameweeks.map(gw => {
+      const isActive = gw === currentMpGw;
       return `
-        <div class="mp-gw-block">
-          <div class="mp-gw-title">
-            <span>Matchweek ${gw}</span>
-            <span class="gw-total">${gwTotal} pts</span>
-          </div>
-          ${matchRows}
+        <div class="mc-dropdown-item ${isActive ? 'active' : ''}" data-gw="${gw}" onclick="selectMpGw(${gw})">
+          <span>Matchweek ${gw}</span>
+          <span class="item-num">#${gw}</span>
         </div>
       `;
     }).join('');
+    updateMpGwNavButtons();
+  }
+
+  function toggleMpGwDropdown(e) {
+    if (e) e.stopPropagation();
+    const wrap = document.getElementById('mp-picker-wrap');
+    const menu = document.getElementById('mp-dropdown-menu');
+    const isOpen = wrap.classList.contains('open');
+
+    if (isOpen) {
+      wrap.classList.remove('open');
+      menu.classList.add('hidden');
+    } else {
+      wrap.classList.add('open');
+      menu.classList.remove('hidden');
+      const activeItem = menu.querySelector('.mc-dropdown-item.active');
+      if (activeItem) {
+        activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+  }
+
+  function selectMpGw(gw) {
+    const wrap = document.getElementById('mp-picker-wrap');
+    const menu = document.getElementById('mp-dropdown-menu');
+    if (wrap) wrap.classList.remove('open');
+    if (menu) menu.classList.add('hidden');
+
+    if (myScoredGameweeks.includes(gw)) {
+      currentMpGw = gw;
+      populateMpGwDropdown();
+      renderMpGw();
+    }
+  }
+
+  function updateMpGwNavButtons() {
+    const idx = myScoredGameweeks.indexOf(currentMpGw);
+    document.getElementById('mp-prev-btn').disabled = idx <= 0;
+    document.getElementById('mp-next-btn').disabled = idx >= myScoredGameweeks.length - 1;
+    const titleEl = document.getElementById('mp-gw-title');
+    if (titleEl) titleEl.textContent = `Matchweek ${currentMpGw}`;
+  }
+
+  function navMpGw(delta) {
+    const idx = myScoredGameweeks.indexOf(currentMpGw);
+    const nextIdx = idx + delta;
+    if (nextIdx >= 0 && nextIdx < myScoredGameweeks.length) {
+      currentMpGw = myScoredGameweeks[nextIdx];
+      populateMpGwDropdown();
+      renderMpGw();
+    }
   }
 
   // ── Champion Picks & Community Insights ──────────────────
@@ -2100,22 +2196,28 @@
       .replace(/"/g, '&quot;');
   }
 
+  const GW_PICKER_IDS = [['mc-picker-wrap', 'mc-dropdown-menu'], ['mp-picker-wrap', 'mp-dropdown-menu']];
+
   document.addEventListener('click', (e) => {
     document.querySelectorAll('.mc-pts-wrap.active').forEach(el => el.classList.remove('active'));
-    const wrap = document.getElementById('mc-picker-wrap');
-    const menu = document.getElementById('mc-dropdown-menu');
-    if (wrap && menu && !wrap.contains(e.target)) {
-      wrap.classList.remove('open');
-      menu.classList.add('hidden');
-    }
+    GW_PICKER_IDS.forEach(([wrapId, menuId]) => {
+      const wrap = document.getElementById(wrapId);
+      const menu = document.getElementById(menuId);
+      if (wrap && menu && !wrap.contains(e.target)) {
+        wrap.classList.remove('open');
+        menu.classList.add('hidden');
+      }
+    });
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      const wrap = document.getElementById('mc-picker-wrap');
-      const menu = document.getElementById('mc-dropdown-menu');
-      if (wrap) wrap.classList.remove('open');
-      if (menu) menu.classList.add('hidden');
+      GW_PICKER_IDS.forEach(([wrapId, menuId]) => {
+        const wrap = document.getElementById(wrapId);
+        const menu = document.getElementById(menuId);
+        if (wrap) wrap.classList.remove('open');
+        if (menu) menu.classList.add('hidden');
+      });
     }
   });
 
