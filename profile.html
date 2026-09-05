@@ -635,9 +635,25 @@
     currentUser = session ? session.user : null;
 
     if (currentUser) {
-      let displayName = currentUser.user_metadata?.display_name 
-        || currentUser.user_metadata?.full_name 
+      let displayName = currentUser.user_metadata?.display_name
+        || currentUser.user_metadata?.full_name
+        || currentUser.user_metadata?.name
         || (currentUser.email ? currentUser.email.split('@')[0] : 'Player');
+
+      try {
+        const { data: profileData } = await sb
+          .from('profiles')
+          .select('display_name')
+          .eq('user_id', currentUser.id)
+          .maybeSingle();
+
+        if (profileData && profileData.display_name) {
+          displayName = profileData.display_name;
+        }
+      } catch (e) {
+        console.warn('Profile fetch error:', e);
+      }
+
       const navUserEl = document.getElementById('nav-username');
       if (navUserEl) navUserEl.textContent = displayName;
     } else {
