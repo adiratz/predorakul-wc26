@@ -247,6 +247,44 @@
   .modal-card-info .count { font-family: var(--font-mono); font-size: 0.7rem; color: var(--chalk-dim); }
   .modal-close-row { display: flex; gap: 8px; margin-top: 16px; }
 
+  .modal p { color: var(--chalk-dim); font-size: 0.88rem; line-height: 1.5; margin: 0 0 16px; }
+  #prompt-modal-input { margin-bottom: 16px; }
+
+  /* Toast notifications — replaces alert() */
+  .toast-stack {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 400;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 16px;
+    pointer-events: none;
+  }
+  .toast {
+    background: var(--board-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--chalk-dim);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+    color: var(--chalk);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    pointer-events: auto;
+    cursor: pointer;
+    animation: toastIn 0.2s ease-out;
+  }
+  .toast.success { border-left-color: var(--success); }
+  .toast.error { border-left-color: var(--error-red); }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   /* Card icon badge — reused in modal, footer buttons */
   .card-icon-badge {
     width: 40px; height: 40px;
@@ -530,6 +568,33 @@
     </div>
   </div>
 
+  <!-- Toast notifications (replaces alert()) -->
+  <div class="toast-stack" id="toast-stack"></div>
+
+  <!-- Confirm dialog (replaces confirm()) -->
+  <div class="modal-backdrop hidden" id="confirm-modal">
+    <div class="modal">
+      <h3 id="confirm-modal-title">Are you sure?</h3>
+      <p id="confirm-modal-message"></p>
+      <div class="modal-close-row">
+        <button class="btn secondary" style="flex:1;" id="confirm-modal-cancel">Cancel</button>
+        <button class="btn" style="flex:1;" id="confirm-modal-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompt dialog (replaces prompt()) -->
+  <div class="modal-backdrop hidden" id="prompt-modal">
+    <div class="modal">
+      <h3 id="prompt-modal-title">Enter a value</h3>
+      <input type="text" id="prompt-modal-input" style="width:100%;">
+      <div class="modal-close-row">
+        <button class="btn secondary" style="flex:1;" id="prompt-modal-cancel">Cancel</button>
+        <button class="btn" style="flex:1;" id="prompt-modal-ok">Save</button>
+      </div>
+    </div>
+  </div>
+
 <script>
   const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
@@ -578,6 +643,72 @@
   let existingCardPlays = {};
   let cardInventory = {};
   let activeCardModalMatchId = null;
+
+  // ── In-app dialogs (replace native alert/confirm/prompt) ──
+  function showToast(message, type = 'info') {
+    const stack = document.getElementById('toast-stack');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    toast.onclick = () => toast.remove();
+    stack.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  function showConfirm(message, { title = 'Are you sure?', confirmLabel = 'Confirm', cancelLabel = 'Cancel' } = {}) {
+    return new Promise((resolve) => {
+      const backdrop = document.getElementById('confirm-modal');
+      document.getElementById('confirm-modal-title').textContent = title;
+      document.getElementById('confirm-modal-message').textContent = message;
+      const okBtn = document.getElementById('confirm-modal-ok');
+      const cancelBtn = document.getElementById('confirm-modal-cancel');
+      okBtn.textContent = confirmLabel;
+      cancelBtn.textContent = cancelLabel;
+
+      const cleanup = (result) => {
+        backdrop.classList.add('hidden');
+        okBtn.onclick = null;
+        cancelBtn.onclick = null;
+        backdrop.onclick = null;
+        resolve(result);
+      };
+
+      okBtn.onclick = () => cleanup(true);
+      cancelBtn.onclick = () => cleanup(false);
+      backdrop.onclick = (e) => { if (e.target === backdrop) cleanup(false); };
+
+      backdrop.classList.remove('hidden');
+    });
+  }
+
+  function showPrompt(message, defaultValue = '') {
+    return new Promise((resolve) => {
+      const backdrop = document.getElementById('prompt-modal');
+      document.getElementById('prompt-modal-title').textContent = message;
+      const input = document.getElementById('prompt-modal-input');
+      input.value = defaultValue;
+      const okBtn = document.getElementById('prompt-modal-ok');
+      const cancelBtn = document.getElementById('prompt-modal-cancel');
+
+      const cleanup = (result) => {
+        backdrop.classList.add('hidden');
+        okBtn.onclick = null;
+        cancelBtn.onclick = null;
+        backdrop.onclick = null;
+        input.onkeydown = null;
+        resolve(result);
+      };
+
+      okBtn.onclick = () => cleanup(input.value);
+      cancelBtn.onclick = () => cleanup(null);
+      backdrop.onclick = (e) => { if (e.target === backdrop) cleanup(null); };
+      input.onkeydown = (e) => { if (e.key === 'Enter') cleanup(input.value); };
+
+      backdrop.classList.remove('hidden');
+      input.focus();
+      input.select();
+    });
+  }
 
   async function init() {
     const { data: { session } } = await sb.auth.getSession();
@@ -753,14 +884,14 @@
 
   async function saveWinnerPick() {
     const teamId = document.getElementById('winner-pick-select').value;
-    if (!teamId) { alert('Select a team first.'); return; }
+    if (!teamId) { showToast('Select a team first.', 'error'); return; }
 
     const { error } = await sb
       .from('winner_picks')
       .upsert({ user_id: currentUser.id, team_id: parseInt(teamId), updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
 
     if (error) {
-      alert('Could not save your pick: ' + error.message);
+      showToast('Could not save your pick: ' + error.message, 'error');
       return;
     }
     await loadWinnerPick();
@@ -957,7 +1088,7 @@
     });
 
     if (rows.length === 0) {
-      alert('Enter at least one scoreline before submitting.');
+      showToast('Enter at least one scoreline before submitting.', 'error');
       return;
     }
 
@@ -966,11 +1097,11 @@
       .upsert(rows, { onConflict: 'user_id,match_id' });
 
     if (error) {
-      alert('Something went wrong saving your predictions: ' + error.message);
+      showToast('Something went wrong saving your predictions: ' + error.message, 'error');
       return;
     }
 
-    alert('Predictions saved!');
+    showToast('Predictions saved!', 'success');
     loadMatchweek(currentMatchweek);
   }
 
@@ -1013,7 +1144,10 @@
 
   async function confirmUnplay(matchId, cardType) {
     const meta = CARD_META[cardType];
-    const ok = confirm(`Remove ${meta.name} from this fixture? You'll get the charge back and can play a different card.`);
+    const ok = await showConfirm(
+      `Remove ${meta.name} from this fixture? You'll get the charge back and can play a different card.`,
+      { title: 'Remove Card?', confirmLabel: 'Remove', cancelLabel: 'Keep it' }
+    );
     if (!ok) return;
 
     const { error } = await sb
@@ -1023,7 +1157,7 @@
       .eq('match_id', matchId);
 
     if (error) {
-      alert('Could not unplay that card: ' + error.message);
+      showToast('Could not unplay that card: ' + error.message, 'error');
       return;
     }
 
@@ -1069,7 +1203,7 @@
       .insert({ user_id: currentUser.id, match_id: activeCardModalMatchId, card_type: cardType });
 
     if (error) {
-      alert('Could not play that card: ' + error.message);
+      showToast('Could not play that card: ' + error.message, 'error');
       return;
     }
 
@@ -1093,7 +1227,7 @@
 
   async function changeUsername() {
     const current = document.getElementById('nav-username').textContent;
-    const newName = prompt('Enter your new display name:', current);
+    const newName = await showPrompt('Enter your new display name:', current);
     if (!newName || !newName.trim() || newName.trim() === current) return;
 
     const { error } = await sb
@@ -1102,7 +1236,7 @@
       .eq('user_id', currentUser.id);
 
     if (error) {
-      alert('Could not update your name: ' + error.message);
+      showToast('Could not update your name: ' + error.message, 'error');
       return;
     }
 
@@ -1111,7 +1245,7 @@
   }
 
   async function changeTeam() {
-    const newTeamName = prompt("What's your team called?");
+    const newTeamName = await showPrompt("What's your team called?");
     if (!newTeamName || !newTeamName.trim()) return;
 
     const { error } = await sb
@@ -1120,7 +1254,7 @@
       .eq('user_id', currentUser.id);
 
     if (error) {
-      alert('Could not update your team name: ' + error.message);
+      showToast('Could not update your team name: ' + error.message, 'error');
       return;
     }
 
