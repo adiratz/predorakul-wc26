@@ -384,6 +384,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  @media (max-width: 640px) {
+    .fx-team-name { white-space: normal; overflow: visible; text-overflow: clip; }
+  }
   .fx-dots {
     display: flex;
     gap: 2px;
@@ -393,7 +396,8 @@
   }
   .fx-dots .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--line); }
   .fx-dots .dot.filled { background: var(--claret-light); }
-  .fx-dots:hover::after {
+  .fx-dots:hover::after,
+  .fx-dots.active::after {
     content: attr(data-tooltip);
     position: absolute;
     bottom: 130%;
@@ -1027,7 +1031,7 @@
         <div class="fixture-top">
           <div class="fx-team">
             <span class="fx-team-name">${f.teams_home.name}</span>
-            <span class="fx-dots" data-tooltip="Team Difficulty: ${f.teams_home.difficulty_rating} of 5">${difficultyDots(f.teams_home.difficulty_rating)}</span>
+            <span class="fx-dots" tabindex="0" data-tooltip="Team Difficulty: ${f.teams_home.difficulty_rating} of 5">${difficultyDots(f.teams_home.difficulty_rating)}</span>
           </div>
           <div class="fx-score">
             <div class="fx-score-group">
@@ -1048,7 +1052,7 @@
           </div>
           <div class="fx-team away">
             <span class="fx-team-name">${f.teams_away.name}</span>
-            <span class="fx-dots" data-tooltip="Team Difficulty: ${f.teams_away.difficulty_rating} of 5">${difficultyDots(f.teams_away.difficulty_rating)}</span>
+            <span class="fx-dots" tabindex="0" data-tooltip="Team Difficulty: ${f.teams_away.difficulty_rating} of 5">${difficultyDots(f.teams_away.difficulty_rating)}</span>
           </div>
         </div>
         <div class="fixture-bottom">
@@ -1267,6 +1271,14 @@
   }
 
   document.addEventListener('click', (e) => {
+    // Tap-to-reveal for Team Difficulty dots — the hover tooltip alone is
+    // unreachable on touch devices, so a tap toggles the same tooltip.
+    const dots = e.target.closest('.fx-dots');
+    document.querySelectorAll('.fx-dots.active').forEach(el => {
+      if (el !== dots) el.classList.remove('active');
+    });
+    if (dots) dots.classList.toggle('active');
+
     const wrap = document.getElementById('mw-picker-wrap');
     const menu = document.getElementById('mw-dropdown-menu');
     if (wrap && menu && !wrap.contains(e.target)) {
@@ -1280,6 +1292,10 @@
   });
 
   document.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && document.activeElement?.classList.contains('fx-dots')) {
+      e.preventDefault();
+      document.activeElement.classList.toggle('active');
+    }
     if (e.key === 'Escape') {
       const wrap = document.getElementById('mw-picker-wrap');
       const menu = document.getElementById('mw-dropdown-menu');
@@ -1287,6 +1303,7 @@
       if (menu) menu.classList.add('hidden');
       const acctMenu = document.getElementById('account-menu');
       if (acctMenu) acctMenu.classList.add('hidden');
+      document.querySelectorAll('.fx-dots.active').forEach(el => el.classList.remove('active'));
     }
   });
 
