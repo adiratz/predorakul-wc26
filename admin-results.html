@@ -115,6 +115,27 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* Confirm dialog — replaces confirm() */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 500; padding: 20px;
+  }
+  .modal {
+    background: var(--board-raised); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px; max-width: 340px; width: 100%;
+  }
+  .modal h3 { font-size: 1.05rem; margin-bottom: 10px; }
+  .modal p { color: var(--chalk-dim); font-size: 0.85rem; line-height: 1.5; margin-bottom: 18px; }
+  .modal-close-row { display: flex; gap: 8px; }
+  .modal-close-row button {
+    flex: 1; border: none; border-radius: 6px; padding: 10px; cursor: pointer;
+    font-size: 0.85rem; font-weight: 600;
+  }
+  .modal-close-row .btn-cancel { background: var(--board-dark); color: var(--chalk-dim); }
+  .modal-close-row .btn-confirm { background: var(--claret); color: var(--chalk); }
+  .modal-close-row .btn-confirm:hover { background: var(--claret-light); }
+
 </style>
 </head>
 <body>
@@ -137,6 +158,7 @@
       <div class="tabs">
         <button class="tab-btn active" id="tab-results-btn" onclick="switchTab('results')">Results</button>
         <button class="tab-btn" id="tab-fixtures-btn" onclick="switchTab('fixtures')">Fixtures</button>
+        <button class="tab-btn" id="tab-bot-btn" onclick="switchTab('bot')">Bot</button>
       </div>
 
       <div id="tab-results">
@@ -157,10 +179,34 @@
         <p class="sub" style="margin-bottom:14px;">Enter kickoff times in Pacific time, same format as before: YYYY-MM-DD HH:MM. Converts to UTC automatically.</p>
         <div id="fixtures-edit-list"></div>
       </div>
+
+      <div id="tab-bot" class="hidden">
+        <div class="mw-nav">
+          <button onclick="changeMwBot(-1)">&larr; Prev</button>
+          <span class="mw-title" id="mw-title-bot">Matchweek 1</span>
+          <button onclick="changeMwBot(1)">Next &rarr;</button>
+        </div>
+        <p class="sub" style="margin-bottom:14px;">Preview the bot's picks for this matchweek before anything is saved. Nothing commits until you click Submit below.</p>
+        <button class="save-btn" onclick="loadBotPreview()" style="margin-bottom:14px;">Preview This Matchweek</button>
+        <div id="bot-preview-list"></div>
+        <button class="save-btn" id="bot-submit-btn" onclick="submitBotPredictions()" style="display:none; margin-top:14px; width:100%;">Submit These Predictions</button>
+        <p class="status" id="bot-submit-status" style="margin-top:8px;"></p>
+      </div>
     </div>
   </div>
 
   <div class="toast-stack" id="toast-stack"></div>
+
+  <div class="modal-backdrop hidden" id="confirm-modal">
+    <div class="modal">
+      <h3 id="confirm-modal-title">Are you sure?</h3>
+      <p id="confirm-modal-message"></p>
+      <div class="modal-close-row">
+        <button class="btn-cancel" id="confirm-modal-cancel">Cancel</button>
+        <button class="btn-confirm" id="confirm-modal-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
 
 <script>
   const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
@@ -181,6 +227,32 @@
     toast.onclick = () => toast.remove();
     stack.appendChild(toast);
     setTimeout(() => toast.remove(), 4000);
+  }
+
+  function showConfirm(message, { title = 'Are you sure?', confirmLabel = 'Confirm', cancelLabel = 'Cancel' } = {}) {
+    return new Promise((resolve) => {
+      const backdrop = document.getElementById('confirm-modal');
+      document.getElementById('confirm-modal-title').textContent = title;
+      document.getElementById('confirm-modal-message').textContent = message;
+      const okBtn = document.getElementById('confirm-modal-ok');
+      const cancelBtn = document.getElementById('confirm-modal-cancel');
+      okBtn.textContent = confirmLabel;
+      cancelBtn.textContent = cancelLabel;
+
+      const cleanup = (result) => {
+        backdrop.classList.add('hidden');
+        okBtn.onclick = null;
+        cancelBtn.onclick = null;
+        backdrop.onclick = null;
+        resolve(result);
+      };
+
+      okBtn.onclick = () => cleanup(true);
+      cancelBtn.onclick = () => cleanup(false);
+      backdrop.onclick = (e) => { if (e.target === backdrop) cleanup(false); };
+
+      backdrop.classList.remove('hidden');
+    });
   }
 
   let currentMw = 1;
@@ -313,11 +385,19 @@
   function switchTab(tab) {
     document.getElementById('tab-results').classList.toggle('hidden', tab !== 'results');
     document.getElementById('tab-fixtures').classList.toggle('hidden', tab !== 'fixtures');
+    document.getElementById('tab-bot').classList.toggle('hidden', tab !== 'bot');
     document.getElementById('tab-results-btn').classList.toggle('active', tab === 'results');
     document.getElementById('tab-fixtures-btn').classList.toggle('active', tab === 'fixtures');
+    document.getElementById('tab-bot-btn').classList.toggle('active', tab === 'bot');
     if (tab === 'fixtures') {
       currentMwFx = currentMw;
       loadMwFixtures(currentMwFx);
+    }
+    if (tab === 'bot') {
+      currentMwBot = currentMw;
+      document.getElementById('mw-title-bot').textContent = `Matchweek ${currentMwBot}`;
+      document.getElementById('bot-preview-list').innerHTML = '';
+      document.getElementById('bot-submit-btn').style.display = 'none';
     }
   }
 
@@ -454,6 +534,92 @@
     const newIdx = idx + delta;
     if (newIdx < 0 || newIdx >= allMws.length) return;
     loadMwFixtures(allMws[newIdx]);
+  }
+
+  // ── Bot tab ──────────────────────────────────────────────
+  const BOT_USER_ID = '1b2e029a-119f-4299-bb7d-3474a054da95';
+  let currentMwBot = 1;
+  let lastPreviewGameweek = null;
+
+  function changeMwBot(delta) {
+    const idx = allMws.indexOf(currentMwBot);
+    const newIdx = idx + delta;
+    if (newIdx < 0 || newIdx >= allMws.length) return;
+    currentMwBot = allMws[newIdx];
+    document.getElementById('mw-title-bot').textContent = `Matchweek ${currentMwBot}`;
+    document.getElementById('bot-preview-list').innerHTML = '';
+    document.getElementById('bot-submit-btn').style.display = 'none';
+  }
+
+  async function loadBotPreview() {
+    const container = document.getElementById('bot-preview-list');
+    container.innerHTML = '<p class="sub">Loading preview&hellip;</p>';
+    document.getElementById('bot-submit-btn').style.display = 'none';
+    document.getElementById('bot-submit-status').textContent = '';
+
+    const { data, error } = await sb.rpc('run_bot_predictions_for_gameweek', {
+      p_bot_user_id: BOT_USER_ID,
+      p_gameweek: currentMwBot,
+      p_dry_run: true
+    });
+
+    if (error) {
+      container.innerHTML = `<p class="sub" style="color:var(--claret-light);">Error: ${error.message}</p>`;
+      return;
+    }
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p class="sub">Nothing to predict — either already done, or every fixture this week is locked.</p>';
+      return;
+    }
+
+    container.innerHTML = '';
+    data.forEach(row => {
+      const div = document.createElement('div');
+      div.className = 'fixture-row';
+      div.innerHTML = `
+        <div class="fx-names">
+          ${row.home_team} vs ${row.away_team} &rarr; predicted ${row.predicted_home}-${row.predicted_away}
+          <div class="fx-edit-current">
+            Margin ${row.margin}, ranked #${row.rank_among_remaining + 1} among remaining fixtures
+            ${row.card_to_play ? ` &middot; playing <strong>${row.card_to_play.replace('_',' ')}</strong>` : ''}
+          </div>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    lastPreviewGameweek = currentMwBot;
+    document.getElementById('bot-submit-btn').style.display = 'block';
+  }
+
+  async function submitBotPredictions() {
+    if (lastPreviewGameweek !== currentMwBot) {
+      showToast('Preview looks stale — click "Preview This Matchweek" again first, just to be safe.', 'error');
+      return;
+    }
+    const ok = await showConfirm(
+      `Submit the bot's predictions for Matchweek ${currentMwBot}? This will actually save them.`,
+      { title: 'Submit Bot Predictions?', confirmLabel: 'Submit', cancelLabel: 'Cancel' }
+    );
+    if (!ok) return;
+
+    const { data, error } = await sb.rpc('run_bot_predictions_for_gameweek', {
+      p_bot_user_id: BOT_USER_ID,
+      p_gameweek: currentMwBot,
+      p_dry_run: false
+    });
+
+    const statusEl = document.getElementById('bot-submit-status');
+    if (error) {
+      statusEl.textContent = 'Error: ' + error.message;
+      statusEl.style.color = 'var(--claret-light)';
+      showToast('Could not submit: ' + error.message, 'error');
+      return;
+    }
+    statusEl.textContent = `✓ Submitted ${data.length} prediction(s).`;
+    statusEl.style.color = 'var(--success)';
+    showToast(`Submitted ${data.length} prediction(s) for Matchweek ${currentMwBot}.`, 'success');
+    document.getElementById('bot-submit-btn').style.display = 'none';
   }
 
   init();
