@@ -95,6 +95,26 @@
     color: var(--chalk); padding: 8px; font-size: 0.85rem; width: 170px;
   }
 
+  /* Toast notifications — replaces alert() */
+  .toast-stack {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 400; display: flex; flex-direction: column; gap: 8px;
+    width: 100%; max-width: 380px; padding: 0 16px; pointer-events: none;
+  }
+  .toast {
+    background: var(--board-raised); border: 1px solid var(--line);
+    border-left: 3px solid var(--chalk-dim); border-radius: 10px;
+    padding: 12px 14px; font-size: 0.85rem; color: var(--chalk);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); pointer-events: auto;
+    cursor: pointer; animation: toastIn 0.2s ease-out;
+  }
+  .toast.success { border-left-color: var(--success); }
+  .toast.error { border-left-color: var(--claret-light); }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
 </style>
 </head>
 <body>
@@ -140,6 +160,8 @@
     </div>
   </div>
 
+  <div class="toast-stack" id="toast-stack"></div>
+
 <script>
   const SUPABASE_URL = 'https://aqcuuardxrjzowgwnuaz.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_x2fxdraYY0nIPCJ5PsTCRg_mFx9ejld';
@@ -150,6 +172,16 @@
                                                // real enforcement is the RLS policy
 
 
+
+  function showToast(message, type = 'info') {
+    const stack = document.getElementById('toast-stack');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    toast.onclick = () => toast.remove();
+    stack.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
 
   let currentMw = 1;
   let allMws = [];
@@ -248,7 +280,7 @@
     const home = document.getElementById(`rh-${matchId}`).value;
     const away = document.getElementById(`ra-${matchId}`).value;
     if (home === '' || away === '') {
-      alert('Enter both scores first.');
+      showToast('Enter both scores first.', 'error');
       return;
     }
 
@@ -260,7 +292,7 @@
     if (error) {
       statusEl.textContent = 'Error!';
       statusEl.style.color = 'var(--claret-light)';
-      alert('Could not save: ' + error.message);
+      showToast('Could not save: ' + error.message, 'error');
       return;
     }
     statusEl.textContent = 'Saved';
@@ -383,21 +415,32 @@
     const raw = document.getElementById(`ko-${matchId}`).value.trim();
     const valid = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(raw);
     if (!valid) {
-      alert('Format must be exactly: YYYY-MM-DD HH:MM (e.g. 2026-09-18 20:00), in UK local time.');
+      showToast('Format must be exactly: YYYY-MM-DD HH:MM (e.g. 2026-09-18 20:00), in UK local time.', 'error');
       return;
     }
 
     const isoUtc = ukTimeToUtc(raw);
-    const { error } = await sb
+    const { data, error } = await sb
       .from('matches')
       .update({ kickoff_utc: isoUtc })
-      .eq('id', matchId);
+      .eq('id', matchId)
+      .select();
 
     const statusEl = document.getElementById(`ko-status-${matchId}`);
     if (error) {
       statusEl.textContent = 'Error!';
       statusEl.style.color = 'var(--claret-light)';
-      alert('Could not save: ' + error.message);
+      showToast('Could not save: ' + error.message, 'error');
+      return;
+    }
+    if (!data || data.length === 0) {
+      // No error, but no row came back either — Supabase RLS silently
+      // filtered this row out of the UPDATE rather than rejecting it,
+      // so nothing was actually written. Surface that explicitly instead
+      // of quietly doing nothing.
+      statusEl.textContent = 'Error!';
+      statusEl.style.color = 'var(--claret-light)';
+      showToast("Save didn't take effect — no rows were updated. This usually means a database permissions (RLS) policy is blocking the write, not a form error.", 'error');
       return;
     }
     statusEl.textContent = 'Saved';
