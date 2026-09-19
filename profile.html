@@ -568,6 +568,35 @@
         </table>
       </div>
 
+      <!-- 👻 Shadow Table -->
+      <div class="history-container">
+        <div class="section-title">
+          👻 Shadow <span>Table</span>
+        </div>
+        <p style="color:var(--chalk-dim);font-size:0.85rem;line-height:1.5;margin:-8px 0 16px;">If the season played out exactly how this player called it: every prediction becomes a hypothetical result the moment its match kicks off, ranked like a real league table.</p>
+
+        <div id="shadow-empty-state-p" class="hidden" style="text-align:center;padding:30px 20px;color:var(--chalk-dim);font-size:0.85rem;">
+          Shadow Table will appear once the season kicks off.
+        </div>
+
+        <table class="history-table hidden" id="shadow-table-p">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th class="right">P</th>
+              <th class="right hide-mobile">GF</th>
+              <th class="right hide-mobile">GA</th>
+              <th class="right">GD</th>
+              <th class="right">Pts</th>
+            </tr>
+          </thead>
+          <tbody id="shadow-table-rows-p">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+
     </div>
 
   </div>
@@ -681,6 +710,7 @@
     populatePlayerDropdown();
     if (selectedUserId) {
       await loadPlayerDossier(selectedUserId);
+      await loadShadowTableProfile(selectedUserId);
     }
 
     document.getElementById('profile-loading').classList.add('hidden');
@@ -726,6 +756,105 @@
     const newUrl = `${window.location.pathname}?u=${userId}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
     await loadPlayerDossier(userId);
+    await loadShadowTableProfile(userId);
+  }
+
+  // ── Shadow Table ──────────────────────────────────────────
+  async function loadShadowTableProfile(userId) {
+    const emptyState = document.getElementById('shadow-empty-state-p');
+    const table = document.getElementById('shadow-table-p');
+    const rowsContainer = document.getElementById('shadow-table-rows-p');
+
+    const { data: rows } = await sb.from('shadow_table').select('*').eq('user_id', userId);
+
+    if (!rows || rows.length === 0) {
+      table.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      return;
+    }
+    emptyState.classList.add('hidden');
+    table.classList.remove('hidden');
+
+    const teamNames = {};
+    Object.values(matchesData).forEach(m => {
+      if (m.teams_home) teamNames[m.teams_home.id] = m.teams_home.name;
+      if (m.teams_away) teamNames[m.teams_away.id] = m.teams_away.name;
+    });
+
+    const enriched = rows.map(r => ({
+      ...r,
+      team_name: teamNames[r.team_id] || 'Unknown',
+      goals_against: r.goals_for - r.goal_diff
+    }));
+
+    const sorted = await sortShadowTableProfile(enriched, userId);
+
+    rowsContainer.innerHTML = sorted.map((r, idx) => `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${escapeHtml(r.team_name)}</td>
+        <td class="right">${r.played}</td>
+        <td class="right hide-mobile">${r.goals_for}</td>
+        <td class="right hide-mobile">${r.goals_against}</td>
+        <td class="right" style="color:${r.goal_diff > 0 ? 'var(--success)' : (r.goal_diff < 0 ? 'var(--claret-light)' : 'inherit')};">${r.goal_diff > 0 ? '+' : ''}${r.goal_diff}</td>
+        <td class="right" style="font-weight:700;">${r.points}</td>
+      </tr>
+    `).join('');
+  }
+
+  async function sortShadowTableProfile(rows, userId) {
+    const sorted = [...rows].sort((a, b) =>
+      b.points - a.points || b.goal_diff - a.goal_diff || b.goals_for - a.goals_for
+    );
+
+    // Group consecutive rows that are still exactly tied on all three keys
+    const groups = [];
+    let i = 0;
+    while (i < sorted.length) {
+      let j = i + 1;
+      while (
+        j < sorted.length &&
+        sorted[j].points === sorted[i].points &&
+        sorted[j].goal_diff === sorted[i].goal_diff &&
+        sorted[j].goals_for === sorted[i].goals_for
+      ) {
+        j++;
+      }
+      groups.push(sorted.slice(i, j));
+      i = j;
+    }
+
+    const resolved = await Promise.all(
+      groups.map(group => group.length > 1 ? resolveShadowTieProfile(group, userId) : group)
+    );
+    return resolved.flat();
+  }
+
+  async function resolveShadowTieProfile(tiedTeams, userId) {
+    const teamIds = tiedTeams.map(t => t.team_id);
+
+    const { data: preds } = await sb
+      .from('predictions')
+      .select('home_score, away_score, matches!inner(home_team_id, away_team_id, kickoff_utc)')
+      .eq('user_id', userId)
+      .lt('matches.kickoff_utc', new Date().toISOString())
+      .in('matches.home_team_id', teamIds)
+      .in('matches.away_team_id', teamIds);
+
+    const h2hPoints = {};
+    teamIds.forEach(id => h2hPoints[id] = 0);
+
+    (preds || []).forEach(p => {
+      const home = p.matches.home_team_id;
+      const away = p.matches.away_team_id;
+      if (p.home_score > p.away_score) h2hPoints[home] += 3;
+      else if (p.home_score < p.away_score) h2hPoints[away] += 3;
+      else { h2hPoints[home] += 1; h2hPoints[away] += 1; }
+    });
+
+    return [...tiedTeams].sort((a, b) =>
+      h2hPoints[b.team_id] - h2hPoints[a.team_id] || a.team_name.localeCompare(b.team_name)
+    );
   }
 
   async function loadPlayerDossier(userId) {

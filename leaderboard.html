@@ -285,6 +285,41 @@
     text-align: right;
   }
 
+  /* ── Shadow Table ── */
+  .col-team { flex: 1; min-width: 0; }
+  .col-num { width: 40px; text-align: center; flex-shrink: 0; }
+  .col-pts-sh { width: 50px; text-align: right; flex-shrink: 0; }
+  .sh-team {
+    font-weight: 600;
+    color: var(--chalk);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sh-num {
+    width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--chalk-dim);
+  }
+  .sh-num.pos { color: var(--success); }
+  .sh-num.neg { color: var(--claret-light); }
+  .sh-pts {
+    width: 50px;
+    text-align: right;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--chalk);
+  }
+  @media (max-width: 640px) {
+    .col-gf, .col-ga, .sh-gf, .sh-ga { display: none; }
+    .sh-team { white-space: normal; overflow: visible; text-overflow: clip; }
+  }
+
   /* ── Match Centre ── */
   .mc-controls {
     display: flex;
@@ -1032,6 +1067,9 @@
         <button class="tab-btn" id="tab-champions-btn" onclick="switchTab('champions')">
           👑 Champion Picks
         </button>
+        <button class="tab-btn" id="tab-shadow-btn" onclick="switchTab('shadow')">
+          👻 Shadow Table
+        </button>
       </div>
 
       <!-- Tab 1: Leaderboard -->
@@ -1153,6 +1191,35 @@
               <tbody id="champ-player-rows"></tbody>
             </table>
           </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Shadow Table -->
+      <div id="tab-shadow" class="hidden">
+        <div class="champ-hero-banner">
+          <div class="champ-hero-text">
+            <h3>👻 Shadow <span>Table</span></h3>
+            <p>If the season played out exactly how you called it: every prediction becomes a hypothetical result the moment its match kicks off, ranked like a real league table.</p>
+          </div>
+        </div>
+
+        <div id="shadow-empty-state" class="hidden" style="text-align:center;padding:48px 20px;background:var(--board-raised);border:1px solid var(--line);border-radius:14px;">
+          <div style="font-size:1.8rem;margin-bottom:8px;">👻</div>
+          <h3 style="font-family:var(--font-display);font-size:1.25rem;text-transform:uppercase;margin-bottom:6px;">No matches yet</h3>
+          <p style="color:var(--chalk-dim);font-size:0.88rem;max-width:400px;margin:0 auto;">Your Shadow Table will appear once the season kicks off.</p>
+        </div>
+
+        <div class="standings-card hidden" id="shadow-table-card">
+          <div class="standings-header">
+            <div class="col-rank">#</div>
+            <div class="col-team">Team</div>
+            <div class="col-num" title="Played">P</div>
+            <div class="col-num col-gf" title="Goals For">GF</div>
+            <div class="col-num col-ga" title="Goals Against">GA</div>
+            <div class="col-num" title="Goal Difference">GD</div>
+            <div class="col-pts-sh">Pts</div>
+          </div>
+          <div id="shadow-table-rows"></div>
         </div>
       </div>
 
@@ -1280,15 +1347,18 @@
     document.getElementById('tab-matches').classList.toggle('hidden', tab !== 'matches');
     document.getElementById('tab-mypoints').classList.toggle('hidden', tab !== 'mypoints');
     document.getElementById('tab-champions').classList.toggle('hidden', tab !== 'champions');
+    document.getElementById('tab-shadow').classList.toggle('hidden', tab !== 'shadow');
 
     document.getElementById('tab-leaderboard-btn').classList.toggle('active', tab === 'leaderboard');
     document.getElementById('tab-matches-btn').classList.toggle('active', tab === 'matches');
     document.getElementById('tab-mypoints-btn').classList.toggle('active', tab === 'mypoints');
     document.getElementById('tab-champions-btn').classList.toggle('active', tab === 'champions');
+    document.getElementById('tab-shadow-btn').classList.toggle('active', tab === 'shadow');
 
     if (tab === 'matches') loadGameweekMatches(currentGw);
     if (tab === 'mypoints') loadMyPoints();
     if (tab === 'champions') loadChampionPicks();
+    if (tab === 'shadow') loadShadowTable();
   }
 
   // ── Leaderboard & Podium ────────────────────────────────
@@ -2179,6 +2249,102 @@
       console.error('Error loading champion picks:', err);
       loadingEl.innerHTML = `<div style="color:var(--chalk-dim);padding:30px;">Could not load champion picks.</div>`;
     }
+  }
+
+  // ── Shadow Table ──────────────────────────────────────────
+  async function loadShadowTable() {
+    const emptyState = document.getElementById('shadow-empty-state');
+    const card = document.getElementById('shadow-table-card');
+    const rowsContainer = document.getElementById('shadow-table-rows');
+
+    const { data: rows } = await sb.from('shadow_table').select('*').eq('user_id', currentUser.id);
+
+    if (!rows || rows.length === 0) {
+      card.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      return;
+    }
+    emptyState.classList.add('hidden');
+    card.classList.remove('hidden');
+
+    const { data: teamsData } = await sb.from('teams').select('id, name');
+    const teamNames = {};
+    (teamsData || []).forEach(t => teamNames[t.id] = t.name);
+
+    const enriched = rows.map(r => ({
+      ...r,
+      team_name: teamNames[r.team_id] || 'Unknown',
+      goals_against: r.goals_for - r.goal_diff
+    }));
+
+    const sorted = await sortShadowTable(enriched);
+
+    rowsContainer.innerHTML = sorted.map((r, idx) => `
+      <div class="standings-row">
+        <div class="st-rank ${idx === 0 ? 'top1' : (idx === 1 ? 'top2' : (idx === 2 ? 'top3' : ''))}">${idx + 1}</div>
+        <div class="col-team sh-team">${escapeHtml(r.team_name)}</div>
+        <div class="sh-num">${r.played}</div>
+        <div class="sh-num sh-gf">${r.goals_for}</div>
+        <div class="sh-num sh-ga">${r.goals_against}</div>
+        <div class="sh-num ${r.goal_diff > 0 ? 'pos' : (r.goal_diff < 0 ? 'neg' : '')}">${r.goal_diff > 0 ? '+' : ''}${r.goal_diff}</div>
+        <div class="sh-pts">${r.points}</div>
+      </div>
+    `).join('');
+  }
+
+  async function sortShadowTable(rows) {
+    const sorted = [...rows].sort((a, b) =>
+      b.points - a.points || b.goal_diff - a.goal_diff || b.goals_for - a.goals_for
+    );
+
+    // Group consecutive rows that are still exactly tied on all three keys
+    const groups = [];
+    let i = 0;
+    while (i < sorted.length) {
+      let j = i + 1;
+      while (
+        j < sorted.length &&
+        sorted[j].points === sorted[i].points &&
+        sorted[j].goal_diff === sorted[i].goal_diff &&
+        sorted[j].goals_for === sorted[i].goals_for
+      ) {
+        j++;
+      }
+      groups.push(sorted.slice(i, j));
+      i = j;
+    }
+
+    const resolved = await Promise.all(
+      groups.map(group => group.length > 1 ? resolveShadowTie(group) : group)
+    );
+    return resolved.flat();
+  }
+
+  async function resolveShadowTie(tiedTeams) {
+    const teamIds = tiedTeams.map(t => t.team_id);
+
+    const { data: preds } = await sb
+      .from('predictions')
+      .select('home_score, away_score, matches!inner(home_team_id, away_team_id, kickoff_utc)')
+      .eq('user_id', currentUser.id)
+      .lt('matches.kickoff_utc', new Date().toISOString())
+      .in('matches.home_team_id', teamIds)
+      .in('matches.away_team_id', teamIds);
+
+    const h2hPoints = {};
+    teamIds.forEach(id => h2hPoints[id] = 0);
+
+    (preds || []).forEach(p => {
+      const home = p.matches.home_team_id;
+      const away = p.matches.away_team_id;
+      if (p.home_score > p.away_score) h2hPoints[home] += 3;
+      else if (p.home_score < p.away_score) h2hPoints[away] += 3;
+      else { h2hPoints[home] += 1; h2hPoints[away] += 1; }
+    });
+
+    return [...tiedTeams].sort((a, b) =>
+      h2hPoints[b.team_id] - h2hPoints[a.team_id] || a.team_name.localeCompare(b.team_name)
+    );
   }
 
   function formatKickoff(utcString) {
